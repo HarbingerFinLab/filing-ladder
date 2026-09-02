@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Block direct pushes to main / release/*; feature branches pass through.
+set -euo pipefail
+if [ -n "${CI:-}" ]; then exit 0; fi
+protected='^refs/heads/(main|master|release/.*)$'
+while read -r _local_ref _local_sha remote_ref _remote_sha; do
+  if [[ "$remote_ref" =~ $protected ]]; then
+    echo "pre-push: direct pushes to '${remote_ref#refs/heads/}' are blocked - open a PR instead." >&2
+    exit 1
+  fi
+done
+exit 0

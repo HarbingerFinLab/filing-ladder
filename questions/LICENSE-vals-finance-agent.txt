@@ -1,0 +1,7 @@
+vals-finance-agent-public-50.csv is the public question set of the Vals AI Finance Agent
+Benchmark, https://github.com/vals-ai/finance-agent (data/public.csv), by Vals AI, Inc.,
+licensed under Creative Commons Attribution 4.0 International (CC BY 4.0):
+https://creativecommons.org/licenses/by/4.0/
+
+Paper: Finance Agent Benchmark, arXiv:2508.00828. Harness: MIT, Zenodo DOI 10.5281/zenodo.15428823.
+The file is vendored unmodified.

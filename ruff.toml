@@ -1,0 +1,13 @@
+exclude = [".git", ".venv", ".ruff_cache", ".pytest_cache", "build", "dist", "data", "results"]
+
+line-length = 88
+indent-width = 2
+target-version = "py312"
+
+[lint]
+select = ["E4", "E7", "E9", "F", "I"]
+fixable = ["ALL"]
+
+[format]
+quote-style = "double"
+indent-style = "space"

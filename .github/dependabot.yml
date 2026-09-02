@@ -1,0 +1,32 @@
+version: 2
+
+updates:
+  # Python — uv dependencies; the lockfile is committed so that a pre-registered
+  # protocol pins the exact harness it ran with. Bumps arrive as PRs and are taken
+  # between runs, never mid-protocol.
+  - package-ecosystem: 'uv'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    labels:
+      - 'dependencies'
+
+  # GitHub Actions — pinned action versions
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    labels:
+      - 'dependencies'
+    groups:
+      github-actions:
+        patterns:
+          - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
+    ignore:
+      # Held in step with the RoboSystems fleet: setup-uv majors move together.
+      - dependency-name: 'astral-sh/setup-uv'
+        update-types:
+          - 'version-update:semver-major'

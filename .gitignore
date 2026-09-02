@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Secrets — the template is committed, the instance never is
+.env
+.env.*
+!.env.example
+
+# Materialized filings, model transcripts and local runs. The published
+# results dataset lives on Hugging Face, not in this repo.
+data/
+results/*
+!results/README.md
+logs/
+
+# Editors / OS
+.DS_Store
+.idea/
+
+# AI tooling
+.claude/settings.local.json
+CLAUDE.local.md

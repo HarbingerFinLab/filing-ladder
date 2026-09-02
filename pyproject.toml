@@ -1,0 +1,65 @@
+[project]
+name = "filing-ladder"
+version = "0.0.1"
+description = "One filing, every representation: which shape of the same financial filing can a model actually use? A benchmark with cost."
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [{ name = "Harbinger FinLab" }]
+license = { text = "MIT" }
+keywords = ["benchmark", "xbrl", "ixbrl", "oim", "sec", "edgar", "financial-analysis", "llm", "mcp", "rdf", "sparql", "cypher"]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Financial and Insurance Industry",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Office/Business :: Financial",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "anthropic>=1.3",
+  "openai>=3.7",
+  "mcp>=2.1",
+  "httpx>=0.28",
+  "pydantic>=2.11",
+  "python-dotenv>=1.0",
+  "rdflib>=7.6",
+  "robosystems-xbrl-holon>=0.1.2",
+  "arelle-release>=2.39",
+  "pypdf>=5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "basedpyright>=1.21",
+  "ruff>=0.12",
+  "pytest>=8.3",
+]
+
+[project.scripts]
+filing-ladder = "filing_ladder.cli:main"
+
+[project.urls]
+Repository = "https://github.com/HarbingerFinLab/filing-ladder"
+Homepage = "https://github.com/HarbingerFinLab/filing-ladder#readme"
+"Bug Tracker" = "https://github.com/HarbingerFinLab/filing-ladder/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["filing_ladder"]
+
+[tool.basedpyright]
+include = ["filing_ladder"]
+exclude = ["tests", "data", "results"]
+pythonVersion = "3.13"
+venvPath = "."
+venv = ".venv"
+typeCheckingMode = "standard"
+reportMissingImports = "none"
+reportAttributeAccessIssue = "none"

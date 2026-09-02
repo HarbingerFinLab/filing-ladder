@@ -1,0 +1,29 @@
+name: Bug
+description: Something in the harness isn't working
+labels: ['bug']
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: What's broken
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The command, the filing (accession), the rung, the provider.
+      placeholder: |
+        just materialize 66740 0000066740-25-000006
+        uv run filing-ladder run --rungs 7c --provider nvidia --model ...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error output
+      render: shell
+  - type: input
+    id: version
+    attributes:
+      label: Commit or tag, Python version, OS

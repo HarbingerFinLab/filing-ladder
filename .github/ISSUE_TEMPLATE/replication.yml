@@ -1,0 +1,36 @@
+name: Replication
+description: You ran the ladder (or part of it) on a model — share the numbers
+labels: ['replication']
+body:
+  - type: input
+    id: protocol
+    attributes:
+      label: Protocol version (tag or commit)
+    validations:
+      required: true
+  - type: input
+    id: model
+    attributes:
+      label: Model and provider route
+      placeholder: claude-sonnet-4-5 via anthropic direct; or gpt-5 via openrouter pinned to openai
+    validations:
+      required: true
+  - type: input
+    id: rungs
+    attributes:
+      label: Rungs and k
+      placeholder: 1,2,3,5b,6,7a,7b,7c · k=3
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: summary.json (or the by-rung table)
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: deviations
+    attributes:
+      label: Deviations from the protocol
+      description: Different rendering, context window, judge, question subset, prompts — anything. Named deviations are fine; unnamed ones make the result unusable.

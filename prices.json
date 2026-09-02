@@ -1,0 +1,5 @@
+{
+  "_note": "List prices per million tokens, verified on the provider's price page on the date in as_of. Overrides filing_ladder/providers/pricing.py defaults. Add the frontier models here before the run; a model with no price reports tokens but no dollars.",
+  "claude-sonnet-4-5": {"input": 3.0, "output": 15.0, "cache_write": 3.75, "cache_read": 0.30, "as_of": "2025-09-29"},
+  "claude-opus-4-5": {"input": 5.0, "output": 25.0, "cache_write": 6.25, "cache_read": 0.50, "as_of": "2025-11-24"}
+}

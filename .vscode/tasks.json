@@ -1,0 +1,31 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    { "label": "Install Dependencies", "type": "shell", "command": "just install", "problemMatcher": [] },
+    { "label": "Update Dependencies", "type": "shell", "command": "just update", "problemMatcher": [] },
+    { "label": "Test", "type": "shell", "command": "just test", "problemMatcher": [] },
+    { "label": "Test All", "type": "shell", "command": "just test-all", "problemMatcher": [] },
+    { "label": "Lint", "type": "shell", "command": "just lint", "problemMatcher": [] },
+    { "label": "Format", "type": "shell", "command": "just format", "problemMatcher": [] },
+    { "label": "Type Check", "type": "shell", "command": "just typecheck", "problemMatcher": [] },
+    { "label": "Materialize Filing", "type": "shell", "command": "just materialize ${input:cik} ${input:accno}", "problemMatcher": [] },
+    { "label": "Token Table", "type": "shell", "command": "just tokens ${input:accno}", "problemMatcher": [] },
+    { "label": "Validate Questions", "type": "shell", "command": "just questions", "problemMatcher": [] },
+    { "label": "Clean", "type": "shell", "command": "just clean", "problemMatcher": [] },
+    {
+      "label": "Create Feature",
+      "type": "shell",
+      "command": "just create-feature ${input:branchType} ${input:branchName} ${input:baseBranch} ${input:updateDependencies}",
+      "problemMatcher": []
+    },
+    { "label": "Claude Code", "type": "shell", "command": "claude", "args": [], "problemMatcher": [] }
+  ],
+  "inputs": [
+    { "id": "branchType", "type": "pickString", "description": "Choose branch type:", "default": "feature", "options": ["feature", "bugfix", "chore", "refactor"] },
+    { "id": "branchName", "type": "promptString", "description": "Enter branch name (will be prefixed with type/):", "default": "" },
+    { "id": "baseBranch", "type": "promptString", "description": "Enter base branch (default: main):", "default": "main" },
+    { "id": "updateDependencies", "type": "pickString", "description": "Update dependencies after creating branch:", "default": "no", "options": ["yes", "no"] },
+    { "id": "cik", "type": "promptString", "description": "CIK (e.g. 66740):", "default": "66740" },
+    { "id": "accno", "type": "promptString", "description": "Accession number:", "default": "0000066740-25-000006" }
+  ]
+}

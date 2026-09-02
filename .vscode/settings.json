@@ -1,0 +1,17 @@
+{
+  "files.exclude": {
+    ".venv/**": true,
+    "**/__pycache__/**": true,
+    "**/.pytest_cache/**": true,
+    "**/.ruff_cache/**": true,
+    "**/.git/**": true
+  },
+  "search.exclude": {
+    ".venv/**": true,
+    "data/**": true,
+    "results/**": true
+  },
+  "python.testing.pytestArgs": ["tests"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
+}

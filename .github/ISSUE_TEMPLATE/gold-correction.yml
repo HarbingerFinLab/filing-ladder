@@ -1,0 +1,37 @@
+name: Gold correction
+description: A question's gold answer is wrong, ambiguous, or unanswerable from the filing
+labels: ['questions']
+body:
+  - type: input
+    id: question
+    attributes:
+      label: Question id
+      placeholder: tpl-mmm-fy2024-capex
+    validations:
+      required: true
+  - type: input
+    id: filing
+    attributes:
+      label: Filing (accession number)
+      placeholder: 0000066740-25-000006
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Where in the document
+      description: Statement, note, table or page where the value sits, and what it says. Gold is accepted on document evidence only — never from a graph, an API or a model.
+    validations:
+      required: true
+  - type: input
+    id: proposed
+    attributes:
+      label: Proposed gold (with unit and scale)
+      placeholder: 1,181 USD millions
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Anything else
+      description: Restatements, alternative tags, a period ambiguity, a data-quality disagreement between the document and the XBRL.
