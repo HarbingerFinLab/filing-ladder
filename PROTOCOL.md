@@ -189,7 +189,9 @@ Tagging: 2,915 `ix:nonFraction` + 235 `ix:nonNumeric`; 549 distinct us-gaap conc
 **The finding under the table: the text-block facts carry about four fifths of every structured
 serialization.** The structured forms are not big because of the numbers; they are big because
 they embed the narrative as escaped HTML. As published, xBRL-JSON is no more ingestible than the
-XML. Without the text blocks, xBRL-CSV is smaller than the plain text.
+XML. Without the text blocks the structured facts fit in a 200K window — about a quarter larger
+than the plain text by bytes, and 2.6× larger on one reasoning model's tokenizer, because numbers,
+commas and IRIs tokenize worse than prose.
 
 ## 8. Publication and maintenance
 
