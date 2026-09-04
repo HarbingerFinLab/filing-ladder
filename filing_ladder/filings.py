@@ -12,9 +12,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable, Iterable
 
-from robosystems_xbrl_holon.config import Config as HolonConfig
-from robosystems_xbrl_holon.edgar.client import EdgarClient
-from robosystems_xbrl_holon.edgar.download import download_filing
+from xbrlkit.config import Config as HolonConfig
+from xbrlkit.edgar.client import EdgarClient
+from xbrlkit.edgar.download import download_filing
 
 from .config import Settings
 from .ladder import CONTEXT_WINDOWS, Rung

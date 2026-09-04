@@ -207,7 +207,7 @@ the second family (provider pinned). Tool errors are returned to the model for c
 limits and overloads get exponential backoff with jitter.
 
 Filing acquisition, rung materialization and the graph rungs reuse published code: the
-`robosystems-xbrl-holon` EDGAR client and holon builder, Arelle for the OIM export, the
+`xbrlkit` EDGAR client and holon builder, Arelle for the OIM export, the
 `sec` graph's MCP transport, and the holon viewer's parallel Cypher / SPARQL hand-offs. Nothing in
 the platform is built for the benchmark.
 

@@ -98,7 +98,7 @@ corpus dump so the graph rungs are reproducible offline.
 ## Related
 
 - [`robosystems`](https://github.com/RoboFinSystems/robosystems) — the platform whose `sec` graph is rungs 7a/7b
-- [`robosystems-xbrl-holon`](https://github.com/RoboFinSystems/robosystems-xbrl-holon) — builds the `holon.jsonld` for rungs 7c/7d
+- [`xbrlkit`](https://github.com/RoboFinSystems/xbrlkit) — builds the `holon.jsonld` for rungs 7c/7d
 - [`robosystems-holon-viewer`](https://github.com/RoboFinSystems/robosystems-holon-viewer) — the parallel Cypher / SPARQL hand-offs rungs 7b/7c reuse
 - [`vals-ai/finance-agent`](https://github.com/vals-ai/finance-agent) — the document-agent baseline
 
