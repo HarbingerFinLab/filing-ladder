@@ -222,7 +222,7 @@ def materialize(
       )
   if "oim" in wanted and (force or not paths.oim_csv_notext.exists()):
     t0 = time.monotonic()
-    files = oim_rep.export_oim(paths.instance, paths.oim_dir)
+    files = oim_rep.export_oim(paths.instance, paths.oim_dir, force=force)
     doc = json.loads(files.json.read_text())
     stripped, removed = oim_rep.strip_text_blocks_json(doc)
     paths.oim_json_notext.write_text(oim_rep.minified(stripped), encoding="utf-8")

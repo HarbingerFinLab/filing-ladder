@@ -1,6 +1,8 @@
 """Rung 5 — OIM: the instance as xBRL-JSON and xBRL-CSV, via Arelle's ``saveLoadableOIM``.
 
-5a is the export as published. 5b removes text-block facts — the escaped-HTML narrative
+5a is the export as published. Arelle runs with the SEC's inline-XBRL transformation
+registry loaded, as EDGAR's own validator does — see :func:`sec_transforms_plugin` for
+what goes wrong without it. 5b removes text-block facts — the escaped-HTML narrative
 that, on the reference filing, is about four fifths of every structured serialization —
 so that the structured facts fit in context.
 
@@ -32,14 +34,20 @@ class OimFiles:
   footnotes_csv: Path
 
 
-def export_oim(instance: Path, out_dir: Path, stem: str = "oim") -> OimFiles:
-  """Run Arelle twice (JSON, then CSV) on the instance document."""
+def export_oim(
+  instance: Path, out_dir: Path, stem: str = "oim", force: bool = False
+) -> OimFiles:
+  """Run Arelle twice (JSON, then CSV) on the instance document.
+
+  ``force`` re-runs Arelle over existing outputs — how a corpus is regenerated
+  after a change to how the export is produced, such as the transform registry.
+  """
   out_dir.mkdir(parents=True, exist_ok=True)
   json_out = out_dir / f"{stem}.json"
   csv_out = out_dir / f"{stem}.csv"
-  if not json_out.exists():
+  if force or not json_out.exists():
     _arelle(instance, json_out)
-  if not (out_dir / f"{stem}-facts.csv").exists():
+  if force or not (out_dir / f"{stem}-facts.csv").exists():
     _arelle(instance, csv_out)
   files = OimFiles(
     json=json_out,
@@ -53,6 +61,29 @@ def export_oim(instance: Path, out_dir: Path, stem: str = "oim") -> OimFiles:
   return files
 
 
+def sec_transforms_plugin() -> Path:
+  """The SEC inline-XBRL transformation registry, as an Arelle plugin directory.
+
+  EDGAR filings format numbers, dates and durations through ``ixt-sec``
+  transforms (``durwordsen``, ``numwordsen``, ``ballotbox``, ...). Arelle's core
+  knows the standard ``ixt`` registries only; the SEC's ships in the EDGAR
+  plugin, which xbrlkit vendors. Without it, every fact that uses one of those
+  transforms exports with a null value and no error: on 3M FY2024 that is 106
+  null values against the 3 the filing actually reports as nil, and every
+  filing in the corpus was affected.
+  """
+  import xbrlkit
+
+  plugin = (
+    Path(xbrlkit.__file__).parent / "_vendor" / "arelle_plugins" / "EDGAR" / "transform"
+  )
+  if not (plugin / "__init__.py").exists():
+    raise RuntimeError(
+      f"SEC transform plugin not found in the installed xbrlkit: {plugin}"
+    )
+  return plugin
+
+
 def _arelle(instance: Path, target: Path) -> None:
   cmd = [
     sys.executable,
@@ -61,7 +92,7 @@ def _arelle(instance: Path, target: Path) -> None:
     "--file",
     str(instance),
     "--plugins",
-    "saveLoadableOIM",
+    f"saveLoadableOIM|{sec_transforms_plugin()}",
     "--saveLoadableOIM",
     str(target),
     "--logLevel",

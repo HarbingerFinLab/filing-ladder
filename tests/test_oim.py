@@ -1,8 +1,40 @@
+from pathlib import Path
+
+from filing_ladder.representations import oim
 from filing_ladder.representations.oim import (
   fact_stats,
   is_text_block,
+  sec_transforms_plugin,
   strip_text_blocks_json,
 )
+
+
+def test_sec_transform_registry_is_installed():
+  plugin = sec_transforms_plugin()
+  assert plugin.name == "transform" and plugin.parent.name == "EDGAR"
+  assert (plugin / "__init__.py").exists()
+
+
+def test_arelle_loads_the_sec_transform_registry(monkeypatch, tmp_path):
+  """Without ixt-sec, every SEC-formatted fact exports as null; the plugin must be on the command."""
+  captured: dict = {}
+
+  def fake_run(cmd, **kwargs):
+    captured["cmd"] = cmd
+
+    class Done:
+      returncode = 0
+      stderr = ""
+
+    return Done()
+
+  monkeypatch.setattr(oim.subprocess, "run", fake_run)
+  oim._arelle(tmp_path / "filing.htm", tmp_path / "out.json")
+  cmd = captured["cmd"]
+  plugins = cmd[cmd.index("--plugins") + 1]
+  writer, _, transforms = plugins.partition("|")
+  assert writer == "saveLoadableOIM"
+  assert Path(transforms) == sec_transforms_plugin()
 
 
 def test_is_text_block_rules():
