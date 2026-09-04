@@ -64,13 +64,19 @@ class Question:
   tier: str
   stratum: str
   category: str = ""
-  rubric: list[str] = field(default_factory=list)
+  rubric: list[str] = field(
+    default_factory=list
+  )  # correctness points: each must be met
+  contradictions: list[str] = field(
+    default_factory=list
+  )  # a conflict with any one = wrong
   gold_unit: str | None = None
   gold_scale: str | None = None  # units | thousands | millions | billions | percent
   gold_source: str = ""
   filing: Filing | None = None
   expert_minutes: float | None = None
   notes: str = ""
+  dropped: str = ""  # non-empty = excluded from the run, with the disclosed reason
 
   def as_dict(self) -> dict:
     return asdict(self)
@@ -90,10 +96,16 @@ def load_vals_public(path: Path = VALS_CSV) -> list[Question]:
     for i, row in enumerate(csv.DictReader(fh), start=1):
       qtype = (row.get("Question Type") or "").strip()
       rubric: list[str] = []
+      contradictions: list[str] = []
       raw = row.get("Rubric") or ""
       if raw.strip():
         try:
-          rubric = [str(r.get("criteria", r)) for r in json.loads(raw)]
+          for r in json.loads(raw):
+            criteria = str(r.get("criteria", r)) if isinstance(r, dict) else str(r)
+            operator = (
+              r.get("operator", "correctness") if isinstance(r, dict) else "correctness"
+            )
+            (contradictions if operator == "contradiction" else rubric).append(criteria)
         except json.JSONDecodeError:
           rubric = [raw]
       minutes = row.get("Expert time (mins)")
@@ -108,6 +120,7 @@ def load_vals_public(path: Path = VALS_CSV) -> list[Question]:
           stratum=Stratum.LOOKUP,
           category=qtype,
           rubric=rubric,
+          contradictions=contradictions,
           gold_source="vals-expert",
           expert_minutes=float(minutes) if minutes and minutes.strip() else None,
         )
@@ -147,7 +160,13 @@ def load_all() -> list[Question]:
       q.filing = Filing(**o["filing"])
     if o and o.get("notes"):
       q.notes = o["notes"]
+    if o and o.get("drop"):
+      q.dropped = o["drop"]
   return vals + load_templates()
+
+
+def runnable(questions: list[Question]) -> list[Question]:
+  return [q for q in questions if not q.dropped]
 
 
 def validate(questions: list[Question]) -> list[str]:
@@ -177,12 +196,13 @@ def sha256(path: Path) -> str:
 def manifest() -> dict:
   """What the frozen protocol publishes: file hashes and counts per set."""
   files = [VALS_CSV, *sorted(TEMPLATES_DIR.glob("*.jsonl"))]
-  resolution = QUESTIONS_DIR / "vals-filing-resolution.jsonl"
-  if resolution.exists():
-    files.append(resolution)
+  for extra in ("vals-filing-resolution.jsonl", "filing-token-counts.json"):
+    if (QUESTIONS_DIR / extra).exists():
+      files.append(QUESTIONS_DIR / extra)
   questions = load_all()
+  live = runnable(questions)
   by_set: dict[str, int] = {}
-  for q in questions:
+  for q in live:
     by_set[q.set] = by_set.get(q.set, 0) + 1
   return {
     "files": {
@@ -190,7 +210,8 @@ def manifest() -> dict:
       for p in files
       if p.exists()
     },
-    "questions": len(questions),
+    "questions": len(live),
     "by_set": by_set,
-    "unresolved_filings": [q.id for q in questions if q.filing is None],
+    "dropped": {q.id: q.dropped for q in questions if q.dropped},
+    "unresolved_filings": [q.id for q in live if q.filing is None],
   }

@@ -56,15 +56,25 @@ def build_parser() -> argparse.ArgumentParser:
   t.add_argument(
     "--exact",
     action="store_true",
-    help="count with the Anthropic token counter (needs ANTHROPIC_API_KEY)",
+    help="count with the Anthropic token counter (free; needs ANTHROPIC_API_KEY)",
   )
-  t.add_argument("--model", default="claude-sonnet-4-5")
+  t.add_argument(
+    "--model",
+    default="claude-sonnet-5",
+    help="count under this model's tokenizer — Claude 4.7+ tokenizes ~30%% denser than 4.6 and earlier",
+  )
   t.set_defaults(func=cmd_tokens)
 
   q = sub.add_parser(
     "questions", help="validate the question sets; print the pre-registration manifest"
   )
   q.set_defaults(func=cmd_questions)
+
+  te = sub.add_parser(
+    "tokens-export",
+    help="merge every materialized filing's exact counts into questions/filing-token-counts.json",
+  )
+  te.set_defaults(func=cmd_tokens_export)
 
   d = sub.add_parser(
     "describe", help="print the rung 7c describe_report for a materialized filing"
@@ -167,14 +177,23 @@ def cmd_tokens(args: argparse.Namespace) -> int:
     )
     for row in rows:
       path = _row_path(paths, cik, row.form)
-      if path is not None and path.suffix != ".pdf" and row.tokens < 900_000:
-        att = Attachment(
-          path.name, "text/plain", path.read_text(encoding="utf-8", errors="replace")
-        )
+      if path is not None and row.tokens < 2_000_000:
+        if path.suffix == ".pdf":
+          att = Attachment(path.name, "application/pdf", path.read_bytes())
+        else:
+          att = Attachment(
+            path.name, "text/plain", path.read_text(encoding="utf-8", errors="replace")
+          )
         try:
           exact[row.form] = prov.count_tokens("Count.", "Count.", [att])
         except Exception as exc:  # too large, or a transport error — keep the estimate
           print(f"  ({row.form}: exact count failed: {exc})", file=sys.stderr)
+    by_file = {
+      _row_path(paths, cik, form).name: n  # type: ignore[union-attr]
+      for form, n in exact.items()
+    }
+    paths.write_exact_tokens(args.model, by_file)
+    print(f"exact counts for {args.model} written to {paths.tokens}", file=sys.stderr)
   print(f"{'form':<44} {'rung':<5} {'bytes':>12} {'~tokens':>10} {'exact':>10}  fits")
   for row in rows:
     ex = f"{exact[row.form]:,}" if row.form in exact else ""
@@ -185,8 +204,9 @@ def cmd_tokens(args: argparse.Namespace) -> int:
 
 
 def _row_path(paths, cik: str, form: str) -> Path | None:
+  if form.startswith("PDF"):
+    return paths.pdf
   mapping = {
-    "PDF (rendered)": paths.pdf,
     "plain text": paths.text,
     "iXBRL, styling stripped, tags + header kept": paths.ixbrl,
     "xBRL-JSON as published": paths.oim_json,
@@ -197,6 +217,15 @@ def _row_path(paths, cik: str, form: str) -> Path | None:
     "holon.jsonld as serialized": paths.holon,
   }
   return mapping.get(form)
+
+
+def cmd_tokens_export(args: argparse.Namespace) -> int:
+  from .filings import export_token_counts
+
+  settings = Settings.from_env()
+  out, n = export_token_counts(settings.data_dir)
+  print(f"{n} filing(s) merged into {out}")
+  return 0
 
 
 def cmd_questions(args: argparse.Namespace) -> int:
@@ -281,12 +310,14 @@ def cmd_run(args: argparse.Namespace) -> int:
   from .providers import make_provider
   from .providers.base import CannotAttempt
   from .providers.pricing import cost_usd, load_prices
-  from .questions import load_all
+  from .questions import load_all, runnable
   from .results import RunDir, append_jsonl, done_keys, new_run, write_json
 
   settings = Settings.from_env()
   rungs = parse_rungs(args.rungs)
-  questions = _select_questions(load_all(), args)
+  questions = _select_questions(runnable(load_all()), args)
+  # Group by filing so consecutive runs share the cached document (5-minute TTL).
+  questions.sort(key=lambda q: (q.filing.accession if q.filing else "", q.id))
   if not questions:
     print("no questions selected", file=sys.stderr)
     return 1
@@ -367,7 +398,13 @@ def cmd_run(args: argparse.Namespace) -> int:
                 _mcp_url(settings), settings.require("robosystems_api_key")
               )
             contexts[ctx_key] = _build_context(
-              rung, q.filing, settings, args.oim_form, context_window, mcp_client
+              rung,
+              q.filing,
+              settings,
+              args.oim_form,
+              context_window,
+              mcp_client,
+              args.model,
             )
           ctx = contexts[ctx_key]
           system = system_prompt(rung)
@@ -466,26 +503,42 @@ def _usage_of(record: dict):
 
 
 def _build_context(
-  rung: Rung, filing, settings: Settings, oim_form: str, context_window: int, mcp_client
+  rung: Rung,
+  filing,
+  settings: Settings,
+  oim_form: str,
+  context_window: int,
+  mcp_client,
+  model: str = "",
 ) -> RungContext:
   from .filings import FilingPaths
 
   paths = FilingPaths(settings.data_dir, filing.accession)
   spec = BY_RUNG[rung]
+  # Exact counts from `tokens --exact` for this model, when present; the bytes/4 estimate
+  # otherwise. Tokenizers differ by ~2x across forms, so the estimate alone would send an
+  # oversized form to the API and record a transport error where the protocol wants
+  # "cannot attempt" with the cost of finding out.
+  exact = paths.read_exact_tokens(model) if model else {}
+
+  def measure(path: Path) -> tuple[int, str]:
+    if path.name in exact:
+      return exact[path.name], "exact"
+    return text_rep.estimate_tokens(path.stat().st_size), "~"
 
   def text_attachment(path: Path, media: str, name: str) -> RungContext:
     if not path.exists():
       return RungContext(cannot_attempt=f"{path.name} not materialized")
     size = path.stat().st_size
-    tokens = text_rep.estimate_tokens(size)
+    tokens, how = measure(path)
     if tokens > context_window:
       return RungContext(
-        cannot_attempt=f"{name}: ~{tokens:,} tokens exceeds the {context_window:,}-token window",
+        cannot_attempt=f"{name}: {how}{tokens:,} tokens exceeds the {context_window:,}-token window",
         note=f"{size:,} bytes",
       )
     return RungContext(
       [Attachment(name, media, path.read_text(encoding="utf-8", errors="replace"))],
-      note=f"{size:,} bytes ~{tokens:,} tokens",
+      note=f"{size:,} bytes {how}{tokens:,} tokens",
     )
 
   if rung == Rung.PDF:
@@ -494,9 +547,15 @@ def _build_context(
     from .representations.pdf import page_count
 
     pages = page_count(paths.pdf)
+    if paths.pdf.name in exact and exact[paths.pdf.name] > context_window:
+      return RungContext(
+        cannot_attempt=f"PDF: exact {exact[paths.pdf.name]:,} tokens exceeds the {context_window:,}-token window",
+        note=f"{pages} pages",
+      )
     return RungContext(
       [Attachment(paths.pdf.name, "application/pdf", paths.pdf.read_bytes())],
-      note=f"{pages} pages, {paths.pdf.stat().st_size:,} bytes",
+      note=f"{pages} pages, {paths.pdf.stat().st_size:,} bytes"
+      + (f" exact {exact[paths.pdf.name]:,} tokens" if paths.pdf.name in exact else ""),
     )
   if rung == Rung.HTML_TEXT:
     return text_attachment(paths.text, "text/plain", "filing.txt")
@@ -591,9 +650,11 @@ def cmd_judge(args: argparse.Namespace) -> int:
       continue
     final = parse_final(t.get("final_text") or "")
     query_events = [e for e in t.get("tool_events", []) if e.get("name") in QUERY_TOOLS]
+    # Silent failure: a confident answer when every query in the run returned nothing. A run
+    # that found the figure and then probed once more (last result empty) is not one.
     empty_answered = (
       bool(query_events)
-      and bool(query_events[-1].get("empty_result"))
+      and all(bool(e.get("empty_result")) for e in query_events)
       and not final.abstained
       and bool(final.answer)
     )
@@ -636,7 +697,9 @@ def cmd_judge(args: argparse.Namespace) -> int:
         judge = make_provider(
           args.provider, args.model, settings, temperature=0.0, max_tokens=4096
         )
-      j = judge_rubric(judge, q.question, q.gold, q.rubric, t["final_text"])
+      j = judge_rubric(
+        judge, q.question, q.gold, q.rubric, t["final_text"], q.contradictions
+      )
       points = j.get("points") or []
       met = sum(1 for p in points if p.get("met"))
       out.update(

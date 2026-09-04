@@ -25,8 +25,8 @@ class Price:
 
 DEFAULTS: dict[str, Price] = {
   # Verified against platform.claude.com/pricing before each run; see prices.json.
-  "claude-sonnet-4-5": Price(3.0, 15.0, 3.75, 0.30, "2025-09-29"),
-  "claude-opus-4-5": Price(5.0, 25.0, 6.25, 0.50, "2025-11-24"),
+  "claude-sonnet-5": Price(2.0, 10.0, 2.50, 0.20, "2026-09-03"),
+  "claude-opus-5": Price(5.0, 25.0, 6.25, 0.50, "2026-09-03"),
   # Free tier: paid $0; reported as $0 with the token counts — never a published rung.
   "moonshotai/kimi-k3": Price(0.0, 0.0, None, None, "nvidia-build-free"),
   "deepseek-ai/deepseek-v4-flash-0731": Price(

@@ -47,3 +47,35 @@ def test_read_only_and_errors():
   assert "0 rows" in run_sparql(
     g, f"{PREFIX_BLOCK}\nSELECT ?x WHERE {{ ?x a rs:Unit }}"
   )
+
+
+def test_run_sparql_times_out_on_a_runaway_query(monkeypatch):
+  import json
+  import time
+
+  from rdflib import Graph
+
+  from filing_ladder.representations import holon
+
+  def slow(graph, query, max_rows):
+    time.sleep(5)
+    return "{}"
+
+  monkeypatch.setattr(holon, "_evaluate", slow)
+  out = json.loads(
+    holon.run_sparql(Graph(), "SELECT * WHERE { ?s ?p ?o }", timeout_s=0.5)
+  )
+  assert "timed out" in out["error"]
+
+
+def test_run_sparql_returns_rows_from_the_child():
+  import json
+
+  from rdflib import Graph, Literal, URIRef
+
+  from filing_ladder.representations import holon
+
+  g = Graph()
+  g.add((URIRef("urn:a"), URIRef("urn:p"), Literal("x")))
+  out = json.loads(holon.run_sparql(g, "SELECT ?o WHERE { ?s ?p ?o }", timeout_s=10))
+  assert out["row_count"] == 1 and out["rows"][0]["o"] == "x"

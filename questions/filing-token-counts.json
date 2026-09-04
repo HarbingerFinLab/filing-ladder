@@ -1,0 +1,287 @@
+{
+  "0000012927-25-000015": {
+    "claude-sonnet-5": {
+      "oim-facts.csv": 1548766,
+      "oim.json": 1642799,
+      "rung1.filing.pdf": 468137,
+      "rung2.text.txt": 171905,
+      "rung3.ixbrl.htm": 758463,
+      "rung5b.oim-notext-facts.csv": 420396,
+      "rung5b.oim-notext.json": 389457
+    }
+  },
+  "0000066740-25-000006": {
+    "claude-sonnet-5": {
+      "rung1.filing.pdf": 513102,
+      "rung2.text.txt": 215180,
+      "rung3.ixbrl.htm": 1001237,
+      "rung5b.oim-notext-facts.csv": 447717,
+      "rung5b.oim-notext.json": 512543
+    }
+  },
+  "0000091419-24-000054": {
+    "claude-sonnet-5": {
+      "oim-facts.csv": 1254915,
+      "oim.json": 1414024,
+      "rung1.filing.pdf": 403376,
+      "rung2.text.txt": 164158,
+      "rung3.ixbrl.htm": 624673,
+      "rung5b.oim-notext-facts.csv": 276619,
+      "rung5b.oim-notext.json": 318813
+    }
+  },
+  "0000899051-25-000015": {
+    "claude-sonnet-5": {
+      "rung1.filing.pdf": 692327,
+      "rung2.text.txt": 292025,
+      "rung3.ixbrl.htm": 1611036,
+      "rung5b.oim-notext-facts.csv": 891671,
+      "rung5b.oim-notext.json": 882869
+    }
+  },
+  "0000950170-24-075605": {
+    "claude-sonnet-5": {
+      "rung1.filing.pdf": 418443,
+      "rung2.text.txt": 161852,
+      "rung3.ixbrl.htm": 782095,
+      "rung5b.oim-notext-facts.csv": 294349,
+      "rung5b.oim-notext.json": 335271
+    }
+  },
+  "0000950170-24-087843": {
+    "claude-sonnet-5": {
+      "rung1.filing.pdf": 398239,
+      "rung2.text.txt": 146474,
+      "rung3.ixbrl.htm": 872408,
+      "rung5b.oim-notext-facts.csv": 277387,
+      "rung5b.oim-notext.json": 302340
+    }
+  },
+  "0000950170-25-067220": {
+    "claude-sonnet-5": {
+      "CIK0001973266.json": 529554,
+      "oim-facts.csv": 839484,
+      "oim.json": 913737,
+      "rung1.filing.pdf": 201108,
+      "rung2.text.txt": 73762,
+      "rung3.ixbrl.htm": 358965,
+      "rung5b.oim-notext-facts.csv": 115767,
+      "rung5b.oim-notext.json": 131421
+    }
+  },
+  "0001065280-25-000044": {
+    "claude-sonnet-5": {
+      "oim-facts.csv": 810456,
+      "oim.json": 917458,
+      "rung1.filing.pdf": 266032,
+      "rung2.text.txt": 100054,
+      "rung3.ixbrl.htm": 407215,
+      "rung5b.oim-notext-facts.csv": 154011,
+      "rung5b.oim-notext.json": 186604
+    }
+  },
+  "0001108524-25-000006": {
+    "claude-sonnet-5": {
+      "oim-facts.csv": 822861,
+      "oim.json": 923223,
+      "rung1.filing.pdf": 372247,
+      "rung2.text.txt": 153437,
+      "rung3.ixbrl.htm": 495052,
+      "rung5b.oim-notext-facts.csv": 173865,
+      "rung5b.oim-notext.json": 191966
+    }
+  },
+  "0001163302-25-000018": {
+    "claude-sonnet-5": {
+      "rung1.filing.pdf": 570482,
+      "rung2.text.txt": 222303,
+      "rung3.ixbrl.htm": 1044738,
+      "rung5b.oim-notext-facts.csv": 450145,
+      "rung5b.oim-notext.json": 477741
+    }
+  },
+  "0001321655-25-000022": {
+    "claude-sonnet-5": {
+      "CIK0001321655.json": 738148,
+      "oim-facts.csv": 642889,
+      "oim.json": 719586,
+      "rung1.filing.pdf": 414094,
+      "rung2.text.txt": 201623,
+      "rung3.ixbrl.htm": 474096,
+      "rung5b.oim-notext-facts.csv": 137482,
+      "rung5b.oim-notext.json": 158415
+    }
+  },
+  "0001327811-25-000056": {
+    "claude-sonnet-5": {
+      "oim-facts.csv": 820937,
+      "oim.json": 924784,
+      "rung1.filing.pdf": 289886,
+      "rung2.text.txt": 134206,
+      "rung3.ixbrl.htm": 446389,
+      "rung5b.oim-notext-facts.csv": 181262,
+      "rung5b.oim-notext.json": 205562
+    }
+  },
+  "0001404912-25-000022": {
+    "claude-sonnet-5": {
+      "CIK0001404912.json": 1839864,
+      "rung1.filing.pdf": 585320,
+      "rung2.text.txt": 235508,
+      "rung3.ixbrl.htm": 1808544,
+      "rung5b.oim-notext-facts.csv": 975968,
+      "rung5b.oim-notext.json": 1100997
+    }
+  },
+  "0001408198-25-000053": {
+    "claude-sonnet-5": {
+      "oim-facts.csv": 867292,
+      "oim.json": 974249,
+      "rung1.filing.pdf": 437835,
+      "rung2.text.txt": 156332,
+      "rung3.ixbrl.htm": 507966,
+      "rung5b.oim-notext-facts.csv": 166882,
+      "rung5b.oim-notext.json": 196562
+    }
+  },
+  "0001437107-25-000031": {
+    "claude-sonnet-5": {
+      "rung1.filing.pdf": 419065,
+      "rung2.text.txt": 206813,
+      "rung3.ixbrl.htm": 844869,
+      "rung5b.oim-notext-facts.csv": 371343,
+      "rung5b.oim-notext.json": 376955
+    }
+  },
+  "0001477333-25-000043": {
+    "claude-sonnet-5": {
+      "CIK0001477333.json": 996109,
+      "oim-facts.csv": 737178,
+      "oim.json": 815517,
+      "rung1.filing.pdf": 587978,
+      "rung2.text.txt": 204623,
+      "rung3.ixbrl.htm": 532195,
+      "rung5b.oim-notext-facts.csv": 191120,
+      "rung5b.oim-notext.json": 205221
+    }
+  },
+  "0001498710-25-000008": {
+    "claude-sonnet-5": {
+      "CIK0001498710.json": 1834995,
+      "oim-facts.csv": 672090,
+      "oim.json": 750946,
+      "rung1.filing.pdf": 551729,
+      "rung2.text.txt": 251931,
+      "rung3.ixbrl.htm": 587573,
+      "rung5b.oim-notext-facts.csv": 177295,
+      "rung5b.oim-notext.json": 193671
+    }
+  },
+  "0001543151-24-000012": {
+    "claude-sonnet-5": {
+      "CIK0001543151.json": 1262731,
+      "oim-facts.csv": 1235908,
+      "oim.json": 1351574,
+      "rung1.filing.pdf": 632652,
+      "rung2.text.txt": 255715,
+      "rung3.ixbrl.htm": 711034,
+      "rung5b.oim-notext-facts.csv": 265155,
+      "rung5b.oim-notext.json": 280041
+    }
+  },
+  "0001543151-25-000008": {
+    "claude-sonnet-5": {
+      "CIK0001543151.json": 1262731,
+      "oim-facts.csv": 1196154,
+      "oim.json": 1303273,
+      "rung1.filing.pdf": 588362,
+      "rung2.text.txt": 239774,
+      "rung3.ixbrl.htm": 663615,
+      "rung5b.oim-notext-facts.csv": 248334,
+      "rung5b.oim-notext.json": 258240
+    }
+  },
+  "0001559720-25-000010": {
+    "claude-sonnet-5": {
+      "CIK0001559720.json": 749044,
+      "oim-facts.csv": 738312,
+      "oim.json": 828054,
+      "rung1.filing.pdf": 406042,
+      "rung2.text.txt": 162287,
+      "rung3.ixbrl.htm": 473463,
+      "rung5b.oim-notext-facts.csv": 158621,
+      "rung5b.oim-notext.json": 185095
+    }
+  },
+  "0001564408-25-000019": {
+    "claude-sonnet-5": {
+      "CIK0001564408.json": 1056633,
+      "oim-facts.csv": 718622,
+      "oim.json": 803942,
+      "rung1.filing.pdf": 606598,
+      "rung2.text.txt": 232701,
+      "rung3.ixbrl.htm": 589326,
+      "rung5b.oim-notext-facts.csv": 171529,
+      "rung5b.oim-notext.json": 193087
+    }
+  },
+  "0001591698-24-000151": {
+    "claude-sonnet-5": {
+      "CIK0001591698.json": 1452383,
+      "oim-facts.csv": 575334,
+      "oim.json": 651804,
+      "rung1.filing.pdf": 314362,
+      "rung2.text.txt": 113612,
+      "rung3.ixbrl.htm": 355087,
+      "rung5b.oim-notext-facts.csv": 119887,
+      "rung5b.oim-notext.json": 144726
+    }
+  },
+  "0001617640-25-000016": {
+    "claude-sonnet-5": {
+      "CIK0001617640.json": 1412140,
+      "oim-facts.csv": 696496,
+      "oim.json": 778836,
+      "rung1.filing.pdf": 377300,
+      "rung2.text.txt": 175138,
+      "rung3.ixbrl.htm": 448479,
+      "rung5b.oim-notext-facts.csv": 156163,
+      "rung5b.oim-notext.json": 177610
+    }
+  },
+  "0001794669-25-000011": {
+    "claude-sonnet-5": {
+      "CIK0001794669.json": 962951,
+      "oim-facts.csv": 878595,
+      "oim.json": 977026,
+      "rung1.filing.pdf": 507417,
+      "rung2.text.txt": 200650,
+      "rung3.ixbrl.htm": 565328,
+      "rung5b.oim-notext-facts.csv": 213141,
+      "rung5b.oim-notext.json": 234433
+    }
+  },
+  "0001831631-24-000285": {
+    "claude-sonnet-5": {
+      "CIK0001831631.json": 651589,
+      "oim-facts.csv": 1008280,
+      "oim.json": 1131888,
+      "rung1.filing.pdf": 217870,
+      "rung2.text.txt": 79996,
+      "rung3.ixbrl.htm": 492887,
+      "rung5b.oim-notext-facts.csv": 202357,
+      "rung5b.oim-notext.json": 233752
+    }
+  },
+  "0001866581-25-000048": {
+    "claude-sonnet-5": {
+      "CIK0001866581.json": 662516,
+      "oim-facts.csv": 796259,
+      "oim.json": 890699,
+      "rung2.text.txt": 171728,
+      "rung3.ixbrl.htm": 551881,
+      "rung5b.oim-notext-facts.csv": 149489,
+      "rung5b.oim-notext.json": 171459
+    }
+  }
+}

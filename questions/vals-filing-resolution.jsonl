@@ -1,0 +1,51 @@
+# Vals public-50 -> the single 10-K/10-Q in `sec` that answers each question (resolved 2026-09-03 against the graph's Report nodes). A question whose source is an earnings release, proxy, 8-K, foreign filing, pre-2024 history, or more than one filer is dropped here and disclosed in the protocol.
+{"id": "vals-01", "drop": "multi-document narrative (8-Ks, proxy materials, press) with no single 10-K/10-Q source"}
+{"id": "vals-02", "drop": "needs FY2019-2021 10-Ks; the corpus holds filings made from 2024 onward"}
+{"id": "vals-03", "drop": "guidance and beat/miss live in the earnings release (8-K exhibit 99.1), not a 10-K/10-Q"}
+{"id": "vals-04", "drop": "quarterly revenue guidance ranges live in earnings releases (8-K exhibit 99.1)"}
+{"id": "vals-05", "drop": "board nominees are in the DEF 14A proxy statement, not a 10-K/10-Q"}
+{"id": "vals-06", "drop": "2025 capex guidance from earnings calls/releases, across three filers"}
+{"id": "vals-07", "filing": {"cik": "0001559720", "accession": "0001559720-25-000010", "ticker": "ABNB", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K (filed 2025-02-13): executive officers section"}
+{"id": "vals-08", "filing": {"cik": "0001973266", "accession": "0000950170-25-067220", "ticker": "TKO", "fiscal_year": 2025, "form": "10-Q"}, "notes": "Q1 2025 10-Q: the Endeavor asset acquisition closed 2025-02-28; purchase consideration is in the acquisitions note"}
+{"id": "vals-09", "drop": "gross-margin guidance and beat/miss live in the earnings release"}
+{"id": "vals-10", "filing": {"cik": "0001321655", "accession": "0001321655-25-000022", "ticker": "PLTR", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K carries FY2022-FY2024 revenue"}
+{"id": "vals-11", "filing": {"cik": "0001559720", "accession": "0001559720-25-000010", "ticker": "ABNB", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K cover page (shares outstanding as of early February 2025); the gold's as-of date is Vals' and may differ by a few days of activity"}
+{"id": "vals-12", "drop": "TSMC is a foreign private issuer (20-F / 6-K) with monthly revenue reports; not in the corpus"}
+{"id": "vals-13", "drop": "director compensation is in the DEF 14A proxy statement"}
+{"id": "vals-14", "filing": {"cik": "0001617640", "accession": "0001617640-25-000016", "ticker": "ZG", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K carries FY2022-FY2024 cash flow and revenue. Graph entity ticker is ZG (the question says NASDAQ:Z)"}
+{"id": "vals-15", "filing": {"cik": "0001163302", "accession": "0001163302-25-000018", "ticker": "X", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K (filed 2025-01-31). The graph entity for United States Steel carries no ticker; lookups must go by name or CIK"}
+{"id": "vals-16", "filing": {"cik": "0001404912", "accession": "0001404912-25-000022", "ticker": "KKR", "fiscal_year": 2025, "form": "10-Q"}, "notes": "PARTIAL: the March 2025 Series D terms are prospectus-level (424B, not in the corpus); the Q1 2025 10-Q equity note carries size, closing, liquidation preference, dividend and conversion terms. Voting rights and use of proceeds may be absent"}
+{"id": "vals-17", "filing": {"cik": "0001559720", "accession": "0001559720-25-000010", "ticker": "ABNB", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K MD&A key metrics: GBV and revenue for three years"}
+{"id": "vals-18", "filing": {"cik": "0001327811", "accession": "0001327811-25-000056", "ticker": "WDAY", "fiscal_year": 2025, "form": "10-K"}, "notes": "FY2025 10-K (fiscal year ended 2025-01-31, filed March 2025): key metrics definitions"}
+{"id": "vals-19", "filing": {"cik": "0001408198", "accession": "0001408198-25-000053", "ticker": "MSCI", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K: lease maturity table"}
+{"id": "vals-20", "filing": {"cik": "0001341439", "accession": "0000950170-24-075605", "ticker": "ORCL", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K (fiscal year ended 2024-05-31): income tax note"}
+{"id": "vals-21", "filing": {"cik": "0001794669", "accession": "0001794669-25-000011", "ticker": "FOUR", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K: concentration of risk disclosure"}
+{"id": "vals-22", "filing": {"cik": "0001559720", "accession": "0001559720-25-000010", "ticker": "ABNB", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K MD&A key metrics: GBV and Nights and Experiences Booked for three years"}
+{"id": "vals-23", "filing": {"cik": "0000091419", "accession": "0000091419-24-000054", "ticker": "SJM", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K (fiscal year ended 2024-04-30, filed June 2024)"}
+{"id": "vals-24", "filing": {"cik": "0001108524", "accession": "0001108524-25-000006", "ticker": "CRM", "fiscal_year": 2025, "form": "10-K"}, "notes": "FY2025 10-K (fiscal year ended 2025-01-31, filed March 2025): debt note"}
+{"id": "vals-25", "filing": {"cik": "0001591698", "accession": "0001591698-24-000151", "ticker": "PCTY", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K (fiscal year ended 2024-06-30): risk factors"}
+{"id": "vals-26", "filing": {"cik": "0000789019", "accession": "0000950170-24-087843", "ticker": "MSFT", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K (fiscal year ended 2024-06-30): human capital"}
+{"id": "vals-27", "filing": {"cik": "0000899051", "accession": "0000899051-25-000015", "ticker": "ALL", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K: capital structure / debt note"}
+{"id": "vals-28", "filing": {"cik": "0001065280", "accession": "0001065280-25-000044", "ticker": "NFLX", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K MD&A: material cash requirements table"}
+{"id": "vals-29", "filing": {"cik": "0001498710", "accession": "0001498710-25-000008", "ticker": "SAVE", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K (filed 2025-03-03): operating statistics. Graph entity is Spirit Aviation Holdings, ticker FLYYQ (the question says NYSE:SAVE)"}
+{"id": "vals-30", "filing": {"cik": "0001564408", "accession": "0001564408-25-000019", "ticker": "SNAP", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K: convertible notes / EPS note"}
+{"id": "vals-31", "filing": {"cik": "0001866581", "accession": "0001866581-25-000048", "ticker": "BROS", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K: revenue and gross margin base for the projection"}
+{"id": "vals-32", "filing": {"cik": "0001831631", "accession": "0001831631-24-000285", "ticker": "LDI", "fiscal_year": 2024, "form": "10-Q"}, "notes": "Q3 2024 10-Q (nine months ended 2024-09-30, filed November 2024): origination volume by purpose"}
+{"id": "vals-33", "filing": {"cik": "0000012927", "accession": "0000012927-25-000015", "ticker": "BA", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K: debt and net loss base for the sensitivity"}
+{"id": "vals-34", "filing": {"cik": "0001477333", "accession": "0001477333-25-000043", "ticker": "NET", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K: channel partner disclosure"}
+{"id": "vals-35", "filing": {"cik": "0001543151", "accession": "0001543151-24-000012", "ticker": "UBER", "fiscal_year": 2023, "form": "10-K"}, "notes": "FY2023 10-K (filed 2024-02, in the corpus): adjusted EBITDA reconciliation"}
+{"id": "vals-36", "drop": "acquisition terms are in an 8-K / merger agreement (March 2025), not a 10-K/10-Q"}
+{"id": "vals-37", "filing": {"cik": "0001437107", "accession": "0001437107-25-000031", "ticker": "WBD", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K: restructuring note"}
+{"id": "vals-38", "drop": "guidance and beat/miss live in earnings releases"}
+{"id": "vals-39", "drop": "guidance practice lives in earnings releases, not a 10-K/10-Q"}
+{"id": "vals-40", "filing": {"cik": "0001559720", "accession": "0001559720-25-000010", "ticker": "ABNB", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K MD&A: adjusted EBITDA reconciliation"}
+{"id": "vals-41", "drop": "the FY2024 10-K carries only the annual comparable store sales figure (-7.1%); the Q4 figure is in the earnings release (verified 2026-09-03 against the filing's MD&A)"}
+{"id": "vals-42", "drop": "cross-entity (five filers) \u2014 a T3 question, v1 scope"}
+{"id": "vals-43", "filing": {"cik": "0001543151", "accession": "0001543151-25-000008", "ticker": "UBER", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K MD&A: gross bookings and revenue for 2023-2024"}
+{"id": "vals-44", "filing": {"cik": "0001559720", "accession": "0001559720-25-000010", "ticker": "ABNB", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K MD&A geographic mix: average nights per booking by region (verified present 2026-09-03)"}
+{"id": "vals-45", "filing": {"cik": "0001559720", "accession": "0001559720-25-000010", "ticker": "ABNB", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K MD&A: adjusted EBITDA reconciliation"}
+{"id": "vals-46", "filing": {"cik": "0001617640", "accession": "0001617640-25-000016", "ticker": "ZG", "fiscal_year": 2024, "form": "10-K"}, "notes": "FY2024 10-K: acquisitions note and revenue mix discussion"}
+{"id": "vals-47", "drop": "guidance and beat/miss live in earnings releases"}
+{"id": "vals-48", "drop": "guidance lives in the shareholder letter / earnings release"}
+{"id": "vals-49", "drop": "guidance and beat/miss live in earnings releases"}
+{"id": "vals-50", "drop": "guidance and beat/miss live in earnings releases"}

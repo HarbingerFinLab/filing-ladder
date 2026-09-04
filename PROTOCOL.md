@@ -1,7 +1,8 @@
 # Filing Ladder — protocol
 
-**Status: DRAFT v0.1, not yet frozen.** The protocol freezes as a tagged release whose
-`filing-ladder questions` manifest (question-set hashes) matches this document, *before* the
+**Status: v0.1, ready to freeze — every gate cleared 2026-09-03** (question sets resolved, template
+golds confirmed by hand, every filing counted, the run priced). The protocol freezes as a tagged release whose
+`filing-ladder questions` manifest (`questions/manifest.json`, question-set hashes) matches this document, *before* the
 first scored run. Runs happen once. What comes out is published, tier by tier, whichever rung
 wins.
 
@@ -48,7 +49,7 @@ the same questions under the same budget. Representation is the only variable.
 |---|---|---|---|
 | 1 | PDF | the primary document rendered to pages by headless Chrome (US Letter, default scale, no header/footer) as a document block with citations, whole | in context |
 | 2 | HTML text | the EDGAR primary document with every tag stripped, entities unescaped, whitespace collapsed | in context |
-| 3 | iXBRL | the primary document with `<style>`, `<script>` and style/class/id attributes removed; every `ix:` tag and the `ix:header` (contexts, units) kept | in context, 1M-context models |
+| 3 | iXBRL | the primary document with `<style>`, `<script>` and style/class/id attributes removed; every `ix:` tag and the `ix:header` (contexts, units) kept | in context, 1M-context models; scored *cannot attempt* on any filing whose exact count exceeds the window (the reference filing does, §7) |
 | 4 | XBRL package | instance + schema + presentation/calculation/definition/label linkbases on disk; tools: list, read line range, grep | tools |
 | 5a | OIM as published | xBRL-JSON and xBRL-CSV as Arelle's `saveLoadableOIM` writes them; the same file tools | tools |
 | 5b | OIM in context | the same export with text-block facts removed (a fact is a text block when its concept is a `TextBlock`, its value is markup, or its value is ≥300 characters); xBRL-CSV facts + metadata by default | in context |
@@ -79,7 +80,7 @@ rung.** The output contract is a final block — `ANSWER` with units, `PROVENANC
 inferred. A rung that cannot attempt a question (rung 4 in context; rung 3 on a 200K-context model;
 rungs 1–3 on a corpus screen) scores it as a miss **and logs the cost of finding that out**.
 
-**v0 runs rungs 1 · 2 · 3 · 5b · 6 · 7a · 7b · 7c**, k = 3 runs per question. Rungs 4, 5a and 7d,
+**v0 runs rungs 1 · 2 · 3 · 5b · 6 · 7a · 7b · 7c**, k = 3 runs per question. Whether an in-context form fits is decided per filing from the frontier model's exact token count (`filing-ladder tokens --exact`), never from a byte estimate. Rungs 4, 5a and 7d,
 and the two agent variants (D: the Vals document agent with search over rungs 1–3; E: rung 6 with
 search) are v1.
 
@@ -112,8 +113,13 @@ fiscal period from bare dates.
 
 - **Accuracy.** Numeric: unit- and scale-normalized, ±1%, scored mechanically. Text and judgement:
   rubric decomposition — the gold is split into its points and a judge checks each point
-  separately, never holistically; rubrics are human-reviewed before the run; the judge sees
-  question, gold and answer only, never the rung, at temperature 0. Every judge disagreement and a
+  separately, never holistically. A rubric carries **correctness points** (each must be met)
+  and, kept separate, **contradiction statements** (a conflict with any one is a confident-wrong):
+  the Vals operators. They stay distinct because a negative phrased as a point inverts the score —
+  found on the first judged run (2026-09-03), when two template rubrics written that way marked
+  every correct answer wrong; fixed, and disclosed here as the class of scoring defect an
+  interested author must publish; rubrics are human-reviewed before the run; the judge sees
+  question, gold and answer only, never the rung. Claude 5 models expose no sampling controls, so the judge runs at the model's default with adaptive thinking, and the judge's own repeatability is checked on the human-reviewed sample. Every judge disagreement and a
   20% random sample are human-reviewed; transcripts are published. The Vals set is also reported by
   its nine task categories.
 - **Abstention vs confident-wrong.** A confident answer that contradicts the gold is the
@@ -123,8 +129,10 @@ fiscal period from bare dates.
   A cited document, page or element that does not exist is a **hallucinated source**.
 - **Repeatability.** k = 3 runs per question per rung; the share of questions whose runs agree.
 - **Empty-result-answered** (7b, 7c). An answer produced after a query returned nothing.
-- **Cost.** Per question per rung: input, cached and output tokens, dollars **at list price** (pay
-  batch, report list, disclose), wall-clock, turns, tool calls, tool errors. Rung 1 is reported
+- **Cost.** Per question per rung: input, cached and output tokens, dollars **at list price**,
+  wall-clock, turns, tool calls, tool errors. v0 runs on the synchronous API and pays list, so
+  the invoice and the exhibit are the same number; a batch lane (50% off, same list reported) is
+  a re-run optimization, not part of v0. Rung 1 is reported
   cached and uncached. **Dollars per correct answer** is the headline.
 - **Data-quality disagreements.** Where the PDF and the XBRL of the same filing disagree, logged as
   its own category, never scored against either rung.
@@ -134,8 +142,14 @@ fiscal period from bare dates.
 1. **Independent questions first, recent filings, the product corpus.** Set (i): Vals AI's 50
    public Finance Agent questions (CC BY 4.0) — expert-authored, written for document agents, so
    stacked toward the PDF rungs; the filing each needs is resolved for the model on every rung.
+   **Resolved 2026-09-03 against the corpus (`questions/vals-filing-resolution.jsonl`): 32 of the
+   50 map to a single 10-K or 10-Q; 18 do not and are dropped, by reason in §5.1.** That split is
+   itself a finding about the set: a third of an expert-written "document agent" benchmark is
+   answerable only from earnings releases, proxies, 8-Ks, or a foreign filer's reports.
    Set (ii): FinanceBench-shaped templates re-instantiated on current filings across the five
-   strata; numeric gold read from the document by a person, never from a graph.
+   strata; numeric gold read from the document by a person, never from a graph. The six v0
+   template questions (3M FY2024 10-K, one per stratum plus one narrative) were confirmed by hand
+   against the filing on 2026-09-03.
 2. **Pre-register.** This document and the question-set hashes are published before the run.
 3. **Strongest baseline, not a strawman.** 1M context on rung 1; rung 4 gets file tools because
    in-context is impossible; rung 5b gets the text-block split the graph already has; the v1
@@ -151,6 +165,38 @@ fiscal period from bare dates.
    workflow prompt. 7c uses raw SPARQL only, never a fact-grid convenience.
 10. **The shakedown endpoint never produces a published rung.** A free tier is used to prove the
     harness and read the per-rung token ratio, nothing more.
+11. **A defect the subset finds in the author's own product is fixed and disclosed before the run,
+    never scored as the graph's accuracy and never fixed silently.** The measured subset
+    (2026-09-03: the six 3M questions, Sonnet 5, k = 1, cost calibration only, not a published
+    rung) found two. The SEC text index cut every multi-page note after its first
+    `ix:continuation`, so the PFAS exit-actions paragraph was not in the corpus at all and the
+    commitments note held 570 of 130,272 characters; and the statement and fact-grid tools kept
+    the first duplicate fact per period rather than the most precise, returning FY2024 R&D as
+    1,100 (the narrative's rounded figure) for the statement's 1,085. Both are fixed in
+    RoboSystems PR #1348 (2026-09-03); the run does not start until that fix is deployed and the
+    text index rebuilt. Had they stayed, the run would have reported them as data-quality
+    disagreements (§4). The interest named in the disclosure above is exactly the ability to fix
+    the product between the shakedown and the run, which is why the fix is published here.
+
+### 5.1 Vals questions dropped from v0, by reason
+
+| Reason | Questions | n |
+|---|---|---|
+| Guidance or beat-or-miss: the source is an earnings release (8-K exhibit 99.1), an earnings call, or a shareholder letter, not a 10-K/10-Q | vals-03, 04, 06, 09, 38, 39, 47, 48, 49, 50 | 10 |
+| Proxy statement (DEF 14A): board nominees, director compensation | vals-05, 13 | 2 |
+| Multi-document narrative with no single filing source (merger commentary across 8-Ks and press) | vals-01 | 1 |
+| Pre-2024 history: needs FY2019–2021 10-Ks; the corpus holds filings made from 2024 onward | vals-02 | 1 |
+| Foreign private issuer (20-F / 6-K, monthly revenue reports) | vals-12 | 1 |
+| Acquisition terms in an 8-K / merger agreement | vals-36 | 1 |
+| The 10-K carries only the annual figure; the quarterly one is in the earnings release (verified against the filing's MD&A) | vals-41 | 1 |
+| Cross-entity peer set (five filers): a T3 question, v1 scope | vals-42 | 1 |
+
+Three resolutions carry caveats, recorded in the file: vals-16 (KKR) is prospectus-level detail
+answered from the Q1 2025 10-Q's equity note, so partial coverage is expected; vals-15 (United
+States Steel) has no ticker on its graph entity, so the graph rungs must find it by name or CIK;
+vals-29 (Spirit) is filed by Spirit Aviation Holdings under a post-emergence ticker. Eight of the
+32 resolved questions read the same filing (Airbnb's FY2024 10-K), which the per-filing cache
+makes cheap for the in-context rungs and which the write-up discloses.
 
 ## 6. Harness
 
@@ -167,21 +213,65 @@ the platform is built for the benchmark.
 
 ## 7. The reference filing, measured
 
-3M, FY2024 10-K, accession 0000066740-25-000006. Tokens at roughly bytes ÷ 4.
+3M, FY2024 10-K, accession 0000066740-25-000006. The estimate column is bytes ÷ 4; the exact
+column is the frontier model's own count (`claude-sonnet-5` tokenizer, Anthropic token-counting
+endpoint, 2026-09-03), which is what decides "fits".
 
-| Form | Size | ~Tokens | Fits |
+| Form | Size | ~Tokens (bytes ÷ 4) | Exact (Sonnet 5) | Fits on the frontier model |
+|---|---|---|---|---|
+| PDF, rendered, 189 pages (rung 1) | 6.96 MB | 378K | **513,102** | 1M window |
+| Plain text (rung 2) | 531 KB | 133K | **215,180** | 1M window (not a 200K one) |
+| iXBRL, styling stripped, `ix:` tags + header kept (rung 3) | 2.08 MB | 520K | **1,001,237** | **nowhere — cannot attempt** |
+| XBRL instance XML, minified | 5.40 MB | 1.35M | — | nowhere |
+| Full XBRL package (rung 4) | 9.44 MB | 2.36M | — | nowhere |
+| xBRL-JSON as published (rung 5a) | 4.92 MB | 1.23M | — | nowhere |
+| xBRL-JSON, text blocks removed (rung 5b) | 945 KB | 236K | **512,543** | 1M window |
+| xBRL-CSV, text blocks removed (rung 5b) | 673 KB | 168K | **447,717** | 1M window |
+| `holon.jsonld` as serialized (rung 7d) | 11.95 MB | 2.99M | — | nowhere |
+
+Token counts are per tokenizer, not per byte, and the gap is not small. Claude 4.7 and later
+models tokenize roughly 30% denser than earlier ones on prose, and structured forms fare worse
+still: on Sonnet 5 the plain text counts 1.6× its byte estimate, the PDF 1.4×, and the xBRL-CSV
+2.7× — numbers, commas and IRIs tokenize worse than prose. Three consequences for the ladder,
+each a finding before a single question is asked: (1) the inline-tagged document EDGAR already
+ships (rung 3) does not fit the largest window available, so "the tags are already in the
+document" is not an option a model can take on this filing; (2) the OIM export without its text
+blocks, the form XBRL International offers as the AI-ready one, is 2.1× the plain text and
+the same size as the rendered PDF; (3) "fits in 200K" holds for nothing here. A byte estimate
+was off by up to 2.7×; every fit decision in the run is made from the exact count.
+
+### 7.1 Every filing in v0, counted
+
+All 26 filings the 38 questions resolve to were materialized and counted the same way; the
+per-filing counts are committed in `questions/filing-token-counts.json` (hashed in the manifest),
+and the harness reads them when a replication has no API key, so a re-run makes the same fit
+decisions. On the frontier tokenizer:
+
+| Form | Range across the 26 filings | Exceeds the 1M window | Consequence |
 |---|---|---|---|
-| Plain text (rung 2) | 531 KB | 133K | everywhere |
-| iXBRL, styling stripped, `ix:` tags + header kept (rung 3) | 2.08 MB | 520K | 1M-context models |
-| XBRL instance XML, minified | 5.40 MB | 1.35M | nowhere |
-| Full XBRL package (rung 4) | 9.44 MB | 2.36M | nowhere |
-| xBRL-JSON as published (rung 5a) | 4.92 MB | 1.23M | nowhere |
-| xBRL-JSON, text blocks removed (rung 5b) | 945 KB | 236K | 256K and up |
-| xBRL-CSV, text blocks removed (rung 5b) | 673 KB | 168K | everywhere |
-| `holon.jsonld` as serialized (rung 7d) | 11.95 MB | 2.99M | nowhere |
-| PDF, rendered (rung 1) | 6.96 MB | 189 pages | under the 600-page cap |
+| PDF (rung 1) | 201K – 692K tokens | none by tokens; **one filing's PDF (156 pages, 28 MB of embedded images) exceeds the API's 32 MB request cap** | rung 1 is *cannot attempt* on that filing (vals-31); the cap is a property of the PDF path and is scored as one |
+| Plain text (rung 2) | 74K – 292K | none | attempts everywhere |
+| iXBRL (rung 3) | 355K – **1.81M** | **4 of 26** (3M 1.00M, United States Steel 1.04M, Allstate 1.61M, KKR's 10-Q 1.81M) | rung 3 is *cannot attempt* on 9 of the 38 questions |
+| xBRL-CSV, text blocks removed (rung 5b) | 116K – 976K | none (KKR at 976K leaves no room for output) | attempts everywhere; KKR may stop on the window |
+| xBRL-JSON, text blocks removed | 131K – 1.10M | 1 (KKR) | v0 hands the CSV form |
 
-Token counts are per tokenizer, not per byte: on one reasoning model the plain text counted 111K tokens (bytes ÷ 4 said 131K) and the xBRL-CSV 292K (the estimate said 168K) — numbers, commas and IRIs tokenize worse than prose. The frozen protocol carries the frontier model's exact counts, and "fits" is stated per model.
+Every in-context form of every filing is over 200K on at least one rung; a 200K-window model
+could run only rung 2, and only on 22 of the 26 filings.
+
+### 7.2 What the run costs, priced before it runs
+
+At list prices on 2026-09-03 (Sonnet 5 $2 / $10 per million input / output tokens, 5-minute cache
+write 1.25×, cache read 0.1×; Opus 5 $5 / $25), k = 3, 38 questions, with the run ordered by
+filing so each document is cached once per rung and read for the remaining runs:
+
+| Pass | Questions | With the per-filing cache | If every document run paid full input |
+|---|---|---|---|
+| Sonnet 5, full | 38 | ≈ $165 | ≈ $350 |
+| Opus 5, stratified subset | 13 | ≈ $125 | ≈ $280 |
+
+Roughly three quarters of the spend is the four in-context rungs; the four tool rungs together
+are under $45 per pass. The judge adds single-digit dollars. These figures are the pre-registered
+expectation; the run's actual usage is published beside them.
 
 Tagging: 2,915 `ix:nonFraction` + 235 `ix:nonNumeric`; 549 distinct us-gaap concepts, 159 custom;
 945 contexts, 917 dimensional; 3,151 facts in the OIM export, of which **107 are text blocks**.
