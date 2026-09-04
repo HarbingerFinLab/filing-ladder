@@ -100,8 +100,8 @@ class AnthropicProvider:
     }
     if conversation.tools:
       kwargs["tools"] = conversation.tools
-    if self.temperature is not None:
-      kwargs["temperature"] = self.temperature
+    # Claude 4.7 and later expose no sampling controls (temperature / top_p / top_k are
+    # rejected), so a requested temperature is recorded on the run but never sent.
     if self.thinking_budget:
       # Claude 4.6+ takes adaptive thinking; budget_tokens is rejected on Sonnet 5 / Opus 5.
       kwargs["thinking"] = {"type": "adaptive"}

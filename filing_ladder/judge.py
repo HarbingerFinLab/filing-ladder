@@ -158,6 +158,8 @@ def score_numeric(
 
 JUDGE_SYSTEM = """You are grading an analyst's answer to a financial question against an expert gold answer, one rubric point at a time.
 
+The input carries "rubric" (correctness points: facts the answer must state) and "contradiction_statements" (facts the answer must not conflict with).
+
 Return ONLY JSON of this shape:
 {"points": [{"criteria": "<rubric point verbatim>", "met": true|false, "evidence": "<quote from the answer or 'absent'>"}],
  "contradiction": true|false,
@@ -165,17 +167,23 @@ Return ONLY JSON of this shape:
  "abstained": true|false,
  "provenance_present": true|false}
 
-Rules: judge each point separately and literally; numbers match if within 1% after unit and scale normalization. "contradiction" is true only if some statement in the answer conflicts with the gold (a wrong figure, a wrong direction, a wrong period) — an incomplete answer is not a contradiction. "abstained" is true if the answer declines to give a figure or conclusion. "provenance_present" is true if the answer cites where its figures came from."""
+Rules: judge each rubric point separately and literally; numbers match if within 1% after unit and scale normalization. "contradiction" is true only if some statement in the answer conflicts with the gold or with a contradiction statement — a wrong figure, a wrong direction, a wrong period, a wrong date. An incomplete answer is not a contradiction; extra correct context is not a contradiction; presenting a line item the source shows at zero is not a contradiction. "abstained" is true if the answer declines to give a figure or conclusion. "provenance_present" is true if the answer cites where its figures came from."""
 
 
 def judge_rubric(
-  judge: Provider, question: str, gold: str, rubric: list[str], answer_text: str
+  judge: Provider,
+  question: str,
+  gold: str,
+  rubric: list[str],
+  answer_text: str,
+  contradictions: list[str] | None = None,
 ) -> dict:
   user = json.dumps(
     {
       "question": question,
       "gold_answer": gold,
       "rubric": rubric,
+      "contradiction_statements": contradictions or [],
       "candidate_answer": answer_text,
     },
     ensure_ascii=False,

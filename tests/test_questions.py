@@ -36,3 +36,19 @@ def test_dropped_questions_carry_a_reason_and_stay_out_of_the_run():
   assert all(len(q.dropped) > 20 for q in dropped)
   assert not any(q.dropped for q in runnable(qs))
   assert all(q.filing is not None for q in runnable(qs))
+
+
+def test_vals_contradiction_operators_are_kept_separate_from_points():
+  qs = load_vals_public()
+  assert sum(len(q.contradictions) for q in qs) > 0
+  assert not any("contradict" in p.lower() for q in qs for p in q.rubric)
+  assert all(q.rubric for q in qs)
+
+
+def test_template_rubrics_carry_no_negatives_as_points():
+  from filing_ladder.questions import load_templates
+
+  for q in load_templates():
+    assert not any(p.upper().startswith("CONTRADICTION") for p in q.rubric)
+    if q.gold_type == "text":
+      assert q.contradictions

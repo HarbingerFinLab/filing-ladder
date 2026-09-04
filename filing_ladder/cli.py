@@ -650,9 +650,11 @@ def cmd_judge(args: argparse.Namespace) -> int:
       continue
     final = parse_final(t.get("final_text") or "")
     query_events = [e for e in t.get("tool_events", []) if e.get("name") in QUERY_TOOLS]
+    # Silent failure: a confident answer when every query in the run returned nothing. A run
+    # that found the figure and then probed once more (last result empty) is not one.
     empty_answered = (
       bool(query_events)
-      and bool(query_events[-1].get("empty_result"))
+      and all(bool(e.get("empty_result")) for e in query_events)
       and not final.abstained
       and bool(final.answer)
     )
@@ -695,7 +697,9 @@ def cmd_judge(args: argparse.Namespace) -> int:
         judge = make_provider(
           args.provider, args.model, settings, temperature=0.0, max_tokens=4096
         )
-      j = judge_rubric(judge, q.question, q.gold, q.rubric, t["final_text"])
+      j = judge_rubric(
+        judge, q.question, q.gold, q.rubric, t["final_text"], q.contradictions
+      )
       points = j.get("points") or []
       met = sum(1 for p in points if p.get("met"))
       out.update(

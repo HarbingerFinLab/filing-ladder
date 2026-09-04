@@ -9,6 +9,7 @@ built by ``robosystems-xbrl-holon`` and loaded exactly as its own query layer lo
 from __future__ import annotations
 
 import json
+import multiprocessing
 import re
 import subprocess
 import sys
@@ -169,9 +170,60 @@ Example queries (working patterns for this graph — start from these):
 {examples}"""
 
 
-def run_sparql(graph: Graph, query: str, max_rows: int = 200) -> str:
+SPARQL_TIMEOUT_S = 60.0
+
+
+def run_sparql(
+  graph: Graph, query: str, max_rows: int = 200, timeout_s: float = SPARQL_TIMEOUT_S
+) -> str:
+  """Evaluate a read-only query with a hard wall-clock limit.
+
+  rdflib evaluates in-process and cannot be interrupted, and a model-written pattern with a
+  cross product can run for hours (seen 2026-09-03: one query held a run for 51 minutes at
+  100% CPU). The query runs in a forked child; on timeout the child is killed and the model
+  gets a tool error it can recover from — the same shape as the graph API's server-side
+  timeout on the Cypher rung.
+  """
   if not _READ_ONLY.match(query):
     return json.dumps({"error": "Only SELECT or ASK queries are allowed."})
+  ctx = multiprocessing.get_context("fork")
+  parent_conn, child_conn = ctx.Pipe(duplex=False)
+  proc = ctx.Process(
+    target=_evaluate_in_child, args=(graph, query, max_rows, child_conn)
+  )
+  proc.daemon = True
+  proc.start()
+  child_conn.close()
+  try:
+    if parent_conn.poll(timeout_s):
+      out = parent_conn.recv()
+      proc.join(5)
+      return out
+  except EOFError:
+    pass
+  proc.kill()
+  proc.join(5)
+  return json.dumps(
+    {
+      "error": (
+        f"SPARQL query timed out after {timeout_s:.0f}s — the pattern is too broad "
+        "(an unbounded join or cross product). Anchor on the report, one concept or one "
+        "period, and add a LIMIT."
+      )
+    }
+  )
+
+
+def _evaluate_in_child(graph: Graph, query: str, max_rows: int, conn) -> None:
+  try:
+    conn.send(_evaluate(graph, query, max_rows))
+  except Exception as exc:  # pragma: no cover - surfaced to the model as a tool error
+    conn.send(json.dumps({"error": f"SPARQL error: {exc}"}))
+  finally:
+    conn.close()
+
+
+def _evaluate(graph: Graph, query: str, max_rows: int) -> str:
   try:
     result = graph.query(query)
   except Exception as exc:  # rdflib raises many parser/eval types

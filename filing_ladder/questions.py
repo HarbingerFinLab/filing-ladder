@@ -64,7 +64,12 @@ class Question:
   tier: str
   stratum: str
   category: str = ""
-  rubric: list[str] = field(default_factory=list)
+  rubric: list[str] = field(
+    default_factory=list
+  )  # correctness points: each must be met
+  contradictions: list[str] = field(
+    default_factory=list
+  )  # a conflict with any one = wrong
   gold_unit: str | None = None
   gold_scale: str | None = None  # units | thousands | millions | billions | percent
   gold_source: str = ""
@@ -91,10 +96,16 @@ def load_vals_public(path: Path = VALS_CSV) -> list[Question]:
     for i, row in enumerate(csv.DictReader(fh), start=1):
       qtype = (row.get("Question Type") or "").strip()
       rubric: list[str] = []
+      contradictions: list[str] = []
       raw = row.get("Rubric") or ""
       if raw.strip():
         try:
-          rubric = [str(r.get("criteria", r)) for r in json.loads(raw)]
+          for r in json.loads(raw):
+            criteria = str(r.get("criteria", r)) if isinstance(r, dict) else str(r)
+            operator = (
+              r.get("operator", "correctness") if isinstance(r, dict) else "correctness"
+            )
+            (contradictions if operator == "contradiction" else rubric).append(criteria)
         except json.JSONDecodeError:
           rubric = [raw]
       minutes = row.get("Expert time (mins)")
@@ -109,6 +120,7 @@ def load_vals_public(path: Path = VALS_CSV) -> list[Question]:
           stratum=Stratum.LOOKUP,
           category=qtype,
           rubric=rubric,
+          contradictions=contradictions,
           gold_source="vals-expert",
           expert_minutes=float(minutes) if minutes and minutes.strip() else None,
         )

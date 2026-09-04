@@ -113,8 +113,13 @@ fiscal period from bare dates.
 
 - **Accuracy.** Numeric: unit- and scale-normalized, ±1%, scored mechanically. Text and judgement:
   rubric decomposition — the gold is split into its points and a judge checks each point
-  separately, never holistically; rubrics are human-reviewed before the run; the judge sees
-  question, gold and answer only, never the rung, at temperature 0. Every judge disagreement and a
+  separately, never holistically. A rubric carries **correctness points** (each must be met)
+  and, kept separate, **contradiction statements** (a conflict with any one is a confident-wrong):
+  the Vals operators. They stay distinct because a negative phrased as a point inverts the score —
+  found on the first judged run (2026-09-03), when two template rubrics written that way marked
+  every correct answer wrong; fixed, and disclosed here as the class of scoring defect an
+  interested author must publish; rubrics are human-reviewed before the run; the judge sees
+  question, gold and answer only, never the rung. Claude 5 models expose no sampling controls, so the judge runs at the model's default with adaptive thinking, and the judge's own repeatability is checked on the human-reviewed sample. Every judge disagreement and a
   20% random sample are human-reviewed; transcripts are published. The Vals set is also reported by
   its nine task categories.
 - **Abstention vs confident-wrong.** A confident answer that contradicts the gold is the
