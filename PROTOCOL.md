@@ -51,7 +51,7 @@ the same questions under the same budget. Representation is the only variable.
 | 2 | HTML text | the EDGAR primary document with every tag stripped, entities unescaped, whitespace collapsed | in context |
 | 3 | iXBRL | the primary document with `<style>`, `<script>` and style/class/id attributes removed; every `ix:` tag and the `ix:header` (contexts, units) kept | in context, 1M-context models; scored *cannot attempt* on any filing whose exact count exceeds the window (the reference filing does, §7) |
 | 4 | XBRL package | instance + schema + presentation/calculation/definition/label linkbases on disk; tools: list, read line range, grep | tools |
-| 5a | OIM as published | xBRL-JSON and xBRL-CSV as Arelle's `saveLoadableOIM` writes them; the same file tools | tools |
+| 5a | OIM as published | xBRL-JSON and xBRL-CSV as Arelle's `saveLoadableOIM` writes them, with the SEC's inline-XBRL transformation registry loaded as EDGAR's own validator loads it; the same file tools | tools |
 | 5b | OIM in context | the same export with text-block facts removed (a fact is a text block when its concept is a `TextBlock`, its value is markup, or its value is ≥300 characters); xBRL-CSV facts + metadata by default | in context |
 | 6 | `companyfacts` | the SEC's `data.sec.gov` API through three tools: search concepts, one concept's facts, one frame across filers | tools |
 | 7a | property graph, shaped tools | the RoboSystems `sec` graph over MCP: financial statements, fact grids, element resolution, document search and sections, read-only Cypher | tools |
@@ -177,6 +177,13 @@ fiscal period from bare dates.
     text index rebuilt. Had they stayed, the run would have reported them as data-quality
     disagreements (§4). The interest named in the disclosure above is exactly the ability to fix
     the product between the shakedown and the run, which is why the fix is published here.
+    A third defect (2026-09-04) was in this harness, not the product, and cut the other way:
+    rung 5 was exported without the SEC's inline-XBRL transformation registry, so every fact
+    an EDGAR filing formats through an `ixt-sec` transform — spelled-out durations and numbers,
+    ballot boxes — carried a null value and no error. On 3M that was 106 null values against
+    the 3 the filing reports as nil; every filing in the corpus had between 18 and 213. Fixed
+    here by loading the registry as EDGAR's own validator does; the rung 5 exports are
+    regenerated before the run.
 
 ### 5.1 Vals questions dropped from v0, by reason
 
