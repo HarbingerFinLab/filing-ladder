@@ -3,7 +3,7 @@
 Two tools, parallel to the property-graph rung's hand-off: ``describe_report`` (the
 vocabulary, the node shapes computed from the actual graph, the concepts and periods
 present, and example queries) and ``run_sparql`` (read-only SELECT / ASK). The holon is
-built by ``robosystems-xbrl-holon`` and loaded exactly as its own query layer loads it.
+built by ``xbrlkit`` and loaded exactly as its own query layer loads it.
 """
 
 from __future__ import annotations
@@ -101,7 +101,7 @@ def build_holon(cik: str, accession: str, out: Path, user_agent: str) -> Path:
   cmd = [
     sys.executable,
     "-c",
-    "import sys; from robosystems_xbrl_holon.cli import main; sys.exit(main(sys.argv[1:]))",
+    "import sys; from xbrlkit.cli import main; sys.exit(main(sys.argv[1:]))",
     "--user-agent",
     user_agent,
     "build",
@@ -119,7 +119,7 @@ def build_holon(cik: str, accession: str, out: Path, user_agent: str) -> Path:
 
 
 def load_holon(path: Path) -> Graph:
-  from robosystems_xbrl_holon.query import load_holon as _load
+  from xbrlkit.query import load_holon as _load
 
   return _load(path)
 

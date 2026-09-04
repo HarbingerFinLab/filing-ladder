@@ -436,7 +436,7 @@ dependencies = [
     { name = "pypdf" },
     { name = "python-dotenv" },
     { name = "rdflib" },
-    { name = "robosystems-xbrl-holon" },
+    { name = "xbrlkit" },
 ]
 
 [package.optional-dependencies]
@@ -459,8 +459,8 @@ requires-dist = [
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3" },
     { name = "python-dotenv", specifier = ">=1.0" },
     { name = "rdflib", specifier = ">=7.6" },
-    { name = "robosystems-xbrl-holon", specifier = ">=0.1.2" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.12" },
+    { name = "xbrlkit", specifier = ">=0.2.0" },
 ]
 provides-extras = ["dev"]
 
@@ -1442,25 +1442,6 @@ wheels = [
 ]
 
 [[package]]
-name = "robosystems-xbrl-holon"
-version = "0.1.2"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "arelle-release" },
-    { name = "httpx" },
-    { name = "pydantic" },
-    { name = "pyshacl" },
-    { name = "python-dotenv" },
-    { name = "rdflib" },
-    { name = "regex" },
-    { name = "requests" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/e3/50/d925f6b40ad6530920909238b3460907cda20fbd00040fc3a1e5cac19a33/robosystems_xbrl_holon-0.1.2.tar.gz", hash = "sha256:a8791ec9eebf83fd9033316e291ab891f39a78695d53ac76b863746968ba76aa", size = 1799967, upload-time = "2026-07-08T04:30:37.135Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/46/56/5281a7c2b13464c4b7563710cccef69121769449e1cb0195089cbcf669f3/robosystems_xbrl_holon-0.1.2-py3-none-any.whl", hash = "sha256:bcfe9f9e11c8ec5968e79ce24ef00bd76089e2426651cafa5f6ecb8f9a528030", size = 1827711, upload-time = "2026-07-08T04:30:35.296Z" },
-]
-
-[[package]]
 name = "rpds-py"
 version = "2026.6.3"
 source = { registry = "https://pypi.org/simple" }
@@ -1684,4 +1665,23 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/36/57/ed58088fafdf4c55a0ad6bde846502567645424d7ebf325230b9237f4085/wcwidth-0.8.3.tar.gz", hash = "sha256:d128512515fbf4612e0ff21fd6380399210318b7b54a9af59dff8454cf9730eb", size = 1458450, upload-time = "2026-08-28T18:10:06.875Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c4/0e/57f6bb3024a597b2e8ec4aee710ffe62ddc95af2e2bb1ee7a7abdc22c68c/wcwidth-0.8.3-py3-none-any.whl", hash = "sha256:d5b73dba6158a595ec9370350e7f2637bcac8d6c5e4fde34f30fcffb6103a5e4", size = 331669, upload-time = "2026-08-28T18:10:04.909Z" },
+]
+
+[[package]]
+name = "xbrlkit"
+version = "0.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "arelle-release" },
+    { name = "httpx" },
+    { name = "pydantic" },
+    { name = "pyshacl" },
+    { name = "python-dotenv" },
+    { name = "rdflib" },
+    { name = "regex" },
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ea/16/5e6e82037276fbce8656bad828a86f1039438178a3acfeb977e3f1681d9a/xbrlkit-0.2.0.tar.gz", hash = "sha256:1423c59ad16ce720de25246add999b094648e96a1f6dccff880a3495213b44e7", size = 1816179, upload-time = "2026-09-04T20:42:55.638Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/98/d9/65d54148a68b06d08f961530dcff8e610739833dbb5f1fdef65e796d454a/xbrlkit-0.2.0-py3-none-any.whl", hash = "sha256:3dab15eb2726f237fe862bab67210240fe44e54b4700beff45cea5eba2e4238a", size = 1840541, upload-time = "2026-09-04T20:42:53.383Z" },
 ]

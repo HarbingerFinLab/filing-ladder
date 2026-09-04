@@ -28,7 +28,7 @@ Formal `reviews` are usually empty here; AI review findings arrive as a bot's co
 - **Cost lines.** Tokens by kind, turns, tool calls, tool errors and wall-clock must survive the change; the invoice is the exhibit.
 - **Tests.** Read the test, don't trust that it's green — a test that asserts the buggy behavior passes just as happily. Parser changes need the case that motivated them.
 - **Public-repo hygiene.** No keys, no `.env`, no `data/` or `results/` content; no internal infrastructure detail. Filing content is public and fine.
-- **Reuse over reimplementation.** Filing acquisition and the holon come from `robosystems-xbrl-holon`; the OIM export is Arelle; nothing in the platform is built for the benchmark.
+- **Reuse over reimplementation.** Filing acquisition and the holon come from `xbrlkit`; the OIM export is Arelle; nothing in the platform is built for the benchmark.
 - Never a `version` bump in `pyproject.toml`.
 
 ## 4. Output
