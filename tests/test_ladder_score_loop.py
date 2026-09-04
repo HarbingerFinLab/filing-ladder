@@ -60,3 +60,22 @@ def test_aggregate_metrics():
   )
   assert cell.repeatability == 0.5
   assert cell.cost_per_question == 0.01 and cell.cost_per_correct == 0.02
+
+
+def test_exact_token_fallback_to_published_counts(tmp_path, monkeypatch):
+  import json
+
+  from filing_ladder import filings
+
+  published = tmp_path / "filing-token-counts.json"
+  published.write_text(
+    json.dumps({"0000000000-25-000001": {"claude-sonnet-5": {"rung2.text.txt": 123}}})
+  )
+  monkeypatch.setattr(filings, "exported_token_counts_path", lambda: published)
+  paths = filings.FilingPaths(tmp_path / "data", "0000000000-25-000001")
+  assert paths.read_exact_tokens("claude-sonnet-5") == {"rung2.text.txt": 123}
+  assert paths.read_exact_tokens("other-model") == {}
+  # a local tokens.json for the model wins over the published file
+  paths.root.mkdir(parents=True)
+  paths.write_exact_tokens("claude-sonnet-5", {"rung2.text.txt": 456})
+  assert paths.read_exact_tokens("claude-sonnet-5") == {"rung2.text.txt": 456}

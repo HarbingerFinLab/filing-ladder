@@ -37,6 +37,28 @@ STEPS: tuple[str, ...] = (
 )
 
 
+def exported_token_counts_path() -> Path:
+  return (
+    Path(__file__).resolve().parent.parent / "questions" / "filing-token-counts.json"
+  )
+
+
+def export_token_counts(data_dir: Path) -> tuple[Path, int]:
+  """Merge every ``data/<accession>/tokens.json`` into the committed per-filing counts file."""
+  out = exported_token_counts_path()
+  merged: dict[str, dict] = {}
+  if out.exists():
+    merged = json.loads(out.read_text(encoding="utf-8"))
+  n = 0
+  for tokens in sorted(data_dir.glob("*/tokens.json")):
+    merged.setdefault(tokens.parent.name, {}).update(
+      json.loads(tokens.read_text(encoding="utf-8"))
+    )
+    n += 1
+  out.write_text(json.dumps(merged, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+  return out, n
+
+
 @dataclass(frozen=True)
 class FilingPaths:
   data_dir: Path
@@ -49,6 +71,32 @@ class FilingPaths:
   @property
   def meta(self) -> Path:
     return self.root / "meta.json"
+
+  @property
+  def tokens(self) -> Path:
+    """Exact token counts per materialized file, per model tokenizer (``tokens --exact``)."""
+    return self.root / "tokens.json"
+
+  def read_exact_tokens(self, model: str) -> dict[str, int]:
+    """This filing's exact counts for ``model``: the local ``tokens.json`` first, else the
+    committed ``questions/filing-token-counts.json`` so a replication without an API key
+    makes the same fit decisions the published run made."""
+    if self.tokens.exists():
+      data = json.loads(self.tokens.read_text(encoding="utf-8"))
+      if model in data:
+        return {k: int(v) for k, v in data[model].items()}
+    published = exported_token_counts_path()
+    if published.exists():
+      data = json.loads(published.read_text(encoding="utf-8"))
+      return {k: int(v) for k, v in data.get(self.accession, {}).get(model, {}).items()}
+    return {}
+
+  def write_exact_tokens(self, model: str, counts: dict[str, int]) -> None:
+    data = {}
+    if self.tokens.exists():
+      data = json.loads(self.tokens.read_text(encoding="utf-8"))
+    data.setdefault(model, {}).update(counts)
+    self.tokens.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
 
   @property
   def package(self) -> Path:

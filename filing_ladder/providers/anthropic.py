@@ -14,7 +14,15 @@ from typing import Any
 
 import anthropic
 
-from .base import Attachment, ToolCall, ToolDef, Turn, Usage, with_backoff
+from .base import (
+  Attachment,
+  CannotAttempt,
+  ToolCall,
+  ToolDef,
+  Turn,
+  Usage,
+  with_backoff,
+)
 
 
 @dataclass
@@ -95,14 +103,24 @@ class AnthropicProvider:
     if self.temperature is not None:
       kwargs["temperature"] = self.temperature
     if self.thinking_budget:
-      kwargs["thinking"] = {"type": "enabled", "budget_tokens": self.thinking_budget}
+      # Claude 4.6+ takes adaptive thinking; budget_tokens is rejected on Sonnet 5 / Opus 5.
+      kwargs["thinking"] = {"type": "adaptive"}
     if self.betas:
       kwargs["betas"] = self.betas
       create = self._client.beta.messages.create
     else:
       create = self._client.messages.create
 
-    response = with_backoff(lambda: create(**kwargs), _retryable)
+    try:
+      response = with_backoff(lambda: create(**kwargs), _retryable)
+    except anthropic.BadRequestError as exc:
+      if "prompt is too long" in str(exc).lower():
+        raise CannotAttempt(f"{self.model}: {exc.message}") from exc
+      raise
+    except anthropic.APIStatusError as exc:
+      if exc.status_code == 413:  # request exceeds the API's 32 MB cap (large PDFs)
+        raise CannotAttempt(f"{self.model}: request too large — {exc.message}") from exc
+      raise
     blocks = [b.model_dump() for b in response.content]
     conversation.messages.append({"role": "assistant", "content": blocks})
 

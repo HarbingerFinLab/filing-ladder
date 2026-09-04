@@ -71,6 +71,7 @@ class Question:
   filing: Filing | None = None
   expert_minutes: float | None = None
   notes: str = ""
+  dropped: str = ""  # non-empty = excluded from the run, with the disclosed reason
 
   def as_dict(self) -> dict:
     return asdict(self)
@@ -147,7 +148,13 @@ def load_all() -> list[Question]:
       q.filing = Filing(**o["filing"])
     if o and o.get("notes"):
       q.notes = o["notes"]
+    if o and o.get("drop"):
+      q.dropped = o["drop"]
   return vals + load_templates()
+
+
+def runnable(questions: list[Question]) -> list[Question]:
+  return [q for q in questions if not q.dropped]
 
 
 def validate(questions: list[Question]) -> list[str]:
@@ -177,12 +184,13 @@ def sha256(path: Path) -> str:
 def manifest() -> dict:
   """What the frozen protocol publishes: file hashes and counts per set."""
   files = [VALS_CSV, *sorted(TEMPLATES_DIR.glob("*.jsonl"))]
-  resolution = QUESTIONS_DIR / "vals-filing-resolution.jsonl"
-  if resolution.exists():
-    files.append(resolution)
+  for extra in ("vals-filing-resolution.jsonl", "filing-token-counts.json"):
+    if (QUESTIONS_DIR / extra).exists():
+      files.append(QUESTIONS_DIR / extra)
   questions = load_all()
+  live = runnable(questions)
   by_set: dict[str, int] = {}
-  for q in questions:
+  for q in live:
     by_set[q.set] = by_set.get(q.set, 0) + 1
   return {
     "files": {
@@ -190,7 +198,8 @@ def manifest() -> dict:
       for p in files
       if p.exists()
     },
-    "questions": len(questions),
+    "questions": len(live),
     "by_set": by_set,
-    "unresolved_filings": [q.id for q in questions if q.filing is None],
+    "dropped": {q.id: q.dropped for q in questions if q.dropped},
+    "unresolved_filings": [q.id for q in live if q.filing is None],
   }

@@ -60,6 +60,7 @@ run *args:
 
 # Write the question-set manifest the frozen protocol publishes, and show the tag command
 freeze:
+    uv run filing-ladder tokens-export
     uv run filing-ladder questions > questions/manifest.json
     @echo "questions/manifest.json written — commit it, then tag: git tag -a protocol-vX.Y -m 'Filing Ladder protocol vX.Y'"
 
