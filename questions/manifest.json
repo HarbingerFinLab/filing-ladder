@@ -1,0 +1,34 @@
+{
+  "files": {
+    "questions/vals-finance-agent-public-50.csv": "901e8cff562819007d43ff0c10b43b2e386481eb40f2157ba18da8fbbe05bff5",
+    "questions/templates/mmm-fy2024.jsonl": "f103a7137c463e5d5401878473dfe3eec4eaa117c8a7b63c53d80f3700d9fd47",
+    "questions/vals-filing-resolution.jsonl": "1168de1acb283edf4bf3e6ea523d4c12be6a06b9028cf205113c92d9f263a671",
+    "questions/filing-token-counts.json": "96ca1f36e75fceafe9f65155864227ad1886ae781e29f5ffec6c9a1dc3870d6b"
+  },
+  "questions": 38,
+  "by_set": {
+    "vals-public-50": 32,
+    "templates": 6
+  },
+  "dropped": {
+    "vals-01": "multi-document narrative (8-Ks, proxy materials, press) with no single 10-K/10-Q source",
+    "vals-02": "needs FY2019-2021 10-Ks; the corpus holds filings made from 2024 onward",
+    "vals-03": "guidance and beat/miss live in the earnings release (8-K exhibit 99.1), not a 10-K/10-Q",
+    "vals-04": "quarterly revenue guidance ranges live in earnings releases (8-K exhibit 99.1)",
+    "vals-05": "board nominees are in the DEF 14A proxy statement, not a 10-K/10-Q",
+    "vals-06": "2025 capex guidance from earnings calls/releases, across three filers",
+    "vals-09": "gross-margin guidance and beat/miss live in the earnings release",
+    "vals-12": "TSMC is a foreign private issuer (20-F / 6-K) with monthly revenue reports; not in the corpus",
+    "vals-13": "director compensation is in the DEF 14A proxy statement",
+    "vals-36": "acquisition terms are in an 8-K / merger agreement (March 2025), not a 10-K/10-Q",
+    "vals-38": "guidance and beat/miss live in earnings releases",
+    "vals-39": "guidance practice lives in earnings releases, not a 10-K/10-Q",
+    "vals-41": "the FY2024 10-K carries only the annual comparable store sales figure (-7.1%); the Q4 figure is in the earnings release (verified 2026-09-03 against the filing's MD&A)",
+    "vals-42": "cross-entity (five filers) \u2014 a T3 question, v1 scope",
+    "vals-47": "guidance and beat/miss live in earnings releases",
+    "vals-48": "guidance lives in the shareholder letter / earnings release",
+    "vals-49": "guidance and beat/miss live in earnings releases",
+    "vals-50": "guidance and beat/miss live in earnings releases"
+  },
+  "unresolved_filings": []
+}

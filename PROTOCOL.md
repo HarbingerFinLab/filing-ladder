@@ -1,7 +1,8 @@
 # Filing Ladder — protocol
 
-**Status: DRAFT v0.1, not yet frozen.** The protocol freezes as a tagged release whose
-`filing-ladder questions` manifest (question-set hashes) matches this document, *before* the
+**Status: v0.1, ready to freeze — every gate cleared 2026-09-03** (question sets resolved, template
+golds confirmed by hand, every filing counted, the run priced). The protocol freezes as a tagged release whose
+`filing-ladder questions` manifest (`questions/manifest.json`, question-set hashes) matches this document, *before* the
 first scored run. Runs happen once. What comes out is published, tier by tier, whichever rung
 wins.
 
@@ -141,7 +142,9 @@ fiscal period from bare dates.
    itself a finding about the set: a third of an expert-written "document agent" benchmark is
    answerable only from earnings releases, proxies, 8-Ks, or a foreign filer's reports.
    Set (ii): FinanceBench-shaped templates re-instantiated on current filings across the five
-   strata; numeric gold read from the document by a person, never from a graph.
+   strata; numeric gold read from the document by a person, never from a graph. The six v0
+   template questions (3M FY2024 10-K, one per stratum plus one narrative) were confirmed by hand
+   against the filing on 2026-09-03.
 2. **Pre-register.** This document and the question-set hashes are published before the run.
 3. **Strongest baseline, not a strawman.** 1M context on rung 1; rung 4 gets file tools because
    in-context is impossible; rung 5b gets the text-block split the graph already has; the v1
