@@ -165,6 +165,18 @@ fiscal period from bare dates.
    workflow prompt. 7c uses raw SPARQL only, never a fact-grid convenience.
 10. **The shakedown endpoint never produces a published rung.** A free tier is used to prove the
     harness and read the per-rung token ratio, nothing more.
+11. **A defect the subset finds in the author's own product is fixed and disclosed before the run,
+    never scored as the graph's accuracy and never fixed silently.** The measured subset
+    (2026-09-03: the six 3M questions, Sonnet 5, k = 1, cost calibration only, not a published
+    rung) found two. The SEC text index cut every multi-page note after its first
+    `ix:continuation`, so the PFAS exit-actions paragraph was not in the corpus at all and the
+    commitments note held 570 of 130,272 characters; and the statement and fact-grid tools kept
+    the first duplicate fact per period rather than the most precise, returning FY2024 R&D as
+    1,100 (the narrative's rounded figure) for the statement's 1,085. Both are fixed in
+    RoboSystems PR #1348 (2026-09-03); the run does not start until that fix is deployed and the
+    text index rebuilt. Had they stayed, the run would have reported them as data-quality
+    disagreements (§4). The interest named in the disclosure above is exactly the ability to fix
+    the product between the shakedown and the run, which is why the fix is published here.
 
 ### 5.1 Vals questions dropped from v0, by reason
 
