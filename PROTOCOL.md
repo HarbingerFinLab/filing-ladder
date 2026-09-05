@@ -57,7 +57,7 @@ the same questions under the same budget. Representation is the only variable.
 | 5d | Tavi in context | the same document with text-block facts removed, as text | in context, 1M-context models |
 | 6 | `companyfacts` | the SEC's `data.sec.gov` API through three tools: search concepts, one concept's facts, one frame across filers | tools |
 | 7a | property graph, shaped tools | the RoboSystems `sec` graph over MCP: financial statements, fact grids, element resolution, document search and sections, read-only Cypher | tools |
-| 7b | property graph, raw Cypher | the same graph: schema + example queries + read-only Cypher only | tools |
+| 7b | property graph, raw Cypher | the filing as a LadybugDB property graph — the RoboSystems `sec` graph's schema and ids, one filing, text blocks inline, built by `xbrlkit` (`--format lpg`): describe (schema computed from the database, concepts and periods present, example queries) + read-only Cypher | tools |
 | 7c | RDF, raw SPARQL | the filing as `holon.jsonld` in an in-memory rdflib store: describe (prefixes, node shapes computed from the graph, concepts and periods present, example queries) + read-only SPARQL | tools |
 | 7d | RDF in context | the `holon.jsonld` as text | in context, once compacted |
 
@@ -66,6 +66,14 @@ the OIM Taxonomy Model, since renamed Tavi, so the claim is measured on the arti
 about rather than on the older xBRL-JSON alone. The document is produced by the author's own
 converter (`xbrlkit`, diffed object by object against Arelle's unreleased Tavi plugin), which is
 disclosed here for the same reason the graph rungs are.
+
+Rung 7b moved off the production graph on 2026-09-05. It now queries the filing's own
+property-graph file, built by `xbrlkit` from the same projection the platform builds its shared
+graph from — the same tables, columns and ids, checked row for row against the platform's own
+processor on the 26-filing corpus (§7.4) — so 7b, like 5c and 7c, runs from a file the harness
+materializes and needs nothing to be up. The configuration it replaced, the shared graph over MCP
+with only schema, examples and read-only Cypher exposed, is kept as the appendix ablation *7a
+without tools* (§7.4).
 
 **Where the taxonomy lives** is the axis the strata below test:
 
@@ -78,11 +86,13 @@ disclosed here for the same reason the graph rungs are.
 | 7a / 7b | property graph | property graph, same graph |
 
 **Six comparisons inside the ladder**, each isolating one thing: 7a vs 1 (the whole stack against
-the PDF); 5b vs 7 (the layer above JSON); 7a vs 7b (the tool layer — the query craft done once on
-the server); 7b vs 7c (the graph model, LPG vs RDF, the same numeric facts, the same consolidated
-flag, the same period semantics — on a numeric question the only variable is the query language
-and how reliably a model writes it; on a narrative question they are not the same facts, because
-the holon carries the text blocks and the property graph externalizes them, §7.3);
+the PDF); 5b vs 7 (the layer above JSON); 7a vs 7b (the product against the substrate: the shaped
+tools, the serving shape — a shared corpus graph with a search index against one filing's graph
+with its text inline — and the corpus context, together; the tool layer alone is isolated by the
+*7a without tools* ablation, §7.4); 7b vs 7c (the graph model, LPG vs RDF, the same facts including
+the narrative, the same consolidated flag, the same period semantics — the only variable is the
+query language and how reliably a model writes it; before 2026-09-05 the two did not hold the same
+text, §7.3);
 5c vs 7c (the taxonomy in JSON vs in RDF, the same describe-and-one-query hand-off — the only
 variable is the data model and the query language); 4 / 5 vs 5c / 7c on structure questions
 (taxonomy serialization — the standards body's own before and after).
@@ -178,11 +188,12 @@ fiscal period from bare dates.
 7. **If the PDF rung wins a tier, that is the headline for that tier.**
 8. **Gold never comes from the graph.**
 9. **7b and 7c get the same hand-off**: a describe tool, example queries, one query tool, the same
-   workflow prompt. 7c uses raw SPARQL only, never a fact-grid convenience. They do not get the
-   same text. The property graph stores a text block as the URL of its CDN copy and indexes the
-   text for rung 7a's search tool; the holon carries it inline. So on a narrative question 7c can
-   read the note and 7b cannot, and 7b vs 7c is a query-language comparison on numeric questions
-   only. The control in §7.3 measures what the note costs 7b when it is put back.
+   workflow prompt. 7c uses raw SPARQL only, never a fact-grid convenience. Since 2026-09-05 they
+   get the same text too: 7b queries the filing's own graph with its text blocks inline, as the
+   holon carries them. Before that, 7b queried the production graph, which stores a text block as
+   the URL of its CDN copy and indexes the text for rung 7a's search tool, so on a narrative
+   question 7c could read the note and 7b could not; §7.3 records what that cost, and §7.4 keeps
+   that configuration as the ablation.
 10. **The shakedown endpoint never produces a published rung.** A free tier is used to prove the
     harness and read the per-rung token ratio, nothing more.
 11. **A defect the subset finds in the author's own product is fixed and disclosed before the run,
@@ -345,6 +356,42 @@ ladder that has both the numbers and the text; putting the text into the graph b
 at the price of reading the note by offsets. This is a control, not a rung: it is a configuration
 nobody can run against the production graph, one filing, one run per question, and its transcripts
 go into the results dataset beside the shakedown's rather than being scored beside the rungs.
+
+Superseded as a configuration on 2026-09-05: rung 7b now runs on the filing's own graph, where the
+text is inline by construction (§7.4), and the as-shipped 7b of this table is the *7a without
+tools* ablation.
+
+### 7.4 Rung 7b on the filing's own graph, and the *7a without tools* ablation
+
+From 2026-09-05 rung 7b is a file. `xbrlkit build --format lpg` projects the filing into a
+single-file LadybugDB database with the tables the RoboSystems `sec` graph is built from: the
+same node labels (Entity, Report, Fact, Element, Period, Unit, Dimension, Taxonomy, Structure,
+Association, Label, Reference), the same relationship types, the same columns in the same order,
+and the same ids — every id is a UUID5 of the same content against the platform's namespace, so a
+fact in the file and the same fact in the shared graph are one row. The projection was checked
+against the platform's own processor on the corpus's 26 filings with the platform's enrichment
+switched off: every node and relationship table is row-identical, with two explained exceptions —
+association ids, which the platform mints at random and the projection derives from the arc, and
+the exact duplicate arcs the platform writes inside Arelle's aggregate `XBRL-dimensions` network
+(123 on 3M), which the derived ids collapse to one. What the file does not have is what the
+platform adds after projection: text blocks stay inline in `Fact.value` where the platform serves
+them from a CDN and indexes them for rung 7a's search tool, `Element.canonical_concept` and
+`Structure.canonical_type` are empty where the platform's embedding pass fills them, and the
+`FactSet` and `Classification` tables are empty where its association classifier fills them.
+
+The hand-off is the one 5c and 7c get: `describe_graph` (the schema computed from the database,
+how to read a fact, the concepts, periods and units present, and example queries — including one
+that reads a note by `contains()` and a regex window, because the engine has no text index) and
+`run_cypher` (one read-only query in a child process with a 60-second limit and a 200-row cap,
+the database opened read-only). The rung needs nothing to be up, so it is reproducible from the
+published corpus alone.
+
+The *7a without tools* ablation is the configuration 7b had before this change: the production
+graph over MCP with only `get-graph-schema`, `get-example-queries` and `read-graph-cypher`
+exposed. It is the one pair that isolates the tool layer with serving and corpus held constant,
+which 7a vs 7b no longer does. It is not a rung: it depends on the production system, its
+transcripts go into the results dataset beside the control in §7.3, and it is run when 7a is run
+and reported beside the rungs, never as one. The harness names it `7b-mcp`.
 
 ## 8. Publication and maintenance
 

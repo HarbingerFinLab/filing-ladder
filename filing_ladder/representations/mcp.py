@@ -1,8 +1,8 @@
-"""Rungs 7a and 7b — the RoboSystems ``sec`` graph over MCP (Streamable HTTP, ``X-API-Key``).
+"""Rung 7a — the RoboSystems ``sec`` graph over MCP (Streamable HTTP, ``X-API-Key``) — and
+the appendix ablation ``7b-mcp``, the same server with only schema + example queries +
+read-only Cypher exposed ("7a without its tools"; until 2026-09-05 this was rung 7b).
 
 The harness runs its own MCP client loop so the graph rungs run on any model with tool use.
-Rung 7a exposes the server's shaped tools; rung 7b exposes only schema + example queries +
-read-only Cypher, the same hand-off shape as the SPARQL rung.
 """
 
 from __future__ import annotations
@@ -109,7 +109,7 @@ class McpClient:
 
 def tools_for(client: McpClient, rung: str) -> list[ToolDef]:
   tools = client.list_tools()
-  if rung == "7b":
+  if rung in ("7b", "7b-mcp"):
     return [t for t in tools if t.name in CYPHER_ONLY]
   return [t for t in tools if t.name not in SHAPED_EXCLUDE]
 

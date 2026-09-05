@@ -21,7 +21,8 @@ def test_raw_query_rungs_are_worded_in_parallel():
   for rung, describe, query in (
     (Rung.TAVI_JQ, "describe_model", "run_jq"),
     (Rung.RDF_SPARQL, "describe_report", "run_sparql"),
-    (Rung.LPG_CYPHER, "get-graph-schema", "read-graph-cypher"),
+    (Rung.LPG_CYPHER, "describe_graph", "run_cypher"),
+    (Rung.LPG_CYPHER_MCP, "get-graph-schema", "read-graph-cypher"),
   ):
     source = SOURCES[rung]
     assert f"Call {describe} FIRST" in source and query in source

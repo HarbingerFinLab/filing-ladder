@@ -19,6 +19,7 @@ from xbrlkit.edgar.download import download_filing
 from .config import Settings
 from .ladder import CONTEXT_WINDOWS, Rung
 from .representations import holon as holon_rep
+from .representations import lpg as lpg_rep
 from .representations import oim as oim_rep
 from .representations import pdf as pdf_rep
 from .representations import tavi as tavi_rep
@@ -35,6 +36,7 @@ STEPS: tuple[str, ...] = (
   "oim",
   "tavi",
   "holon",
+  "lpg",
   "companyfacts",
 )
 
@@ -150,6 +152,11 @@ class FilingPaths:
     return self.root / "rung5d.tavi-notext.json"
 
   @property
+  def lbug(self) -> Path:
+    """The filing as a LadybugDB property graph (rung 7b), built by ``xbrlkit --format lpg``."""
+    return self.root / "rung7b.filing.lbug"
+
+  @property
   def holon(self) -> Path:
     return self.root / "rung7c.holon.jsonld"
 
@@ -260,6 +267,10 @@ def materialize(
     t0 = time.monotonic()
     holon_rep.build_holon(cik, accession, paths.holon, settings.require_user_agent())
     log(f"holon: {paths.holon.stat().st_size:,} bytes in {time.monotonic() - t0:.0f}s")
+  if "lpg" in wanted and (force or not paths.lbug.exists()):
+    t0 = time.monotonic()
+    lpg_rep.build_lbug(cik, accession, paths.lbug, settings.require_user_agent())
+    log(f"lpg: {lpg_rep.summary_note(paths.lbug)} in {time.monotonic() - t0:.0f}s")
   if "companyfacts" in wanted and (force or not paths.companyfacts(cik).exists()):
     from .representations.companyfacts import CompanyFacts
 
