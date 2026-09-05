@@ -48,7 +48,7 @@ def build_parser() -> argparse.ArgumentParser:
   m.add_argument("--cik", required=True)
   m.add_argument("--accno", required=True)
   m.add_argument(
-    "--steps", default="package,text,ixbrl,pdf,oim,tavi,holon,companyfacts"
+    "--steps", default="package,text,ixbrl,pdf,oim,tavi,holon,lpg,companyfacts"
   )
   m.add_argument("--force", action="store_true")
   m.set_defaults(func=cmd_materialize)
@@ -91,6 +91,19 @@ def build_parser() -> argparse.ArgumentParser:
   s.add_argument("--accno", required=True)
   s.add_argument("--query", required=True)
   s.set_defaults(func=cmd_sparql)
+
+  dg = sub.add_parser(
+    "describe-graph", help="the rung 7b describe_graph text for a materialized filing"
+  )
+  dg.add_argument("--accno", required=True)
+  dg.set_defaults(func=cmd_describe_graph)
+
+  cy = sub.add_parser(
+    "cypher", help="run a read-only Cypher query on a materialized filing's graph"
+  )
+  cy.add_argument("--accno", required=True)
+  cy.add_argument("query")
+  cy.set_defaults(func=cmd_cypher)
 
   mt = sub.add_parser("mcp-tools", help="list the tools the sec graph exposes over MCP")
   mt.set_defaults(func=cmd_mcp_tools)
@@ -271,6 +284,26 @@ def cmd_sparql(args: argparse.Namespace) -> int:
   return 0
 
 
+def cmd_describe_graph(args: argparse.Namespace) -> int:
+  from .filings import FilingPaths
+  from .representations import lpg as lpg_rep
+
+  settings = Settings.from_env()
+  paths = FilingPaths(settings.data_dir, args.accno)
+  print(lpg_rep.describe_graph(paths.lbug))
+  return 0
+
+
+def cmd_cypher(args: argparse.Namespace) -> int:
+  from .filings import FilingPaths
+  from .representations import lpg as lpg_rep
+
+  settings = Settings.from_env()
+  paths = FilingPaths(settings.data_dir, args.accno)
+  print(lpg_rep.run_cypher(paths.lbug, args.query))
+  return 0
+
+
 def cmd_mcp_tools(args: argparse.Namespace) -> int:
   from .representations.mcp import McpClient
 
@@ -396,7 +429,7 @@ def cmd_run(args: argparse.Namespace) -> int:
             continue
           ctx_key = (str(rung), q.filing.accession)
           if ctx_key not in contexts:
-            if rung in (Rung.LPG_SHAPED, Rung.LPG_CYPHER) and mcp_client is None:
+            if rung in (Rung.LPG_SHAPED, Rung.LPG_CYPHER_MCP) and mcp_client is None:
               from .representations.mcp import McpClient
 
               mcp_client = McpClient(
@@ -607,7 +640,7 @@ def _build_context(
       tools=[ToolDef.from_dict(t) for t in cf_rep.TOOL_DEFS],
       runner=cf_rep.make_tool_runner(cf),
     )
-  if rung in (Rung.LPG_SHAPED, Rung.LPG_CYPHER):
+  if rung in (Rung.LPG_SHAPED, Rung.LPG_CYPHER_MCP):
     from .representations import mcp as mcp_rep
 
     assert mcp_client is not None
@@ -616,6 +649,16 @@ def _build_context(
       tools=tools,
       runner=mcp_rep.make_tool_runner(mcp_client, tools),
       note=", ".join(t.name for t in tools),
+    )
+  if rung == Rung.LPG_CYPHER:
+    from .representations import lpg as lpg_rep
+
+    if not paths.lbug.exists():
+      return RungContext(cannot_attempt="property graph not materialized")
+    return RungContext(
+      tools=[ToolDef.from_dict(t) for t in lpg_rep.TOOL_DEFS],
+      runner=lpg_rep.make_tool_runner(paths.lbug),
+      note=lpg_rep.summary_note(paths.lbug),
     )
   if rung == Rung.RDF_SPARQL:
     from .representations import holon as holon_rep

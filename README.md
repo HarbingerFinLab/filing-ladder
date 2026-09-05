@@ -17,8 +17,9 @@ correct answer at list price**. Representation is the only variable.
 
 Filing Ladder is published by **Harbinger FinLab**, the implementation-and-training practice for
 [RoboSystems](https://robosystems.ai). Its founder built the RoboSystems SEC knowledge graph and the
-MCP tools that rungs 7a and 7b query, the XBRL "holon" (RDF) proof of concept that rungs 7c and
-7d use, and the converter (`xbrlkit`) that writes the Tavi compiled model rungs 5c and 5d use — Tavi
+MCP tools that rung 7a queries, the XBRL "holon" (RDF) proof of concept that rungs 7c and
+7d use, and the converter (`xbrlkit`) that writes the Tavi compiled model rungs 5c and 5d use and
+the property-graph file rung 7b queries — Tavi
 is XBRL International's draft, but no published implementation writes it yet, so the author's does,
 checked object by object against Arelle's unreleased plugin. Every other rung is public data in the
 form its publisher ships it. The protocol, the
@@ -45,7 +46,7 @@ results dataset exists.
 | 5c / 5d | Tavi | the OIM Taxonomy Model (Tavi) compiled model — facts and taxonomy in one JSON document — describe + one jq tool / with text-block facts removed (in context) | tools / in context |
 | 6 | `companyfacts` | the SEC's own structured API, three thin tools | tools |
 | 7a | property graph, shaped tools | the RoboSystems `sec` graph via its MCP tools | tools |
-| 7b | property graph, raw Cypher | schema + examples + one query tool on the same graph | tools |
+| 7b | property graph, raw Cypher | the filing as a LadybugDB property graph (the `sec` graph's schema, text blocks inline), describe + one query tool | tools |
 | 7c | RDF, raw SPARQL | the filing as `holon.jsonld` in an in-memory store, describe + one query tool | tools |
 | 7d | RDF in context | the `holon.jsonld` as text | in context (once compacted) |
 
@@ -103,8 +104,8 @@ corpus dump so the graph rungs are reproducible offline.
 
 ## Related
 
-- [`robosystems`](https://github.com/RoboFinSystems/robosystems) — the platform whose `sec` graph is rungs 7a/7b
-- [`xbrlkit`](https://github.com/RoboFinSystems/xbrlkit) — builds the `holon.jsonld` for rungs 7c/7d and the Tavi compiled model for rungs 5c/5d
+- [`robosystems`](https://github.com/RoboFinSystems/robosystems) — the platform whose `sec` graph is rung 7a, and whose graph projection rung 7b's file carries
+- [`xbrlkit`](https://github.com/RoboFinSystems/xbrlkit) — builds the `holon.jsonld` for rungs 7c/7d, the Tavi compiled model for rungs 5c/5d, and the property-graph file for rung 7b
 - [`robosystems-holon-viewer`](https://github.com/RoboFinSystems/robosystems-holon-viewer) — the parallel Cypher / SPARQL hand-offs rungs 7b/7c reuse
 - [`vals-ai/finance-agent`](https://github.com/vals-ai/finance-agent) — the document-agent baseline
 

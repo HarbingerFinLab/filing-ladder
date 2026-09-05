@@ -27,6 +27,9 @@ class Rung(StrEnum):
   COMPANYFACTS = "6"
   LPG_SHAPED = "7a"
   LPG_CYPHER = "7b"
+  LPG_CYPHER_MCP = (
+    "7b-mcp"  # appendix ablation: 7a without its shaped tools, not a rung
+  )
   RDF_SPARQL = "7c"
   RDF_IN_CONTEXT = "7d"
 
@@ -163,9 +166,19 @@ RUNGS: tuple[RungSpec, ...] = (
     Rung.LPG_CYPHER,
     "property graph, raw Cypher",
     Shape.TOOLS,
-    "schema + example queries + one read-only Cypher tool on the same graph",
-    "the property-graph substrate",
+    "the filing as a LadybugDB property graph — the RoboSystems sec graph's schema, one filing, text blocks inline; describe + one read-only Cypher tool",
+    "the property-graph substrate, with the taxonomy in the same graph",
     True,
+    0,
+    (),
+  ),
+  RungSpec(
+    Rung.LPG_CYPHER_MCP,
+    "property graph, raw Cypher over MCP (ablation: 7a without tools)",
+    Shape.TOOLS,
+    "the RoboSystems sec graph over MCP: schema + example queries + read-only Cypher only",
+    "7a's serving with the shaped tools removed — the appendix control, not a rung",
+    False,
     0,
     ("robosystems_api_key",),
   ),

@@ -87,6 +87,13 @@ SOURCES: dict[Rung, str] = {
     )
   ),
   Rung.LPG_CYPHER: (
+    "You have this ONE filing as a property graph (LadybugDB) through read-only Cypher only. "
+    + TOOLS_WORKFLOW.format(
+      first_step="Call describe_graph FIRST to get the node labels, relationship types and properties computed from the database, the concepts and periods present, and example queries. Never guess the schema.",
+      second_step="Write a read-only Cypher query (MATCH … RETURN, always with a LIMIT, using the patterns from describe_graph) and run it with run_cypher.",
+    )
+  ),
+  Rung.LPG_CYPHER_MCP: (
     "You have the RoboSystems SEC knowledge graph — a large, shared repository of public-company XBRL filings — through read-only Cypher only. "
     + TOOLS_WORKFLOW.format(
       first_step="Call get-graph-schema FIRST to discover node labels, relationships and properties, then get-example-queries for working patterns tuned to this graph. Never guess the schema.",
