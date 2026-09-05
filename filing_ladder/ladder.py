@@ -108,7 +108,7 @@ RUNGS: tuple[RungSpec, ...] = (
     Shape.TOOLS,
     "xBRL-JSON and xBRL-CSV as Arelle writes them, via file tools",
     "the standards body's fix, as shipped",
-    False,
+    True,
     0,
     (),
   ),

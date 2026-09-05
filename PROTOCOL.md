@@ -103,7 +103,10 @@ rung.** The output contract is a final block — `ANSWER` with units, `PROVENANC
 inferred. A rung that cannot attempt a question (rung 4 in context; rung 3 on a 200K-context model;
 rungs 1–3 on a corpus screen) scores it as a miss **and logs the cost of finding that out**.
 
-**v0 runs rungs 1 · 2 · 3 · 5b · 5c · 6 · 7a · 7b · 7c**, k = 3 runs per question. Whether an in-context form fits is decided per filing from the frontier model's exact token count (`filing-ladder tokens --exact`), never from a byte estimate. Rungs 4, 5a, 5d and 7d,
+**v0 runs rungs 1 · 2 · 3 · 5a · 5b · 5c · 6 · 7a · 7b · 7c**, k = 3 runs per question. Whether an in-context form fits is decided per filing from the frontier model's exact token count (`filing-ladder tokens --exact`), never from a byte estimate. Rung 5a joined v0 on 2026-09-05: the text-block facts are
+four-fifths of an OIM file, so the in-context form (5b) cannot hold a narrative answer by
+construction, and OIM as the standards body ships it is measured through the file tools beside
+it, as Tavi is (5c beside 5d). Rungs 4, 5d and 7d,
 and the two agent variants (D: the Vals document agent with search over rungs 1–3; E: rung 6 with
 search) are v1.
 
