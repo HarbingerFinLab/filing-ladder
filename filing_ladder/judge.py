@@ -12,10 +12,20 @@ from dataclasses import dataclass
 
 from .providers.base import Provider
 
+# The output contract is a *final* block, so the last ANSWER line that heads a complete
+# block is the one scored. Matching the first "answer:" anywhere, case-insensitively, read
+# a bold "**Answer:**" heading in the model's reasoning as the answer and scored a correct
+# $1,181 million as "**" (2026-09-04). Markdown emphasis around the labels and the answer
+# is tolerated and stripped; the labels themselves must be upper case, as the contract says.
+_EMPHASIS = r"[ \t*_`]*"
+_BLOCK_START = re.compile(rf"^{_EMPHASIS}ANSWER{_EMPHASIS}:", re.M)
 _FINAL = re.compile(
-  r"ANSWER:\s*(?P<answer>.+?)\s*(?:\n|$).*?PROVENANCE:\s*(?P<prov>.+?)\s*(?:\n|$).*?CONFIDENCE:\s*(?P<conf>\w+)",
-  re.S | re.I,
+  rf"ANSWER{_EMPHASIS}:{_EMPHASIS}(?P<answer>.+?)\s*(?:\n|$)"
+  rf".*?PROVENANCE{_EMPHASIS}:{_EMPHASIS}(?P<prov>.+?)\s*(?:\n|$)"
+  rf".*?CONFIDENCE{_EMPHASIS}:{_EMPHASIS}(?P<conf>\w+)",
+  re.S,
 )
+_EDGE_EMPHASIS = re.compile(r"^[\s*_`]+|[\s*_`]+$")
 _ABSTAIN_PHRASES = (
   "cannot determine",
   "cannot be determined",
@@ -55,12 +65,23 @@ class Final:
   abstained: bool
 
 
+def _strip_emphasis(value: str) -> str:
+  return _EDGE_EMPHASIS.sub("", value)
+
+
 def parse_final(text: str) -> Final:
-  m = _FINAL.search(text or "")
+  text = text or ""
+  m = None
+  # The last ANSWER line that heads a complete block wins; an earlier draft block, or a
+  # heading in the reasoning, is only used when nothing later completes the contract.
+  for start in reversed([s.start() for s in _BLOCK_START.finditer(text)]):
+    m = _FINAL.search(text, start)
+    if m:
+      break
   if m:
     answer, prov, conf = (
-      m.group("answer").strip(),
-      m.group("prov").strip(),
+      _strip_emphasis(m.group("answer")),
+      _strip_emphasis(m.group("prov")),
       m.group("conf").strip().lower(),
     )
   else:

@@ -118,7 +118,10 @@ fiscal period from bare dates.
   the Vals operators. They stay distinct because a negative phrased as a point inverts the score —
   found on the first judged run (2026-09-03), when two template rubrics written that way marked
   every correct answer wrong; fixed, and disclosed here as the class of scoring defect an
-  interested author must publish; rubrics are human-reviewed before the run; the judge sees
+  interested author must publish. A second one (2026-09-04): the answer extractor read the
+  first "answer:" in a transcript rather than the final block, so a bold *Answer:* heading in a
+  model's reasoning scored a correct $1,181 million as wrong on rung 5b; it now reads the last
+  complete block, and both measured runs were re-scored. Rubrics are human-reviewed before the run; the judge sees
   question, gold and answer only, never the rung. Claude 5 models expose no sampling controls, so the judge runs at the model's default with adaptive thinking, and the judge's own repeatability is checked on the human-reviewed sample. Every judge disagreement and a
   20% random sample are human-reviewed; transcripts are published. The Vals set is also reported by
   its nine task categories.
