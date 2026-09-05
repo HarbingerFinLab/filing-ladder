@@ -79,8 +79,10 @@ disclosed here for the same reason the graph rungs are.
 
 **Six comparisons inside the ladder**, each isolating one thing: 7a vs 1 (the whole stack against
 the PDF); 5b vs 7 (the layer above JSON); 7a vs 7b (the tool layer — the query craft done once on
-the server); 7b vs 7c (the graph model, LPG vs RDF, same facts, same consolidated flag, same
-period semantics — the only variable is the query language and how reliably a model writes it);
+the server); 7b vs 7c (the graph model, LPG vs RDF, the same numeric facts, the same consolidated
+flag, the same period semantics — on a numeric question the only variable is the query language
+and how reliably a model writes it; on a narrative question they are not the same facts, because
+the holon carries the text blocks and the property graph externalizes them, §7.3);
 5c vs 7c (the taxonomy in JSON vs in RDF, the same describe-and-one-query hand-off — the only
 variable is the data model and the query language); 4 / 5 vs 5c / 7c on structure questions
 (taxonomy serialization — the standards body's own before and after).
@@ -176,7 +178,11 @@ fiscal period from bare dates.
 7. **If the PDF rung wins a tier, that is the headline for that tier.**
 8. **Gold never comes from the graph.**
 9. **7b and 7c get the same hand-off**: a describe tool, example queries, one query tool, the same
-   workflow prompt. 7c uses raw SPARQL only, never a fact-grid convenience.
+   workflow prompt. 7c uses raw SPARQL only, never a fact-grid convenience. They do not get the
+   same text. The property graph stores a text block as the URL of its CDN copy and indexes the
+   text for rung 7a's search tool; the holon carries it inline. So on a narrative question 7c can
+   read the note and 7b cannot, and 7b vs 7c is a query-language comparison on numeric questions
+   only. The control in §7.3 measures what the note costs 7b when it is put back.
 10. **The shakedown endpoint never produces a published rung.** A free tier is used to prove the
     harness and read the per-rung token ratio, nothing more.
 11. **A defect the subset finds in the author's own product is fixed and disclosed before the run,
@@ -303,6 +309,42 @@ they embed the narrative as escaped HTML. As published, xBRL-JSON is no more ing
 XML. Without the text blocks the structured facts fit in a 200K window — about a quarter larger
 than the plain text by bytes, and 2.6× larger on one reasoning model's tokenizer, because numbers,
 commas and IRIs tokenize worse than prose.
+
+### 7.3 Control: the property graph with its text blocks inline (not a rung)
+
+The ladder holds the facts constant so the rungs compare; the production system's shape is rung 7a
+— facts in the graph, narrative in a search index, tools that read both. Rung 7b as shipped queries
+a graph whose text blocks are URLs, so on a narrative question it has less than 7c (principle 9).
+The 2026-09-04 shakedown found the case: 7b missed one rubric point on the PFAS exit question — that
+the $66 million charge was "recorded primarily in cost of sales" — which the structured facts do
+not carry and the filing states in the restructuring note. To separate the representation from the
+query language, the graph was rebuilt on a local stack with the text blocks kept in the graph as
+well as indexed (a default-off flag, RoboSystems PR #1351; never on in production, where the
+narrative is four fifths of the bytes and the search index exists to keep it out of the graph),
+3M FY2024 only, and rungs 7a and 7b were re-run on the six 3M questions. Same model (Sonnet 5),
+same judge, k = 1, the same filing loaded once per configuration.
+
+| Rung | Graph | Accuracy | $/q | Turns | Tool calls | Input tokens / q |
+|---|---|---|---|---|---|---|
+| 7a MCP tools | as shipped (text externalized) | 6/6 | $0.048 | 2.2 | 1.5 | 16,688 |
+| 7b raw Cypher | as shipped (text externalized) | 5/6 | $0.107 | 5.0 | 4.3 | 39,333 |
+| 7a MCP tools | control (text inline) | 6/6 | $0.045 | 2.3 | 1.5 | 14,727 |
+| 7b raw Cypher | control (text inline) | 6/6 | $0.175 | 5.7 | 5.3 | 72,310 |
+
+With the note in the graph, 7b answers the PFAS question fully. How it got there is the finding:
+Cypher on this graph has no text search, so the model returned the whole 60,000-character note in
+one result, tried `apoc.text.indexOf` (the engine has no APOC), then paged the note with
+`substring` at fixed offsets — 10 turns, 11 tool calls, 294K input tokens for one question. 7b's
+cost per question rose 63% and its average input nearly doubled. 7a did not move, because it never
+read the inline text: the search tool found the sentence in both configurations.
+
+Two conclusions, and the limits of each. The 7b miss was representational, not a query-language
+result — the LPG-vs-RDF comparison is clean on numeric questions and confounded on narrative ones,
+which is why principle 9 now says so. And the production shape is the cheapest surface on the
+ladder that has both the numbers and the text; putting the text into the graph buys 7b the answer
+at the price of reading the note by offsets. This is a control, not a rung: it is a configuration
+nobody can run against the production graph, one filing, one run per question, and its transcripts
+go into the results dataset beside the shakedown's rather than being scored beside the rungs.
 
 ## 8. Publication and maintenance
 
