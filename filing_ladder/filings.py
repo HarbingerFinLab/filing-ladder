@@ -21,6 +21,7 @@ from .ladder import CONTEXT_WINDOWS, Rung
 from .representations import holon as holon_rep
 from .representations import oim as oim_rep
 from .representations import pdf as pdf_rep
+from .representations import tavi as tavi_rep
 from .representations import text as text_rep
 
 # Anthropic's guidance: a text-dense page costs roughly 1,500-3,000 tokens (text + image).
@@ -32,6 +33,7 @@ STEPS: tuple[str, ...] = (
   "ixbrl",
   "pdf",
   "oim",
+  "tavi",
   "holon",
   "companyfacts",
 )
@@ -135,6 +137,19 @@ class FilingPaths:
     return self.root / "rung5b.oim-notext-facts.csv"
 
   @property
+  def tavi(self) -> Path:
+    return self.root / "rung5c.tavi.json"
+
+  @property
+  def tavi_gaps(self) -> Path:
+    """What the filing carries that Tavi has nowhere to put — xbrlkit writes it beside the model."""
+    return self.root / "rung5c.tavi.gaps.json"
+
+  @property
+  def tavi_notext(self) -> Path:
+    return self.root / "rung5d.tavi-notext.json"
+
+  @property
   def holon(self) -> Path:
     return self.root / "rung7c.holon.jsonld"
 
@@ -231,6 +246,16 @@ def materialize(
       f"oim: {len(doc.get('facts', {}))} facts; {removed} text blocks removed (json), "
       f"{removed_csv} (csv) in {time.monotonic() - t0:.0f}s"
     )
+  if "tavi" in wanted and (force or not paths.tavi_notext.exists()):
+    t0 = time.monotonic()
+    tavi_rep.build_tavi(cik, accession, paths.tavi, settings.require_user_agent())
+    doc = tavi_rep.load_tavi(paths.tavi)
+    stripped, removed = tavi_rep.strip_text_blocks(doc)
+    paths.tavi_notext.write_text(tavi_rep.minified(stripped), encoding="utf-8")
+    log(
+      f"tavi: {paths.tavi.stat().st_size:,} bytes, {tavi_rep.summary_note(doc)}; "
+      f"{removed} text blocks removed in {time.monotonic() - t0:.0f}s"
+    )
   if "holon" in wanted and (force or not paths.holon.exists()):
     t0 = time.monotonic()
     holon_rep.build_holon(cik, accession, paths.holon, settings.require_user_agent())
@@ -296,6 +321,8 @@ def token_table(paths: FilingPaths, cik: str) -> list[TokenRow]:
   add("xBRL-CSV facts as published", Rung.OIM_FILES, paths.oim_facts_csv)
   add("xBRL-JSON, text blocks removed", Rung.OIM_IN_CONTEXT, paths.oim_json_notext)
   add("xBRL-CSV, text blocks removed", Rung.OIM_IN_CONTEXT, paths.oim_csv_notext)
+  add("Tavi compiled model", Rung.TAVI_JQ, paths.tavi)
+  add("Tavi, text blocks removed", Rung.TAVI_IN_CONTEXT, paths.tavi_notext)
   add("companyfacts (whole company)", Rung.COMPANYFACTS, paths.companyfacts(cik))
   add("holon.jsonld as serialized", Rung.RDF_IN_CONTEXT, paths.holon)
   return rows

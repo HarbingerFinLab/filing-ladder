@@ -19,6 +19,7 @@ from .representations import text as text_rep
 # silent-failure case (empty-result-answered). Discovery tools do not count.
 QUERY_TOOLS = {
   "run_sparql",
+  "run_jq",
   "read-graph-cypher",
   "get_concept_facts",
   "get_frame",
@@ -46,7 +47,9 @@ def build_parser() -> argparse.ArgumentParser:
   m = sub.add_parser("materialize", help="one filing into every representation")
   m.add_argument("--cik", required=True)
   m.add_argument("--accno", required=True)
-  m.add_argument("--steps", default="package,text,ixbrl,pdf,oim,holon,companyfacts")
+  m.add_argument(
+    "--steps", default="package,text,ixbrl,pdf,oim,tavi,holon,companyfacts"
+  )
   m.add_argument("--force", action="store_true")
   m.set_defaults(func=cmd_materialize)
 
@@ -213,6 +216,8 @@ def _row_path(paths, cik: str, form: str) -> Path | None:
     "xBRL-CSV facts as published": paths.oim_facts_csv,
     "xBRL-JSON, text blocks removed": paths.oim_json_notext,
     "xBRL-CSV, text blocks removed": paths.oim_csv_notext,
+    "Tavi compiled model": paths.tavi,
+    "Tavi, text blocks removed": paths.tavi_notext,
     "companyfacts (whole company)": paths.companyfacts(cik),
     "holon.jsonld as serialized": paths.holon,
   }
@@ -578,6 +583,8 @@ def _build_context(
     return ctx
   if rung == Rung.RDF_IN_CONTEXT:
     return text_attachment(paths.holon, "application/json", "holon.jsonld")
+  if rung == Rung.TAVI_IN_CONTEXT:
+    return text_attachment(paths.tavi_notext, "application/json", "model.tavi.json")
   if rung in (Rung.XBRL_PACKAGE, Rung.OIM_FILES):
     from .representations import files as files_rep
 
@@ -620,6 +627,17 @@ def _build_context(
       tools=[ToolDef.from_dict(t) for t in holon_rep.TOOL_DEFS],
       runner=holon_rep.make_tool_runner(graph),
       note=f"{len(graph):,} triples",
+    )
+  if rung == Rung.TAVI_JQ:
+    from .representations import tavi as tavi_rep
+
+    if not paths.tavi.exists():
+      return RungContext(cannot_attempt="tavi not materialized")
+    doc = tavi_rep.load_tavi(paths.tavi)
+    return RungContext(
+      tools=[ToolDef.from_dict(t) for t in tavi_rep.TOOL_DEFS],
+      runner=tavi_rep.make_tool_runner(doc),
+      note=tavi_rep.summary_note(doc),
     )
   raise SystemExit(f"rung {rung} ({spec.name}, {spec.shape}) has no context builder")
 

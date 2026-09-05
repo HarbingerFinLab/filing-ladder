@@ -30,6 +30,7 @@ dependencies = [
   "xbrlkit>=0.2.1",
   "arelle-release>=2.39",
   "pypdf>=5.0",
+  "jq>=1.8",
 ]
 
 [project.optional-dependencies]

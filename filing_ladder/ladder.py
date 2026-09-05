@@ -22,6 +22,8 @@ class Rung(StrEnum):
   XBRL_PACKAGE = "4"
   OIM_FILES = "5a"
   OIM_IN_CONTEXT = "5b"
+  TAVI_JQ = "5c"
+  TAVI_IN_CONTEXT = "5d"
   COMPANYFACTS = "6"
   LPG_SHAPED = "7a"
   LPG_CYPHER = "7b"
@@ -115,6 +117,26 @@ RUNGS: tuple[RungSpec, ...] = (
     "the structured facts that fit — and carry no taxonomy",
     True,
     200_000,
+    (),
+  ),
+  RungSpec(
+    Rung.TAVI_JQ,
+    "Tavi, raw jq",
+    Shape.TOOLS,
+    "the filing as a Tavi compiled model — facts and taxonomy in one JSON document; describe + one jq tool",
+    "the standards body's next serialization: JSON with the taxonomy in the same document",
+    True,
+    0,
+    (),
+  ),
+  RungSpec(
+    Rung.TAVI_IN_CONTEXT,
+    "Tavi in context",
+    Shape.IN_CONTEXT,
+    "the Tavi compiled model with text-block facts removed, as text",
+    "the same document handed whole, where it fits",
+    False,
+    1_000_000,
     (),
   ),
   RungSpec(

@@ -53,26 +53,37 @@ the same questions under the same budget. Representation is the only variable.
 | 4 | XBRL package | instance + schema + presentation/calculation/definition/label linkbases on disk; tools: list, read line range, grep | tools |
 | 5a | OIM as published | xBRL-JSON and xBRL-CSV as Arelle's `saveLoadableOIM` writes them, with the SEC's inline-XBRL transformation registry loaded as EDGAR's own validator loads it; the same file tools | tools |
 | 5b | OIM in context | the same export with text-block facts removed (a fact is a text block when its concept is a `TextBlock`, its value is markup, or its value is ≥300 characters); xBRL-CSV facts + metadata by default | in context |
+| 5c | Tavi, raw jq | the filing as a Project Tavi compiled model (XBRL International's OIM Taxonomy Model, PWD 2026-09-01) — facts and taxonomy in one JSON document, written by `xbrlkit`; describe + one read-only jq tool, the same hand-off as 7b and 7c | tools |
+| 5d | Tavi in context | the same document with text-block facts removed, as text | in context, 1M-context models |
 | 6 | `companyfacts` | the SEC's `data.sec.gov` API through three tools: search concepts, one concept's facts, one frame across filers | tools |
 | 7a | property graph, shaped tools | the RoboSystems `sec` graph over MCP: financial statements, fact grids, element resolution, document search and sections, read-only Cypher | tools |
 | 7b | property graph, raw Cypher | the same graph: schema + example queries + read-only Cypher only | tools |
 | 7c | RDF, raw SPARQL | the filing as `holon.jsonld` in an in-memory rdflib store: describe (prefixes, node shapes computed from the graph, concepts and periods present, example queries) + read-only SPARQL | tools |
 | 7d | RDF in context | the `holon.jsonld` as text | in context, once compacted |
 
+Rung 5c was added on 2026-09-04, before the freeze. The webinar claim quoted in §1 was made about
+the OIM Taxonomy Model, since renamed Tavi, so the claim is measured on the artifact it was made
+about rather than on the older xBRL-JSON alone. The document is produced by the author's own
+converter (`xbrlkit`, diffed object by object against Arelle's unreleased Tavi plugin), which is
+disclosed here for the same reason the graph rungs are.
+
 **Where the taxonomy lives** is the axis the strata below test:
 
 | Rung | Facts | Taxonomy (labels · presentation · calculation) |
 |---|---|---|
 | 4 | XML instance | XML linkbases, separate files — arcs to locators to hrefs |
-| 5 | JSON / CSV | absent — xBRL-JSON references the DTS by URL and carries none of it |
+| 5a / 5b | JSON / CSV | absent — xBRL-JSON references the DTS by URL and carries none of it |
+| 5c / 5d | JSON | JSON, same document — labels, presentation, calculation, cubes |
 | 7c | JSON-LD | JSON-LD, same graph, same query language |
 | 7a / 7b | property graph | property graph, same graph |
 
-**Five comparisons inside the ladder**, each isolating one thing: 7a vs 1 (the whole stack against
+**Six comparisons inside the ladder**, each isolating one thing: 7a vs 1 (the whole stack against
 the PDF); 5b vs 7 (the layer above JSON); 7a vs 7b (the tool layer — the query craft done once on
 the server); 7b vs 7c (the graph model, LPG vs RDF, same facts, same consolidated flag, same
 period semantics — the only variable is the query language and how reliably a model writes it);
-4 / 5 vs 7c on structure questions (taxonomy serialization).
+5c vs 7c (the taxonomy in JSON vs in RDF, the same describe-and-one-query hand-off — the only
+variable is the data model and the query language); 4 / 5 vs 5c / 7c on structure questions
+(taxonomy serialization — the standards body's own before and after).
 
 **Same model, same effort, same prompt skeleton, same output contract, same turn budget on every
 rung.** The output contract is a final block — `ANSWER` with units, `PROVENANCE`, `CONFIDENCE`
@@ -80,7 +91,7 @@ rung.** The output contract is a final block — `ANSWER` with units, `PROVENANC
 inferred. A rung that cannot attempt a question (rung 4 in context; rung 3 on a 200K-context model;
 rungs 1–3 on a corpus screen) scores it as a miss **and logs the cost of finding that out**.
 
-**v0 runs rungs 1 · 2 · 3 · 5b · 6 · 7a · 7b · 7c**, k = 3 runs per question. Whether an in-context form fits is decided per filing from the frontier model's exact token count (`filing-ladder tokens --exact`), never from a byte estimate. Rungs 4, 5a and 7d,
+**v0 runs rungs 1 · 2 · 3 · 5b · 5c · 6 · 7a · 7b · 7c**, k = 3 runs per question. Whether an in-context form fits is decided per filing from the frontier model's exact token count (`filing-ladder tokens --exact`), never from a byte estimate. Rungs 4, 5a, 5d and 7d,
 and the two agent variants (D: the Vals document agent with search over rungs 1–3; E: rung 6 with
 search) are v1.
 

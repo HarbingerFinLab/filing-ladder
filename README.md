@@ -37,6 +37,7 @@ results dataset exists.
 | 3 | iXBRL | the same document with styling stripped and the `ix:` tags and header kept | in context (1M-context models) |
 | 4 | XBRL package | instance + schema + linkbases on disk, via file tools | tools |
 | 5a / 5b | OIM | xBRL-JSON and xBRL-CSV as published (file tools) / with text-block facts removed (in context) | tools / in context |
+| 5c / 5d | Tavi | the OIM Taxonomy Model (Tavi) compiled model — facts and taxonomy in one JSON document — describe + one jq tool / with text-block facts removed (in context) | tools / in context |
 | 6 | `companyfacts` | the SEC's own structured API, three thin tools | tools |
 | 7a | property graph, shaped tools | the RoboSystems `sec` graph via its MCP tools | tools |
 | 7b | property graph, raw Cypher | schema + examples + one query tool on the same graph | tools |
