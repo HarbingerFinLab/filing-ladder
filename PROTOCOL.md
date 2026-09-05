@@ -215,6 +215,15 @@ fiscal period from bare dates.
     the 3 the filing reports as nil; every filing in the corpus had between 18 and 213. Fixed
     here by loading the registry as EDGAR's own validator does; the rung 5 exports are
     regenerated before the run.
+    Two more in the product (2026-09-05), found by checking every disclosure section the
+    text index is built from against the filing's own text-block facts as Arelle resolves
+    them, on all 26 corpus filings (`bin/check_text_layer.py`): a concept tagged more than
+    once kept only its first occurrence, so Microsoft's second purchase-price table and
+    loanDepot's second servicing-assets roll-forward were not in the index at all; and
+    `ix:exclude` page headers inside a tagged block (Oracle, Microsoft) were indexed as
+    section text. Both fixed in xbrlkit PR #24, with a re-index of both source types before
+    the run. After the fix every text block in the corpus over twenty words matches its
+    resolved value.
 
 ### 5.1 Vals questions dropped from v0, by reason
 
