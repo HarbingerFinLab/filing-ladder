@@ -64,3 +64,44 @@ def test_parse_number_ignores_list_commas_and_dates():
   text = "3M's Q4 FY2024 (October 1 – December 31, 2024) net sales were $6.010 billion USD (6,010,000,000 USD)"
   assert parse_number(text) == (6_010_000_000.0, "billion")
   assert parse_number("December 31, 2024: 1,085") == (1085.0, None)
+
+
+def test_parse_final_reads_the_last_block_not_a_heading_in_the_reasoning():
+  """A bold "Answer:" heading in the reasoning is not the answer; the final block is."""
+  text = (
+    "Let me locate the figure directly.\n\n**Answer:**\n\n3M's total purchases were "
+    "$1,181 million.\n\nANSWER: $1,181 million (USD)\nPROVENANCE: fact f-413 in facts.csv\n"
+    "CONFIDENCE: high"
+  )
+  f = parse_final(text)
+  assert f.answer == "$1,181 million (USD)"
+  assert f.provenance == "fact f-413 in facts.csv"
+  assert f.confidence == "high"
+
+
+def test_parse_final_prefers_a_later_revised_block():
+  text = (
+    "ANSWER: $1,100 million\nPROVENANCE: the narrative\nCONFIDENCE: medium\n\n"
+    "Checking the statement instead.\n\n"
+    "ANSWER: $1,085 million\nPROVENANCE: the income statement\nCONFIDENCE: high"
+  )
+  f = parse_final(text)
+  assert f.answer == "$1,085 million"
+  assert f.confidence == "high"
+
+
+def test_parse_final_strips_markdown_emphasis_from_the_block():
+  text = "**ANSWER:** **$5 billion**\n**PROVENANCE:** _Note 6_\n**CONFIDENCE:** *high*"
+  f = parse_final(text)
+  assert f.answer == "$5 billion"
+  assert f.provenance == "Note 6"
+  assert f.confidence == "high"
+
+
+def test_parse_final_falls_back_to_an_earlier_complete_block():
+  """A trailing ANSWER with no PROVENANCE/CONFIDENCE after it does not shadow a full block."""
+  text = (
+    "ANSWER: $1,085 million\nPROVENANCE: the income statement\nCONFIDENCE: high\n\n"
+    "ANSWER: (draft, cut off"
+  )
+  assert parse_final(text).answer == "$1,085 million"
