@@ -23,19 +23,21 @@ update:
     uv lock --upgrade
     uv sync --all-extras
 
+# The tools live in the `dev` extra. Naming it here means a plain `uv sync`, which prunes
+# extras, cannot leave `uv run pytest` falling through to whatever pytest is on PATH.
 test:
-    uv run pytest -q
+    uv run --extra dev pytest -q
 
 lint:
-    uv run ruff check .
-    uv run ruff format --check .
+    uv run --extra dev ruff check .
+    uv run --extra dev ruff format --check .
 
 format:
-    uv run ruff format .
-    uv run ruff check --fix .
+    uv run --extra dev ruff format .
+    uv run --extra dev ruff check --fix .
 
 typecheck:
-    uv run basedpyright
+    uv run --extra dev basedpyright
 
 test-all:
     @just test
