@@ -1,8 +1,8 @@
 """The shared prompt skeleton and the per-rung source descriptions.
 
 Every rung gets the same analyst role, the same output contract and the same abstention
-rule; only the paragraph describing *what the model has* changes. The two raw-query rungs
-(7b Cypher, 7c SPARQL) are worded in parallel on purpose.
+rule; only the paragraph describing *what the model has* changes. The three raw-query rungs
+(5c jq, 7b Cypher, 7c SPARQL) are worded in parallel on purpose.
 """
 
 from __future__ import annotations
@@ -46,6 +46,13 @@ SOURCES: dict[Rung, str] = {
   Rung.RDF_IN_CONTEXT: (
     "The filing is attached as JSON-LD (an XBRL holon): facts, elements, periods, units and dimensions in the scene graph, "
     "and the presentation / calculation / definition structures in the projection graph. Cite the concept qname and the period."
+  ),
+  Rung.TAVI_IN_CONTEXT: (
+    "The filing is attached as a Project Tavi compiled model (one JSON document) with text-block facts removed. Under .xbrlModel, "
+    "each fact's factDimensions carries xbrl:concept, xbrl:period (a dateTime interval whose end is exclusive), xbrl:entity, "
+    "xbrl:unit and one further key per taxonomy axis; the consolidated total is the fact with no axis key. factValues holds the "
+    "value as a string and its decimals. The taxonomy is in the same document: labels (forObject, labelType), presentation and "
+    "calculation networks, groups (statements and notes) and cubes. Cite the concept qname and the period."
   ),
   Rung.XBRL_PACKAGE: (
     "The filing's XBRL package is on disk: the instance document, the schema, and the presentation, calculation, definition and "
@@ -91,6 +98,14 @@ SOURCES: dict[Rung, str] = {
     + TOOLS_WORKFLOW.format(
       first_step="Call describe_report FIRST to get the prefixes, the node shapes, the concepts and periods present, and example queries. Never guess the schema.",
       second_step="Write a SPARQL SELECT (always with the PREFIX lines from describe_report) and run it with run_sparql.",
+    )
+  ),
+  Rung.TAVI_JQ: (
+    "You have this ONE filing as a Project Tavi compiled model — one JSON document holding the facts and the taxonomy "
+    "(labels, presentation and calculation networks, cubes) — through read-only jq only. "
+    + TOOLS_WORKFLOW.format(
+      first_step="Call describe_model FIRST to learn how the document is laid out, the concepts, periods, units, axes and groups present, and example programs. Never guess the shape.",
+      second_step="Write a jq program (starting from .xbrlModel, using the patterns from describe_model) and run it with run_jq.",
     )
   ),
 }

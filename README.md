@@ -6,8 +6,10 @@
 **One filing, every representation: which shape of the same financial filing can a model actually use?**
 
 A benchmark that hands the *same* SEC filing to the *same* model in every form the filing exists in —
-rendered PDF, HTML text, inline XBRL, the XBRL package, OIM (xBRL-JSON / xBRL-CSV), the SEC's
-`companyfacts` API, a property graph over MCP, and the filing as RDF — asks the *same* questions, and
+rendered PDF, HTML text, inline XBRL, the XBRL package, OIM (xBRL-JSON / xBRL-CSV), the Tavi
+compiled model (XBRL International's OIM Taxonomy Model, facts and taxonomy in one JSON document),
+the SEC's `companyfacts` API, a property graph over MCP, and the filing as RDF — asks the *same*
+questions, and
 scores accuracy, abstention versus confident-wrong, provenance, repeatability, and **dollars per
 correct answer at list price**. Representation is the only variable.
 
@@ -15,8 +17,11 @@ correct answer at list price**. Representation is the only variable.
 
 Filing Ladder is published by **Harbinger FinLab**, the implementation-and-training practice for
 [RoboSystems](https://robosystems.ai). Its founder built the RoboSystems SEC knowledge graph and the
-MCP tools that rungs 7a and 7b query, and the XBRL "holon" (RDF) proof of concept that rungs 7c and
-7d use. Every other rung is public data in the form its publisher ships it. The protocol, the
+MCP tools that rungs 7a and 7b query, the XBRL "holon" (RDF) proof of concept that rungs 7c and
+7d use, and the converter (`xbrlkit`) that writes the Tavi compiled model rungs 5c and 5d use — Tavi
+is XBRL International's draft, but no published implementation writes it yet, so the author's does,
+checked object by object against Arelle's unreleased plugin. Every other rung is public data in the
+form its publisher ships it. The protocol, the
 harness, the question sets, every transcript, and the raw usage are published so a reader can weigh
 that interest and check the numbers. The fairness rules in [PROTOCOL.md](PROTOCOL.md) exist because
 a benchmark with an interested author has to earn every claim — including the rule that **if the PDF
@@ -37,6 +42,7 @@ results dataset exists.
 | 3 | iXBRL | the same document with styling stripped and the `ix:` tags and header kept | in context (1M-context models) |
 | 4 | XBRL package | instance + schema + linkbases on disk, via file tools | tools |
 | 5a / 5b | OIM | xBRL-JSON and xBRL-CSV as published (file tools) / with text-block facts removed (in context) | tools / in context |
+| 5c / 5d | Tavi | the OIM Taxonomy Model (Tavi) compiled model — facts and taxonomy in one JSON document — describe + one jq tool / with text-block facts removed (in context) | tools / in context |
 | 6 | `companyfacts` | the SEC's own structured API, three thin tools | tools |
 | 7a | property graph, shaped tools | the RoboSystems `sec` graph via its MCP tools | tools |
 | 7b | property graph, raw Cypher | schema + examples + one query tool on the same graph | tools |
@@ -98,7 +104,7 @@ corpus dump so the graph rungs are reproducible offline.
 ## Related
 
 - [`robosystems`](https://github.com/RoboFinSystems/robosystems) — the platform whose `sec` graph is rungs 7a/7b
-- [`xbrlkit`](https://github.com/RoboFinSystems/xbrlkit) — builds the `holon.jsonld` for rungs 7c/7d
+- [`xbrlkit`](https://github.com/RoboFinSystems/xbrlkit) — builds the `holon.jsonld` for rungs 7c/7d and the Tavi compiled model for rungs 5c/5d
 - [`robosystems-holon-viewer`](https://github.com/RoboFinSystems/robosystems-holon-viewer) — the parallel Cypher / SPARQL hand-offs rungs 7b/7c reuse
 - [`vals-ai/finance-agent`](https://github.com/vals-ai/finance-agent) — the document-agent baseline
 
