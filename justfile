@@ -56,6 +56,11 @@ tokens accno *args:
 questions:
     uv run filing-ladder questions
 
+# Check the text layer rung 7a's index is built from, on every materialized filing:
+# each disclosure section against the filing's OIM text-block facts, each Item's heading
+check-text *args:
+    uv run python bin/check_text_layer.py {{args}}
+
 # Run rungs on a question set (see `filing-ladder run --help`)
 run *args:
     uv run filing-ladder run {{args}}

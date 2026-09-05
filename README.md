@@ -78,6 +78,10 @@ just tokens 0000066740-25-000006
 
 # Validate the question sets and print their pre-registration hashes:
 just questions
+
+# Check the text layer the graph rungs' search index is built from, against
+# each filing's own text-block facts (PROTOCOL principle 11):
+just check-text
 ```
 
 Materializing needs no model key. Running a rung needs the key for that rung's provider; see
