@@ -49,7 +49,7 @@ the same questions under the same budget. Representation is the only variable.
 |---|---|---|---|
 | 1 | PDF | the primary document rendered to pages by headless Chrome (US Letter, default scale, no header/footer) as a document block with citations, whole | in context |
 | 2 | HTML text | the EDGAR primary document with every tag stripped, entities unescaped, whitespace collapsed | in context |
-| 3 | iXBRL | the primary document with `<style>`, `<script>` and style/class/id attributes removed; every `ix:` tag and the `ix:header` (contexts, units) kept | in context, 1M-context models; scored *cannot attempt* on any filing whose exact count exceeds the window (the reference filing does, §7) |
+| 3 | iXBRL | the primary document with `<style>`, `<script>`, style/class attributes, ids on HTML tags, and the inline scaffolding (`<span>`, `<div>`, `<a>`, `<hr>`) removed; every `ix:` tag with its attributes, the `ix:header` (contexts, units) and the ids they reference kept; tables keep their markup | in context, 1M-context models; scored *cannot attempt* on any filing whose exact count exceeds the window (§7) |
 | 4 | XBRL package | instance + schema + presentation/calculation/definition/label linkbases on disk; tools: list, read line range, grep | tools |
 | 5a | OIM as published | xBRL-JSON and xBRL-CSV as Arelle's `saveLoadableOIM` writes them, with the SEC's inline-XBRL transformation registry loaded as EDGAR's own validator loads it; the same file tools | tools |
 | 5b | OIM in context | the same export with text-block facts removed (a fact is a text block when its concept is a `TextBlock`, its value is markup, or its value is ≥300 characters); xBRL-CSV facts + metadata by default | in context |
@@ -218,6 +218,14 @@ fiscal period from bare dates.
     the 3 the filing reports as nil; every filing in the corpus had between 18 and 213. Fixed
     here by loading the registry as EDGAR's own validator does; the rung 5 exports are
     regenerated before the run.
+    A fourth harness defect (2026-09-05), in rung 3: the styling strip removed every `id`
+    attribute, so the 945 contexts the `ix:header` is kept for lost the ids the facts'
+    `contextRef` point at, and the 149 continuations lost the ids the notes' `continuedAt`
+    point at — the inline XBRL was handed over with its references dangling. Fixed by
+    keeping ids on XBRL tags; at the same time the inline scaffolding EDGAR renderers leave
+    (`<span>`, `<div>`, `<a>`, `<hr>`) is stripped, which carries nothing a reader uses and
+    brings the reference filing under the window (§7). Rung 2 is byte-identical before and
+    after. Rung 3 was re-counted for every corpus filing.
     Two more in the product (2026-09-05), found by checking every disclosure section the
     text index is built from against the filing's own text-block facts as Arelle resolves
     them, on all 26 corpus filings (`bin/check_text_layer.py`): a concept tagged more than

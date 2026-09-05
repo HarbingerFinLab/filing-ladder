@@ -40,7 +40,7 @@ results dataset exists.
 |---|---|---|---|
 | 1 | PDF | the filing rendered to pages, whole, in context | in context |
 | 2 | HTML text | the EDGAR primary document with tags stripped | in context |
-| 3 | iXBRL | the same document with styling stripped and the `ix:` tags and header kept | in context (1M-context models) |
+| 3 | iXBRL | the same document with styling and inline scaffolding stripped and the `ix:` tags and header kept | in context (1M-context models) |
 | 4 | XBRL package | instance + schema + linkbases on disk, via file tools | tools |
 | 5a / 5b | OIM | xBRL-JSON and xBRL-CSV as published (file tools) / with text-block facts removed (in context) | tools / in context |
 | 5c / 5d | Tavi | the OIM Taxonomy Model (Tavi) compiled model — facts and taxonomy in one JSON document — describe + one jq tool / with text-block facts removed (in context) | tools / in context |
