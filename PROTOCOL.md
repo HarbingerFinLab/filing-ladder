@@ -235,6 +235,14 @@ fiscal period from bare dates.
     section text. Both fixed in xbrlkit PR #24, with a re-index of both source types before
     the run. After the fix every text block in the corpus over twenty words matches its
     resolved value.
+    After all of the above (2026-09-05) the corpus was rebuilt from scratch: every derived
+    form of all 26 filings deleted and regenerated from the EDGAR packages under xbrlkit
+    0.4.1 (Chrome 152.0.7977.83 for the PDFs), then re-counted exactly. Every count in the
+    frozen table reproduced to the token. The one change is additive: the Tavi forms (rungs
+    5c and 5d) had been materialized for the reference filing alone, so their exact counts
+    are added for the other 25 filings; three Tavi compiled models exceed the exact counter's
+    limit and have no exact count, which gates nothing since rung 5c reaches the file through
+    a tool. The text-layer check and the index audit both pass on the rebuilt corpus.
 
 ### 5.1 Vals questions dropped from v0, by reason
 
