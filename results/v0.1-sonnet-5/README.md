@@ -11,6 +11,31 @@ be re-run. The human review the protocol requires (§4: the disagreement log ove
 every rung missed and the questions where the graph trailed the documents) is added to this
 directory as `review.md` when it closes; it annotates, it does not change a score.
 
+## How to read this if you do not evaluate language models
+
+The model is not the subject here. It is a standardized reader with no rules and no judgment,
+sent to read the same filing in ten forms and answer the same 38 analyst questions. What is
+being measured is the forms.
+
+- **A rung** is one form of the filing: the PDF, the plain text, the inline XBRL, the XBRL data
+  exactly as published, the same data through a structured store, and so on. Same filing, same
+  facts, different shape.
+- **T1 lookup** is one reported number from one filing. **T2 derived** is a ratio, a trend or a
+  judgment built from several. They are never averaged together.
+- **Accuracy** is the share of answers that matched what a person reading the filing would say.
+  **Abstained** is the reader saying it could not find it. **Confident-wrong** is the reader
+  asserting an answer the filing contradicts, the outcome that matters most.
+- **Cannot attempt** means the form is too large for the reader to take in at once. It is scored
+  as a miss, because a form nobody can read is not a usable form.
+- **Repeatability** is how often three readings of the same question agreed.
+- **$/correct** is what one right answer costs at list price; *uncached* is a single cold question,
+  *cached* is a batch of questions on one filing.
+
+The reading for a standards or policy audience: the tagged data as published did not help the
+reader, the same data behind a structured query layer matched reading the document at a sixth of
+the cost, and reading the document itself is 90% right on lookups and 56% on analysis, with 28%
+of the analysis answers confidently wrong.
+
 ## The run
 
 | | |
