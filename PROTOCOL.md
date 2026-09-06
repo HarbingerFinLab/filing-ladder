@@ -262,7 +262,9 @@ Python; the harness runs its own tool loop so every rung runs on any model with 
 Providers: Anthropic direct for the frontier run (document blocks with citations, prompt caching,
 batch for paying); OpenAI direct for a second frontier family (PDF as a file part, automatic
 caching); an OpenAI-compatible route for the shakedown (NVIDIA Build: no PDF input, no caching)
-and for open-weight models (OpenRouter, provider pinned, the credits charged recorded per turn). Tool errors are returned to the model for correction; rate
+and for open-weight models (OpenRouter, provider pinned, the credits charged recorded per turn).
+OpenAI bills a request whose prompt reaches 272K tokens at long-context rates; the cost table
+applies that tier per request, and on most filings it covers rungs 1, 3, 5a and 5b. Tool errors are returned to the model for correction; rate
 limits and overloads get exponential backoff with jitter.
 
 Filing acquisition, rung materialization and the graph rungs reuse published code: the

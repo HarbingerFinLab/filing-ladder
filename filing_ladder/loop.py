@@ -40,6 +40,7 @@ class Transcript:
   tool_calls: int = 0
   tool_errors: int = 0
   usage: dict = field(default_factory=dict)
+  turn_usage: list[dict] = field(default_factory=list)
   wall_s: float = 0.0
   stop_reason: str = ""
   final_text: str = ""
@@ -75,6 +76,7 @@ def run_question(
       t.turns = turn_index
       turn = provider.step(conversation)
       usage.add(turn.usage)
+      t.turn_usage.append(turn.usage.as_dict())
       t.citations.extend(turn.citations)
       if not turn.tool_calls:
         t.final_text = turn.text

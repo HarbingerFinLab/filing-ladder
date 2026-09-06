@@ -352,7 +352,7 @@ def cmd_run(args: argparse.Namespace) -> int:
   from .prompts import system_prompt, user_prompt
   from .providers import make_provider
   from .providers.base import CannotAttempt
-  from .providers.pricing import cost_usd, load_prices
+  from .providers.pricing import load_prices
   from .questions import load_all, runnable
   from .results import RunDir, append_jsonl, done_keys, new_run, write_json
 
@@ -492,7 +492,7 @@ def cmd_run(args: argparse.Namespace) -> int:
               "category": q.category,
               "filing": q.filing.__dict__,
               "context_note": ctx.note,
-              "cost_usd": cost_usd(_usage_of(record), args.model, prices),
+              "cost_usd": _cost_of(record, args.model, prices),
             }
           )
           append_jsonl(run.transcripts, record)
@@ -548,6 +548,17 @@ def _usage_of(record: dict):
     u.get("cache_read_tokens", 0),
     u.get("cache_write_tokens", 0),
   )
+
+
+def _cost_of(record: dict, model: str, prices) -> float | None:
+  """Per-turn when the transcript carries it (a long-context tier is per request); else total."""
+  from .providers.base import Usage
+  from .providers.pricing import cost_of_turns, cost_usd
+
+  turns = [Usage(**u) for u in record.get("turn_usage") or []]
+  if turns:
+    return cost_of_turns(turns, model, prices)
+  return cost_usd(_usage_of(record), model, prices)
 
 
 def _build_context(
