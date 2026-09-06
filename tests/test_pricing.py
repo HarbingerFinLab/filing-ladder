@@ -20,8 +20,8 @@ TIERED = {
 
 
 def test_short_request_bills_at_the_short_rates():
-  assert (
-    cost_usd(Usage(100_000, 1_000), "m", TIERED) == 100_000 / 1e6 * 2 + 1_000 / 1e6 * 12
+  assert cost_usd(Usage(100_000, 1_000), "m", TIERED) == round(
+    100_000 / 1e6 * 2 + 1_000 / 1e6 * 12, 6
   )
 
 
