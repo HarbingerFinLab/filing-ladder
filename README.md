@@ -30,9 +30,11 @@ wins a tier, that is the headline for that tier**.
 
 ## Status
 
-**Protocol v0.1, frozen 2026-09-06. No results yet.** The protocol is tagged (`protocol-v0.1`, with
-question-set hashes in `questions/manifest.json`); the first scored run has not happened. Nothing
-here is a finding until a results dataset exists.
+**Protocol v0.1, frozen 2026-09-06 (tag `protocol-v0.1`). First run published: judge-scored, human
+review in progress.** The v0.1 run — Claude Sonnet 5, 38 questions, every v0 rung, k = 3, 1,140
+records — is in [`results/v0.1-sonnet-5/`](results/v0.1-sonnet-5/README.md) with every transcript,
+judgment and token count. Runs happen once; those numbers are final. The human review the protocol
+requires (the disagreement log) is added there when it closes and annotates rather than re-scores.
 
 ## The ladder
 
@@ -90,10 +92,12 @@ direct, OpenAI direct, NVIDIA Build, or OpenRouter; see `.env.example`.
 ## What gets published
 
 The protocol (pre-registered), this harness (MIT), the question sets, per-question transcripts for
-every rung, raw token usage and cost at list price, judge outputs, and human-review notes — as a
-results dataset on Hugging Face, beside the
+every rung, raw token usage and cost at list price, judge outputs, and human-review notes —
+committed in this repository under [`results/`](results/README.md), one directory per run,
+tagged so a result is cited by an immutable commit. The same files may be mirrored as a Hugging
+Face dataset beside the
 [`sec-xbrl-knowledge-graphs`](https://huggingface.co/datasets/robosystems/sec-xbrl-knowledge-graphs)
-corpus dump so the graph rungs are reproducible offline.
+corpus dump, which is what makes the graph rungs reproducible offline.
 
 ## Attribution
 

@@ -14,10 +14,11 @@ dist/
 !.env.example
 
 # Materialized filings, model transcripts and local runs. The published
-# results dataset lives on Hugging Face, not in this repo.
+# Local runs are ignored; a published run is committed under results/<version>-<model>/ and tagged.
 data/
 results/*
 !results/README.md
+!results/v0.1-sonnet-5/
 logs/
 
 # Editors / OS
