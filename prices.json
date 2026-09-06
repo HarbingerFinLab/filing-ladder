@@ -1,5 +1,5 @@
 {
-  "_note": "List prices per million tokens, verified on the provider's price page on the date in as_of. Overrides filing_ladder/providers/pricing.py defaults. Add the frontier models here before the run; a model with no price reports tokens but no dollars.",
+  "_note": "List prices per million tokens, verified on the provider's price page on the date in as_of. Overrides filing_ladder/providers/pricing.py defaults. Add every model you will run here, keyed by the exact --model id; a model with no price reports tokens but no dollars. long_* rows: a request whose prompt (input + cached tokens) reaches long_threshold is billed at the long_* rates; costed per turn from turn_usage.",
   "claude-sonnet-5": {
     "input": 2.0,
     "output": 10.0,
@@ -13,5 +13,73 @@
     "cache_write": 6.25,
     "cache_read": 0.5,
     "as_of": "2026-09-03"
+  },
+  "gpt-5.6-sol": {
+    "input": 4.0,
+    "output": 20.0,
+    "cache_write": 5.0,
+    "cache_read": 0.4,
+    "long_threshold": 272000,
+    "long_input": 8.0,
+    "long_output": 30.0,
+    "long_cache_write": 10.0,
+    "long_cache_read": 0.8,
+    "as_of": "2026-09-05",
+    "source": "https://developers.openai.com/api/docs/pricing"
+  },
+  "gpt-5.6-terra": {
+    "input": 2.0,
+    "output": 12.0,
+    "cache_write": 2.5,
+    "cache_read": 0.2,
+    "long_threshold": 272000,
+    "long_input": 4.0,
+    "long_output": 18.0,
+    "long_cache_write": 5.0,
+    "long_cache_read": 0.4,
+    "as_of": "2026-09-05",
+    "source": "https://developers.openai.com/api/docs/pricing"
+  },
+  "gpt-5.6-luna": {
+    "input": 0.2,
+    "output": 1.2,
+    "cache_write": 0.25,
+    "cache_read": 0.02,
+    "long_threshold": 272000,
+    "long_input": 0.4,
+    "long_output": 1.8,
+    "long_cache_write": 0.5,
+    "long_cache_read": 0.04,
+    "as_of": "2026-09-05",
+    "source": "https://developers.openai.com/api/docs/pricing"
+  },
+  "gpt-5.5": {
+    "input": 5.0,
+    "output": 30.0,
+    "cache_read": 0.5,
+    "long_threshold": 272000,
+    "long_input": 10.0,
+    "long_output": 45.0,
+    "long_cache_read": 1.0,
+    "as_of": "2026-09-05",
+    "source": "https://developers.openai.com/api/docs/pricing"
+  },
+  "gpt-5.4": {
+    "input": 2.5,
+    "output": 15.0,
+    "cache_read": 0.25,
+    "long_threshold": 272000,
+    "long_input": 5.0,
+    "long_output": 22.5,
+    "long_cache_read": 0.5,
+    "as_of": "2026-09-05",
+    "source": "https://developers.openai.com/api/docs/pricing"
+  },
+  "gpt-5.4-mini": {
+    "input": 0.75,
+    "output": 4.5,
+    "cache_read": 0.075,
+    "as_of": "2026-09-05",
+    "source": "https://developers.openai.com/api/docs/pricing"
   }
 }

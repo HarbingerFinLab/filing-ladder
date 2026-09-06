@@ -47,6 +47,7 @@ class MissingSetting(SystemExit):
 class Settings:
   sec_user_agent: str | None
   anthropic_api_key: str | None
+  openai_api_key: str | None
   nvidia_api_key: str | None
   openrouter_api_key: str | None
   robosystems_api_key: str | None
@@ -65,6 +66,7 @@ class Settings:
     return cls(
       sec_user_agent=_clean(env("SEC_GOV_USER_AGENT")),
       anthropic_api_key=_clean(env("ANTHROPIC_API_KEY")),
+      openai_api_key=_clean(env("OPENAI_API_KEY")),
       nvidia_api_key=_clean(env("NVIDIA_BUILD_API_KEY")),
       openrouter_api_key=_clean(env("OPENROUTER_API_KEY")),
       robosystems_api_key=_clean(env("ROBOSYSTEMS_API_KEY")),

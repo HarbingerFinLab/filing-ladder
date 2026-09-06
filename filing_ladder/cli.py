@@ -15,6 +15,8 @@ from .ladder import BY_RUNG, Rung, parse_rungs
 from .providers.base import Attachment, ToolDef
 from .representations import text as text_rep
 
+PROVIDERS = ["anthropic", "openai", "nvidia", "openrouter"]
+
 # The query tools whose LAST result being empty, followed by a confident answer, is the
 # silent-failure case (empty-result-answered). Discovery tools do not count.
 QUERY_TOOLS = {
@@ -110,9 +112,7 @@ def build_parser() -> argparse.ArgumentParser:
 
   r = sub.add_parser("run", help="run rungs on a question set")
   r.add_argument("--rungs", default="v0", help="v0 | all | comma list, e.g. 2,5b,7c")
-  r.add_argument(
-    "--provider", default="nvidia", choices=["anthropic", "nvidia", "openrouter"]
-  )
+  r.add_argument("--provider", default="nvidia", choices=PROVIDERS)
   r.add_argument("--model", required=True)
   r.add_argument("--set", default="all", help="vals-public-50 | templates | all")
   r.add_argument("--ids", help="comma list of question ids")
@@ -126,9 +126,16 @@ def build_parser() -> argparse.ArgumentParser:
   r.add_argument(
     "--context-window",
     type=int,
-    help="tokens; in-context rungs above it are 'cannot attempt' (default: 1M anthropic, 200K others)",
+    help=(
+      "tokens; in-context rungs above it are 'cannot attempt' "
+      "(default: 1M anthropic, 200K others — pass the model's own window)"
+    ),
   )
   r.add_argument("--betas", help="comma list of Anthropic beta flags")
+  r.add_argument(
+    "--provider-order",
+    help="openrouter: comma list of hosts to pin, no fallbacks (the protocol's provider pin)",
+  )
   r.add_argument(
     "--oim-form",
     default="csv",
@@ -147,9 +154,7 @@ def build_parser() -> argparse.ArgumentParser:
 
   j = sub.add_parser("judge", help="score a run's transcripts")
   j.add_argument("--run", required=True)
-  j.add_argument(
-    "--provider", default="anthropic", choices=["anthropic", "nvidia", "openrouter"]
-  )
+  j.add_argument("--provider", default="anthropic", choices=PROVIDERS)
   j.add_argument("--model", required=True)
   j.set_defaults(func=cmd_judge)
 
@@ -347,7 +352,7 @@ def cmd_run(args: argparse.Namespace) -> int:
   from .prompts import system_prompt, user_prompt
   from .providers import make_provider
   from .providers.base import CannotAttempt
-  from .providers.pricing import cost_usd, load_prices
+  from .providers.pricing import load_prices
   from .questions import load_all, runnable
   from .results import RunDir, append_jsonl, done_keys, new_run, write_json
 
@@ -368,6 +373,10 @@ def cmd_run(args: argparse.Namespace) -> int:
   }
   if args.provider == "anthropic" and args.betas:
     provider_kwargs["betas"] = [b.strip() for b in args.betas.split(",") if b.strip()]
+  if args.provider == "openrouter" and args.provider_order:
+    provider_kwargs["provider_order"] = [
+      h.strip() for h in args.provider_order.split(",") if h.strip()
+    ]
 
   plan = [
     (rung, q, k) for rung in rungs for q in questions for k in range(1, args.k + 1)
@@ -405,6 +414,7 @@ def cmd_run(args: argparse.Namespace) -> int:
       "temperature": args.temperature,
       "context_window": context_window,
       "betas": provider_kwargs.get("betas"),
+      "provider_order": provider_kwargs.get("provider_order"),
       "oim_form": args.oim_form,
       "question_ids": [q.id for q in questions],
       "started": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -482,7 +492,7 @@ def cmd_run(args: argparse.Namespace) -> int:
               "category": q.category,
               "filing": q.filing.__dict__,
               "context_note": ctx.note,
-              "cost_usd": cost_usd(_usage_of(record), args.model, prices),
+              "cost_usd": _cost_of(record, args.model, prices),
             }
           )
           append_jsonl(run.transcripts, record)
@@ -538,6 +548,17 @@ def _usage_of(record: dict):
     u.get("cache_read_tokens", 0),
     u.get("cache_write_tokens", 0),
   )
+
+
+def _cost_of(record: dict, model: str, prices) -> float | None:
+  """Per-turn when the transcript carries it (a long-context tier is per request); else total."""
+  from .providers.base import Usage
+  from .providers.pricing import cost_of_turns, cost_usd
+
+  turns = [Usage(**u) for u in record.get("turn_usage") or []]
+  if turns:
+    return cost_of_turns(turns, model, prices)
+  return cost_usd(_usage_of(record), model, prices)
 
 
 def _build_context(
