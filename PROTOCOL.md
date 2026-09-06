@@ -1,7 +1,10 @@
 # Filing Ladder — protocol
 
-**Status: v0.1, ready to freeze — every gate cleared 2026-09-03** (question sets resolved, template
-golds confirmed by hand, every filing counted, the run priced). The protocol freezes as a tagged release whose
+**Status: v0.1, frozen 2026-09-06 (tag `protocol-v0.1`)** — every gate cleared 2026-09-03 (question
+sets resolved, template golds confirmed by hand, every filing counted, the run priced); the corpus,
+the graph and every exact count re-verified from scratch 2026-09-05 (principle 11); versions locked
+(§6). v0.1 runs Sonnet 5 with an Opus 5 subset; a second frontier family and an open-weight column
+are a v0.2 amendment on the same question sets, each with its provider pin. The protocol freezes as a tagged release whose
 `filing-ladder questions` manifest (`questions/manifest.json`, question-set hashes) matches this document, *before* the
 first scored run. Runs happen once. What comes out is published, tier by tier, whichever rung
 wins.

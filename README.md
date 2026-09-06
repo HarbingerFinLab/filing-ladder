@@ -30,9 +30,9 @@ wins a tier, that is the headline for that tier**.
 
 ## Status
 
-**Protocol draft. No results yet.** The harness is under construction; the protocol will be frozen
-(tagged, with question-set hashes) before the first scored run. Nothing here is a finding until a
-results dataset exists.
+**Protocol v0.1, frozen 2026-09-06. No results yet.** The protocol is tagged (`protocol-v0.1`, with
+question-set hashes in `questions/manifest.json`); the first scored run has not happened. Nothing
+here is a finding until a results dataset exists.
 
 ## The ladder
 
