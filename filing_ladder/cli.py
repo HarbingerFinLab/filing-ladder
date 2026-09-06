@@ -133,6 +133,10 @@ def build_parser() -> argparse.ArgumentParser:
   )
   r.add_argument("--betas", help="comma list of Anthropic beta flags")
   r.add_argument(
+    "--provider-order",
+    help="openrouter: comma list of hosts to pin, no fallbacks (the protocol's provider pin)",
+  )
+  r.add_argument(
     "--oim-form",
     default="csv",
     choices=["csv", "json"],
@@ -369,6 +373,10 @@ def cmd_run(args: argparse.Namespace) -> int:
   }
   if args.provider == "anthropic" and args.betas:
     provider_kwargs["betas"] = [b.strip() for b in args.betas.split(",") if b.strip()]
+  if args.provider == "openrouter" and args.provider_order:
+    provider_kwargs["provider_order"] = [
+      h.strip() for h in args.provider_order.split(",") if h.strip()
+    ]
 
   plan = [
     (rung, q, k) for rung in rungs for q in questions for k in range(1, args.k + 1)
