@@ -235,6 +235,14 @@ fiscal period from bare dates.
     section text. Both fixed in xbrlkit PR #24, with a re-index of both source types before
     the run. After the fix every text block in the corpus over twenty words matches its
     resolved value.
+    After all of the above (2026-09-05) the corpus was rebuilt from scratch: every derived
+    form of all 26 filings deleted and regenerated from the EDGAR packages under xbrlkit
+    0.4.1 (Chrome 152.0.7977.83 for the PDFs), then re-counted exactly. Every count in the
+    frozen table reproduced to the token. The one change is additive: the Tavi forms (rungs
+    5c and 5d) had been materialized for the reference filing alone, so their exact counts
+    are added for the other 25 filings; three Tavi compiled models exceed the exact counter's
+    limit and have no exact count, which gates nothing since rung 5c reaches the file through
+    a tool. The text-layer check and the index audit both pass on the rebuilt corpus.
 
 ### 5.1 Vals questions dropped from v0, by reason
 
@@ -271,6 +279,13 @@ Filing acquisition, rung materialization and the graph rungs reuse published cod
 `xbrlkit` EDGAR client and holon builder, Arelle for the OIM export, the
 `sec` graph's MCP transport, and the holon viewer's parallel Cypher / SPARQL hand-offs. Nothing in
 the platform is built for the benchmark.
+
+Versions locked for v0: `xbrlkit` 0.4.1, Arelle 2.44.6, Chrome 152.0.7977.83 for the PDF render,
+and RoboSystems v1.11.16 (released 2026-09-06; the first release carrying the corpus fixes
+disclosed under principle 11, PRs #1357–#1359, and the corpus-check harness) for rung 7a's index
+and tools. The run's graph is a fresh local load of the 26 corpus filings under that release,
+verified before the run by the index audit, the facts-against-gold check and the search probes.
+The run manifest records the model, the provider pin and the context window per run.
 
 ## 7. The reference filing, measured
 
