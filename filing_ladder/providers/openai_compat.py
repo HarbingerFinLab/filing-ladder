@@ -1,12 +1,14 @@
-"""OpenAI-compatible chat completions — NVIDIA Build (shakedown) and OpenRouter (second family).
+"""OpenAI-compatible chat completions — OpenAI direct, NVIDIA Build (shakedown), OpenRouter.
 
-Text attachments are inlined into the user message inside ``<document>`` tags. PDF input is
-not supported on this route and raises ``CannotAttempt``. Reasoning models return
+Text attachments are inlined into the user message inside ``<document>`` tags. A PDF goes out
+as a ``file`` content part where the host accepts one (OpenAI, OpenRouter) and raises
+``CannotAttempt`` where it does not (NVIDIA Build). Reasoning models return
 ``reasoning_content``; it is kept out of the answer and recorded on the turn.
 """
 
 from __future__ import annotations
 
+import base64
 import json
 from dataclasses import dataclass, field
 from typing import Any
@@ -42,10 +44,16 @@ class OpenAICompatProvider:
     temperature: float | None = None,
     extra_body: dict | None = None,
     provider_order: list[str] | None = None,
+    accepts_pdf: bool = False,
+    max_tokens_param: str = "max_tokens",
   ) -> None:
     self.name = name
     self.model = model
     self.max_tokens = max_tokens
+    self.max_tokens_param = (
+      max_tokens_param  # reasoning models take max_completion_tokens
+    )
+    self.accepts_pdf = accepts_pdf
     self.temperature = temperature
     self.extra_body = dict(extra_body or {})
     if provider_order:  # OpenRouter provider pinning for a pre-registered protocol
@@ -61,10 +69,24 @@ class OpenAICompatProvider:
     attachments: list[Attachment],
     tools: list[ToolDef],
   ) -> Conversation:
+    files: list[dict] = []
     parts: list[str] = []
     for att in attachments:
       if att.is_pdf:
-        raise CannotAttempt(f"{self.name} route does not accept PDF input")
+        if not self.accepts_pdf:
+          raise CannotAttempt(f"{self.name} route does not accept PDF input")
+        raw = att.data if isinstance(att.data, bytes) else att.data.encode()
+        files.append(
+          {
+            "type": "file",
+            "file": {
+              "filename": att.name,
+              "file_data": "data:application/pdf;base64,"
+              + base64.b64encode(raw).decode(),
+            },
+          }
+        )
+        continue
       text = (
         att.data if isinstance(att.data, str) else att.data.decode("utf-8", "replace")
       )
@@ -72,10 +94,14 @@ class OpenAICompatProvider:
         f'<document name="{att.name}" type="{att.media_type}">\n{text}\n</document>'
       )
     parts.append(user_text)
+    text = "\n\n".join(parts)
+    content: str | list[dict] = (
+      [*files, {"type": "text", "text": text}] if files else text
+    )
     conv = Conversation(
       messages=[
         {"role": "system", "content": system},
-        {"role": "user", "content": "\n\n".join(parts)},
+        {"role": "user", "content": content},
       ],
       tools=[
         {
@@ -103,7 +129,7 @@ class OpenAICompatProvider:
     kwargs: dict[str, Any] = {
       "model": self.model,
       "messages": conversation.messages,
-      "max_tokens": self.max_tokens,
+      self.max_tokens_param: self.max_tokens,
     }
     if conversation.tools:
       kwargs["tools"] = conversation.tools

@@ -84,8 +84,8 @@ just questions
 just check-text
 ```
 
-Materializing needs no model key. Running a rung needs the key for that rung's provider; see
-`.env.example`.
+Materializing needs no model key. Running a rung needs the key for its provider — Anthropic
+direct, OpenAI direct, NVIDIA Build, or OpenRouter; see `.env.example`.
 
 ## What gets published
 

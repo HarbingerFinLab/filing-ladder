@@ -15,6 +15,8 @@ from .ladder import BY_RUNG, Rung, parse_rungs
 from .providers.base import Attachment, ToolDef
 from .representations import text as text_rep
 
+PROVIDERS = ["anthropic", "openai", "nvidia", "openrouter"]
+
 # The query tools whose LAST result being empty, followed by a confident answer, is the
 # silent-failure case (empty-result-answered). Discovery tools do not count.
 QUERY_TOOLS = {
@@ -110,9 +112,7 @@ def build_parser() -> argparse.ArgumentParser:
 
   r = sub.add_parser("run", help="run rungs on a question set")
   r.add_argument("--rungs", default="v0", help="v0 | all | comma list, e.g. 2,5b,7c")
-  r.add_argument(
-    "--provider", default="nvidia", choices=["anthropic", "nvidia", "openrouter"]
-  )
+  r.add_argument("--provider", default="nvidia", choices=PROVIDERS)
   r.add_argument("--model", required=True)
   r.add_argument("--set", default="all", help="vals-public-50 | templates | all")
   r.add_argument("--ids", help="comma list of question ids")
@@ -126,7 +126,10 @@ def build_parser() -> argparse.ArgumentParser:
   r.add_argument(
     "--context-window",
     type=int,
-    help="tokens; in-context rungs above it are 'cannot attempt' (default: 1M anthropic, 200K others)",
+    help=(
+      "tokens; in-context rungs above it are 'cannot attempt' "
+      "(default: 1M anthropic, 200K others — pass the model's own window)"
+    ),
   )
   r.add_argument("--betas", help="comma list of Anthropic beta flags")
   r.add_argument(
@@ -147,9 +150,7 @@ def build_parser() -> argparse.ArgumentParser:
 
   j = sub.add_parser("judge", help="score a run's transcripts")
   j.add_argument("--run", required=True)
-  j.add_argument(
-    "--provider", default="anthropic", choices=["anthropic", "nvidia", "openrouter"]
-  )
+  j.add_argument("--provider", default="anthropic", choices=PROVIDERS)
   j.add_argument("--model", required=True)
   j.set_defaults(func=cmd_judge)
 
