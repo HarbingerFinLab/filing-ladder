@@ -280,6 +280,13 @@ Filing acquisition, rung materialization and the graph rungs reuse published cod
 `sec` graph's MCP transport, and the holon viewer's parallel Cypher / SPARQL hand-offs. Nothing in
 the platform is built for the benchmark.
 
+Versions locked for v0: `xbrlkit` 0.4.1, Arelle 2.44.6, Chrome 152.0.7977.83 for the PDF render,
+and RoboSystems v1.11.16 (released 2026-09-06; the first release carrying the corpus fixes
+disclosed under principle 11, PRs #1357–#1359, and the corpus-check harness) for rung 7a's index
+and tools. The run's graph is a fresh local load of the 26 corpus filings under that release,
+verified before the run by the index audit, the facts-against-gold check and the search probes.
+The run manifest records the model, the provider pin and the context window per run.
+
 ## 7. The reference filing, measured
 
 3M, FY2024 10-K, accession 0000066740-25-000006. The estimate column is bytes ÷ 4; the exact
