@@ -8,8 +8,9 @@ numbers.
 **Status: judge-scored; human review in progress.** The run happened once, on 2026-09-05/06, under
 [`protocol-v0.1`](../../PROTOCOL.md) (tag `protocol-v0.1`). These numbers are final and will not
 be re-run. The human review the protocol requires (§4: the disagreement log over the questions
-every rung missed and the questions where the graph trailed the documents) is added to this
-directory as `review.md` when it closes; it annotates, it does not change a score.
+every rung missed and the questions where the graph trailed the documents) is open in
+[`review.md`](review.md): the sheet, the selection rule and the judge's evidence, with the
+reviewer's verdicts added there when it closes. It annotates; it does not change a score.
 
 ## How to read this if you do not evaluate language models
 
