@@ -414,6 +414,7 @@ def cmd_run(args: argparse.Namespace) -> int:
       "temperature": args.temperature,
       "context_window": context_window,
       "betas": provider_kwargs.get("betas"),
+      "provider_order": provider_kwargs.get("provider_order"),
       "oim_form": args.oim_form,
       "question_ids": [q.id for q in questions],
       "started": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
