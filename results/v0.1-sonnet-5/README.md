@@ -35,8 +35,9 @@ being measured is the forms.
   *cached* is a batch of questions on one filing.
 
 The reading for a standards or policy audience: the tagged data as published did not help the
-reader, the same data behind a structured query layer matched reading the document at a sixth of
-the cost, and reading the document itself is 90% right on lookups and 56% on analysis, with 28%
+reader, the whole filing made queryable, facts in a graph and all of its text in a search index
+behind shaped tools, matched reading the document at a sixth of the cost, with a third of those
+answers read from untagged text the XBRL forms do not carry (see *What rung 7a's index contained*), and reading the document itself is 90% right on lookups and 56% on analysis, with 28%
 of the analysis answers confidently wrong.
 
 ## The run
@@ -67,7 +68,7 @@ cost table below are shown for the cost curve only.
 | 5b | OIM in context, text blocks removed | 37% | 40% | 23% | 0% | 80% | $0.210 | $0.572 |
 | 5c | Tavi compiled model, jq | 45% | 37% | 18% | 0% | 85% | $0.179 | $0.398 |
 | 6 | SEC companyfacts, search | 15% | 62% | 23% | 0% | 95% | $0.055 | $0.369 |
-| 7a | property graph, shaped tools (MCP) | 85% | 5% | 10% | 0% | 90% | $0.077 | $0.091 |
+| 7a | graph + document index, shaped tools (MCP) | 85% | 5% | 10% | 0% | 90% | $0.077 | $0.091 |
 | 7b | property graph, raw Cypher | 42% | 35% | 23% | 0% | 75% | $0.132 | $0.316 |
 | 7c | holon (RDF), SPARQL | 42% | 33% | 25% | 0% | 80% | $0.235 | $0.564 |
 
@@ -82,7 +83,7 @@ cost table below are shown for the cost curve only.
 | 5b | OIM in context, text blocks removed | 48% | 30% | 22% | 0% | 89% | $0.242 | $0.503 |
 | 5c | Tavi compiled model, jq | 44% | 28% | 28% | 0% | 89% | $0.209 | $0.469 |
 | 6 | SEC companyfacts, search | 33% | 50% | 17% | 0% | 100% | $0.057 | $0.170 |
-| 7a | property graph, shaped tools (MCP) | 59% | 19% | 24% | 0% | 89% | $0.121 | $0.204 |
+| 7a | graph + document index, shaped tools (MCP) | 59% | 19% | 24% | 0% | 89% | $0.121 | $0.204 |
 | 7b | property graph, raw Cypher | 43% | 28% | 30% | 0% | 94% | $0.171 | $0.401 |
 | 7c | holon (RDF), SPARQL | 48% | 33% | 20% | 0% | 83% | $0.183 | $0.379 |
 
@@ -103,9 +104,37 @@ serves rung 7a, the same way the document rungs exclude the reader.
 | 5b | OIM in context, text blocks removed | 42% | $0.225 | $0.592 | $0.535 | $1.406 |
 | 5c | Tavi compiled model, jq | 45% | $0.193 | $0.204 | $0.431 | $0.456 |
 | 6 | SEC companyfacts, search | 24% | $0.056 | $0.068 | $0.236 | $0.287 |
-| 7a | property graph, shaped tools (MCP) | 73% | $0.098 | $0.148 | $0.135 | $0.204 |
+| 7a | graph + document index, shaped tools (MCP) | 73% | $0.098 | $0.148 | $0.135 | $0.204 |
 | 7b | property graph, raw Cypher | 42% | $0.150 | $0.161 | $0.357 | $0.383 |
 | 7c | holon (RDF), SPARQL | 45% | $0.210 | $0.221 | $0.470 | $0.493 |
+
+## What rung 7a's index contained, measured after publication (2026-09-06)
+
+Rung 7a's search tool reads an index built from two sources: the filing's tagged text-block
+facts (the notes, the same content every XBRL form carries) and the parsed narrative sections of
+the 10-K body (Items 1, 1A, 1C, 2, 7 and 7A), which no XBRL form carries because they are not
+tagged. The protocol described the index as "narrative" and did not say the untagged sections
+were in it. This section records what that meant for the numbers. Nothing here changes a score.
+
+- Of 7a's 51 correct T1 answers, 21 were read from an untagged section (the model fetched a
+  `narrative_section` document, or, having fetched nothing and used no fact tool, its top hit was
+  one). Of its 32 correct T2 answers, 10.
+- With those answers scored as misses, 7a would be 50% on T1 and 41% on T2: above every XBRL
+  form (37–48%) and well below the documents. That is a bound, not a measurement; a model without
+  the sections might have found some of those answers another way.
+- Eight questions (vals-18, 23, 26, 28, 29, 32, 40, 44) were answered 24 times out of 24 by 7a and
+  0 times out of 3 by every XBRL form, which abstained on nearly all of them. Their answers sit in
+  the untagged body of the filing.
+
+Two readings follow, and the reading guide's original sentence, "the same data behind a
+structured query layer", overstated the second. The tagged data in any published form is 37–48%
+in part because the tags cover a fraction of the filing. What matched reading the document was
+the whole filing made queryable: facts in a graph, all the text in an index, shaped tools over
+both. The 7a-against-7b comparison (same graph, shaped tools against raw Cypher) is confounded the
+same way: 7b's graph carries the tagged text blocks inline, no untagged section and no search
+tool. v0.2 pre-registers two controls: 7a with search restricted to tagged disclosures (a
+harness-side filter on the tool's results), and shaped tools over the loaded XBRL model with
+tagged content only.
 
 ## What the run did
 
