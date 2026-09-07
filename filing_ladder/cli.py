@@ -348,6 +348,7 @@ class RungContext:
 
 
 def cmd_run(args: argparse.Namespace) -> int:
+  from .ladder import uses_mcp
   from .loop import run_question
   from .prompts import system_prompt, user_prompt
   from .providers import make_provider
@@ -439,7 +440,7 @@ def cmd_run(args: argparse.Namespace) -> int:
             continue
           ctx_key = (str(rung), q.filing.accession)
           if ctx_key not in contexts:
-            if rung in (Rung.LPG_SHAPED, Rung.LPG_CYPHER_MCP) and mcp_client is None:
+            if uses_mcp(rung) and mcp_client is None:
               from .representations.mcp import McpClient
 
               mcp_client = McpClient(
@@ -579,6 +580,59 @@ def _build_context(
   # oversized form to the API and record a transport error where the protocol wants
   # "cannot attempt" with the cost of finding out.
   exact = paths.read_exact_tokens(model) if model else {}
+
+  # ---- protocol v0.1.1 controls: one rung plus the document, minus part of its source, or
+  # the document alone. Built on the base rung's context so nothing else differs. ----
+  from .ladder import base_rung, carries_document
+
+  base = base_rung(rung)
+  if base is None:  # 2t: the plain text behind search_text / read_text and nothing else
+    from .representations import document as doc_rep
+
+    if not paths.text.exists():
+      return RungContext(cannot_attempt="plain text not materialized")
+    doc = doc_rep.DocumentText(paths.text)
+    return RungContext(
+      tools=list(doc_rep.TOOL_DEFS),
+      runner=doc_rep.make_tool_runner(doc),
+      note=f"{doc.chars:,} chars of plain text",
+    )
+  if base != rung:
+    ctx = _build_context(
+      base, filing, settings, oim_form, context_window, mcp_client, model
+    )
+    if ctx.cannot_attempt:
+      return ctx
+    if rung == Rung.LPG_SHAPED_FACTS_DOC:
+      from .representations import mcp as mcp_rep
+
+      assert mcp_client is not None
+      ctx.tools = mcp_rep.without_document_tools(ctx.tools)
+      ctx.runner = mcp_rep.make_tool_runner(mcp_client, ctx.tools)
+      ctx.note = ", ".join(t.name for t in ctx.tools)
+    if carries_document(rung):
+      from .representations import document as doc_rep
+
+      if not paths.text.exists():
+        return RungContext(cannot_attempt="plain text not materialized")
+      doc = doc_rep.DocumentText(paths.text)
+      ctx.tools, ctx.runner = doc_rep.beside(ctx.tools, ctx.runner, doc)
+      ctx.note = f"{ctx.note} + document ({doc.chars:,} chars)".strip(" +")
+    if rung == Rung.LPG_SHAPED_TAGGED:
+      from .representations import mcp as mcp_rep
+
+      assert mcp_client is not None
+      ctx.runner = mcp_rep.make_tagged_runner(mcp_client, ctx.tools)
+      ctx.note = f"{ctx.note}; narrative_section hits filtered"
+    if rung == Rung.COMPANYFACTS_EFTS:
+      from .representations import efts as efts_rep
+
+      search = efts_rep.FilingSearch(
+        settings.require_user_agent(), filing.cik, filing.accession, filing.form
+      )
+      ctx.tools, ctx.runner = efts_rep.beside(ctx.tools, ctx.runner, search)
+      ctx.note = f"{ctx.note} + EDGAR full-text search".strip(" +")
+    return ctx
 
   def measure(path: Path) -> tuple[int, str]:
     if path.name in exact:

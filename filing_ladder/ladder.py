@@ -32,6 +32,17 @@ class Rung(StrEnum):
   )
   RDF_SPARQL = "7c"
   RDF_IN_CONTEXT = "7d"
+  # protocol v0.1.1 controls — reported beside the rungs, never as rungs
+  TEXT_SEARCH = "2t"
+  OIM_FILES_DOC = "5a+doc"
+  TAVI_JQ_DOC = "5c+doc"
+  COMPANYFACTS_DOC = "6+doc"
+  COMPANYFACTS_EFTS = "6+efts"
+  LPG_SHAPED_TAGGED = "7a-tagged"
+  LPG_SHAPED_DOC = "7a+doc"
+  LPG_SHAPED_FACTS_DOC = "7a-facts+doc"
+  LPG_CYPHER_DOC = "7b+doc"
+  RDF_SPARQL_DOC = "7c+doc"
 
 
 class Tier(StrEnum):
@@ -59,6 +70,9 @@ class RungSpec:
   v0: bool
   min_context: int  # tokens; 0 for tools-shaped rungs
   needs: tuple[str, ...]  # settings attributes that must be present to run
+  control: bool = (
+    False  # a v0.1.1 control: a rung plus the document, or minus part of it
+  )
 
 
 RUNGS: tuple[RungSpec, ...] = (
@@ -202,10 +216,153 @@ RUNGS: tuple[RungSpec, ...] = (
     1_000_000,
     (),
   ),
+  # ---- protocol v0.1.1 controls: the document as a constant, the form as the variable ----
+  RungSpec(
+    Rung.TEXT_SEARCH,
+    "plain text, search tool",
+    Shape.TOOLS,
+    "rung 2's plain text behind search_text and read_text only",
+    "the minimal retrieval baseline every form-plus-document control has to beat",
+    False,
+    0,
+    (),
+    control=True,
+  ),
+  RungSpec(
+    Rung.OIM_FILES_DOC,
+    "OIM as published + the document",
+    Shape.TOOLS,
+    "rung 5a's file tools plus search_text / read_text over the plain text",
+    "the standard's form with the whole filing beside it",
+    False,
+    0,
+    (),
+    control=True,
+  ),
+  RungSpec(
+    Rung.TAVI_JQ_DOC,
+    "Tavi, raw jq + the document",
+    Shape.TOOLS,
+    "rung 5c's describe + jq plus search_text / read_text over the plain text",
+    "the compiled model with the whole filing beside it",
+    False,
+    0,
+    (),
+    control=True,
+  ),
+  RungSpec(
+    Rung.COMPANYFACTS_DOC,
+    "companyfacts + the document",
+    Shape.TOOLS,
+    "rung 6's three tools plus search_text / read_text over the plain text",
+    "the SEC's API with the whole filing beside it",
+    False,
+    0,
+    ("sec_user_agent",),
+    control=True,
+  ),
+  RungSpec(
+    Rung.COMPANYFACTS_EFTS,
+    "companyfacts + the SEC's full-text search",
+    Shape.TOOLS,
+    "rung 6's three tools plus search_filings: EDGAR full-text search pinned to this filing (file-level hits, no passages)",
+    "the publisher's own two surfaces, and nothing else",
+    False,
+    0,
+    ("sec_user_agent",),
+    control=True,
+  ),
+  RungSpec(
+    Rung.LPG_SHAPED_TAGGED,
+    "knowledge graph, shaped tools, tagged text only",
+    Shape.TOOLS,
+    "rung 7a with search-documents results filtered to tagged text blocks (no narrative_section hits)",
+    "the product's index without the untagged body of the filing",
+    False,
+    0,
+    ("robosystems_api_key",),
+    control=True,
+  ),
+  RungSpec(
+    Rung.LPG_SHAPED_DOC,
+    "knowledge graph, shaped tools + the document",
+    Shape.TOOLS,
+    "rung 7a plus search_text / read_text over the plain text",
+    "the product as its public shape specifies: graph, index, and the raw filing beside",
+    False,
+    0,
+    ("robosystems_api_key",),
+    control=True,
+  ),
+  RungSpec(
+    Rung.LPG_SHAPED_FACTS_DOC,
+    "knowledge graph, fact tools only + the document",
+    Shape.TOOLS,
+    "rung 7a with search-documents and get-document-section removed, plus search_text / read_text over the plain text",
+    "the product's structure on the same document access as every other form: the index taken out, the constant put in",
+    False,
+    0,
+    ("robosystems_api_key",),
+    control=True,
+  ),
+  RungSpec(
+    Rung.LPG_CYPHER_DOC,
+    "property graph, raw Cypher + the document",
+    Shape.TOOLS,
+    "rung 7b's describe + Cypher plus search_text / read_text over the plain text",
+    "the property-graph substrate with the whole filing beside it",
+    False,
+    0,
+    (),
+    control=True,
+  ),
+  RungSpec(
+    Rung.RDF_SPARQL_DOC,
+    "RDF, raw SPARQL + the document",
+    Shape.TOOLS,
+    "rung 7c's describe + SPARQL plus search_text / read_text over the plain text",
+    "the RDF substrate with the whole filing beside it",
+    False,
+    0,
+    (),
+    control=True,
+  ),
 )
 
 BY_RUNG: dict[Rung, RungSpec] = {spec.rung: spec for spec in RUNGS}
 V0_RUNGS: tuple[Rung, ...] = tuple(spec.rung for spec in RUNGS if spec.v0)
+CONTROLS_V0_1_1: tuple[Rung, ...] = tuple(spec.rung for spec in RUNGS if spec.control)
+
+# Every control is one rung plus the document (``+doc``), a rung minus part of its source
+# (``-tagged``), a rung plus the publisher's own search (``+efts``), or the document alone.
+_BASES: dict[Rung, Rung | None] = {
+  Rung.TEXT_SEARCH: None,
+  Rung.OIM_FILES_DOC: Rung.OIM_FILES,
+  Rung.TAVI_JQ_DOC: Rung.TAVI_JQ,
+  Rung.COMPANYFACTS_DOC: Rung.COMPANYFACTS,
+  Rung.COMPANYFACTS_EFTS: Rung.COMPANYFACTS,
+  Rung.LPG_SHAPED_TAGGED: Rung.LPG_SHAPED,
+  Rung.LPG_SHAPED_DOC: Rung.LPG_SHAPED,
+  Rung.LPG_SHAPED_FACTS_DOC: Rung.LPG_SHAPED,
+  Rung.LPG_CYPHER_DOC: Rung.LPG_CYPHER,
+  Rung.RDF_SPARQL_DOC: Rung.RDF_SPARQL,
+}
+
+
+def base_rung(rung: Rung) -> Rung | None:
+  """The rung a control is built on; the rung itself when it is not a control."""
+  if rung in _BASES:
+    return _BASES[rung]
+  return rung
+
+
+def carries_document(rung: Rung) -> bool:
+  return rung == Rung.TEXT_SEARCH or str(rung).endswith("+doc")
+
+
+def uses_mcp(rung: Rung) -> bool:
+  return base_rung(rung) in (Rung.LPG_SHAPED, Rung.LPG_CYPHER_MCP)
+
 
 # Context windows we report "fits" against, in tokens.
 CONTEXT_WINDOWS: tuple[tuple[str, int], ...] = (
@@ -220,6 +377,8 @@ def parse_rungs(text: str) -> list[Rung]:
   text = text.strip().lower()
   if text in ("v0", ""):
     return list(V0_RUNGS)
+  if text == "v0.1.1":
+    return list(CONTROLS_V0_1_1)
   if text == "all":
     return [spec.rung for spec in RUNGS]
   return [Rung(part.strip()) for part in text.split(",") if part.strip()]
