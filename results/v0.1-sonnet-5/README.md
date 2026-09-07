@@ -136,6 +136,28 @@ tool. v0.2 pre-registers two controls: 7a with search restricted to tagged discl
 harness-side filter on the tool's results), and shaped tools over the loaded XBRL model with
 tagged content only.
 
+## How much of the document each form keeps
+
+Measured after publication (2026-09-06) with `bin/document_coverage.py`, in characters of clean
+text against each filing's plain text (rung 2). The tagged text-block facts are what every
+XBRL-derived form carries; the narrative sections are the six Items xbrlkit extracts from the
+primary document, which rung 7a's search index held beside the text blocks. The two overlap
+where a tagged note sits inside an extracted Item, so their sum is an upper bound, not a union.
+
+| Form | Share of the filing's text | Method |
+|---|---|---|
+| Rungs 1, 2, 3 (the document) | 100% | by construction |
+| Rungs 4, 5a, 5c, 7b, 7c (tagged text blocks) | median 46%, range 26–74% | text-block facts in the xBRL-JSON |
+| Rungs 5b, 5d (text blocks removed) | 0% of the text; the numbers only | by construction |
+| Rung 6 (`companyfacts`) | 0% | the API carries no text |
+| Rung 7a's index (text blocks + Items 1, 1A, 1C, 2, 7, 7A) | nearly all; the two parts sum to a median 103% with overlaps | text blocks + extracted sections |
+
+What the index did not hold, and therefore what no rung except the documents could reach: the
+cover page, the signature block, Items 3, 5 and 9A, Part III where it is not incorporated by
+reference, and the exhibits. On this question set that cost 7a the Airbnb CFO question (the
+signature page) and part of the shares-outstanding question (the cover page); both are named as
+v0.2 fixes above, and v0.2 pre-registers the index scope as the whole primary document.
+
 ## What the run did
 
 | Rung | Records | Completed | Cannot attempt | Turn cap (12) | Cost | Wall |
