@@ -441,3 +441,26 @@ The benchmark is re-run on each major model release or the page comes down. Ever
 re-instantiates the templates on the newest filings (a new quarter of 10-Ks, public templates, new
 instantiation) and re-runs the Vals public 50 as the fixed comparison point — contamination-proof
 by construction.
+
+## 9. Errata and amendments after the freeze
+
+The text above is the pre-registered protocol as tagged `protocol-v0.1` and is not edited after
+the freeze. Corrections to what it describes are recorded here, dated, and carried into the v0.2
+pre-registration.
+
+- **2026-09-06 — what rung 7a's search index contains.** §7.3 describes rung 7a as "facts in the
+  graph, narrative in a search index", and §2's table calls it a property graph behind shaped
+  tools. The index also holds the parsed narrative sections of the 10-K body (Items 1, 1A, 1C, 2,
+  7 and 7A), which are untagged and therefore in no XBRL-derived form on the ladder; the protocol
+  did not say so. Measured from the published transcripts: 21 of 7a's 51 correct T1 answers and
+  10 of its 32 correct T2 answers were read from an untagged section; scored as misses, 7a would
+  be 50% and 41%; eight questions were answered 24 of 24 times by 7a and 0 of 3 by every XBRL
+  form. Recorded in full in `results/v0.1-sonnet-5/README.md` ("What rung 7a's index contained"),
+  where the rung is relabelled "graph + document index, shaped tools". No score changes. For the
+  claims: 7a against the XBRL forms compares the whole filing made queryable with projections of
+  its tagged subset, not the same data in two forms; and 7a against 7b is confounded by content as
+  well as by the query layer, since 7b's graph carries the tagged text blocks inline, no untagged
+  section and no search tool. v0.2 pre-registers two controls: 7a with search restricted to
+  tagged disclosures (a harness-side filter on the tool's results), and shaped tools over the
+  loaded XBRL model with tagged content only.
+
