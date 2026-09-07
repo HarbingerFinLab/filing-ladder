@@ -483,7 +483,7 @@ a filing's text, the parsed Items a median 57%, the two together nearly all of i
 constant and the form is again the only variable. In-context rungs cannot take it, for size; that
 stays their finding.
 
-**Nine controls**, reported beside the rungs and never as rungs (the §7.3 / §7.4 precedent), same
+**Ten controls**, reported beside the rungs and never as rungs (the §7.3 / §7.4 precedent), same
 locks as v0.1 (§6), same 38 questions (`questions/manifest.json`, hashes unchanged), same model
 (`claude-sonnet-5`, Anthropic direct, model-default sampling), k = 3, the same turn budget (12),
 prompt skeleton and output contract as v0.1 (fairness rule 3):
@@ -497,6 +497,7 @@ prompt skeleton and output contract as v0.1 (fairness rule 3):
 | 6+efts | 6 | `search_filings`: the SEC's EDGAR full-text search pinned to the filing — file-level hits with scores, no text (the publisher's own two surfaces, and nothing else) |
 | 7a-tagged | 7a | `search-documents` results with every `narrative_section` hit removed and the total recomputed; `get-document-section` refuses any id the model was never shown; same tools, same descriptions, same prompt |
 | 7a+doc | 7a | the document tools beside the MCP tools (the product's specified public shape: graph, index, and the raw filing beside) |
+| 7a-facts+doc | 7a | 7a's fact tools only (`search-documents` and `get-document-section` removed) plus the document tools: the product's structure on exactly the document access every other form has |
 | 7b+doc | 7b | the document tools beside describe + Cypher |
 | 7c+doc | 7c | the document tools beside describe + SPARQL |
 
@@ -509,6 +510,14 @@ re-ordered; it is one line, so the tools work on offsets, not lines. The rung's 
 untouched; one runner dispatches between them. Each control's system prompt is its base rung's
 plus one sentence naming the two tools (`filing_ladder/prompts.py`, `DOCUMENT_BESIDE`); 7a-tagged's
 prompt is 7a's, unchanged, because the filter is silent.
+
+**Why 7a needs two "+doc" rows.** As shipped, 7a is the only form whose document access goes
+through its own index, and that index answers with chunks of ~14,000 characters where the constant
+tool answers with 300-character windows, so 7a against an X+doc row would compare retrieval
+mechanisms and their token bills, not forms; and 7a+doc holds two routes at once. 7a-facts+doc puts
+the product's structure on the same document access as every other form, so X+doc rows compare
+form to form; 7a as shipped against 7a-facts+doc then measures the product's index against the
+constant tool — the retrieval mechanism as its own variable, on accuracy and on cost.
 
 **What the pairs measure.** 7a-tagged against 7a: the content effect by subtraction. Each form
 with the document against the form alone: the content effect by addition; the two should agree.
@@ -523,5 +532,5 @@ scores the answer, not the route; the transcripts show the route.
 **Publication.** `results/v0.1.1-sonnet-5/` holds the nine controls' records, judged by the v0.1
 judge with the same rubrics, and a README with the combined table: the v0.1 rows carried forward
 unchanged, the controls beneath them, labelled. Tags: `protocol-v0.1.1` on this section before the
-run; `results-v0.1.1` after. Estimated cost at list: $150–200 for the nine at k = 3, plus the judge.
+run; `results-v0.1.1` after. Estimated cost at list: $165–215 for the ten at k = 3, plus the judge.
 

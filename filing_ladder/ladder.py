@@ -40,6 +40,7 @@ class Rung(StrEnum):
   COMPANYFACTS_EFTS = "6+efts"
   LPG_SHAPED_TAGGED = "7a-tagged"
   LPG_SHAPED_DOC = "7a+doc"
+  LPG_SHAPED_FACTS_DOC = "7a-facts+doc"
   LPG_CYPHER_DOC = "7b+doc"
   RDF_SPARQL_DOC = "7c+doc"
 
@@ -294,6 +295,17 @@ RUNGS: tuple[RungSpec, ...] = (
     control=True,
   ),
   RungSpec(
+    Rung.LPG_SHAPED_FACTS_DOC,
+    "knowledge graph, fact tools only + the document",
+    Shape.TOOLS,
+    "rung 7a with search-documents and get-document-section removed, plus search_text / read_text over the plain text",
+    "the product's structure on the same document access as every other form: the index taken out, the constant put in",
+    False,
+    0,
+    ("robosystems_api_key",),
+    control=True,
+  ),
+  RungSpec(
     Rung.LPG_CYPHER_DOC,
     "property graph, raw Cypher + the document",
     Shape.TOOLS,
@@ -331,6 +343,7 @@ _BASES: dict[Rung, Rung | None] = {
   Rung.COMPANYFACTS_EFTS: Rung.COMPANYFACTS,
   Rung.LPG_SHAPED_TAGGED: Rung.LPG_SHAPED,
   Rung.LPG_SHAPED_DOC: Rung.LPG_SHAPED,
+  Rung.LPG_SHAPED_FACTS_DOC: Rung.LPG_SHAPED,
   Rung.LPG_CYPHER_DOC: Rung.LPG_CYPHER,
   Rung.RDF_SPARQL_DOC: Rung.RDF_SPARQL,
 }

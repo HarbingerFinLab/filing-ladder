@@ -114,6 +114,14 @@ def tools_for(client: McpClient, rung: str) -> list[ToolDef]:
   return [t for t in tools if t.name not in SHAPED_EXCLUDE]
 
 
+DOCUMENT_TOOLS = ("search-documents", "get-document-section")
+
+
+def without_document_tools(tools: list[ToolDef]) -> list[ToolDef]:
+  """7a-facts+doc: the product's fact tools only; its document search taken out."""
+  return [t for t in tools if t.name not in DOCUMENT_TOOLS]
+
+
 def make_tool_runner(client: McpClient, allowed: list[ToolDef]):
   names = {t.name for t in allowed}
 

@@ -603,6 +603,13 @@ def _build_context(
     )
     if ctx.cannot_attempt:
       return ctx
+    if rung == Rung.LPG_SHAPED_FACTS_DOC:
+      from .representations import mcp as mcp_rep
+
+      assert mcp_client is not None
+      ctx.tools = mcp_rep.without_document_tools(ctx.tools)
+      ctx.runner = mcp_rep.make_tool_runner(mcp_client, ctx.tools)
+      ctx.note = ", ".join(t.name for t in ctx.tools)
     if carries_document(rung):
       from .representations import document as doc_rep
 

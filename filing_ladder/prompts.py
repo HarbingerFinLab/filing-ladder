@@ -142,6 +142,15 @@ SOURCES[Rung.LPG_SHAPED_TAGGED] = SOURCES[
   Rung.LPG_SHAPED
 ]  # the filter is silent: same prompt
 SOURCES[Rung.LPG_SHAPED_DOC] = SOURCES[Rung.LPG_SHAPED] + DOCUMENT_BESIDE
+SOURCES[Rung.LPG_SHAPED_FACTS_DOC] = (
+  "You have the RoboSystems SEC knowledge graph through its MCP fact tools (financial statements, fact grids, element "
+  "resolution, and read-only Cypher); its document search is not available on this rung. "
+  + TOOLS_WORKFLOW.format(
+    first_step="Call get-example-queries and get-graph-schema first — never guess the schema.",
+    second_step="Prefer the shaped tools (financial-statement-analysis, build-fact-grid, resolve-element); fall back to read-graph-cypher.",
+  )
+  + DOCUMENT_BESIDE
+)
 SOURCES[Rung.LPG_CYPHER_DOC] = SOURCES[Rung.LPG_CYPHER] + DOCUMENT_BESIDE
 SOURCES[Rung.RDF_SPARQL_DOC] = SOURCES[Rung.RDF_SPARQL] + DOCUMENT_BESIDE
 

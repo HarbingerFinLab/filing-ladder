@@ -41,7 +41,7 @@ review in progress.** The v0.1 run — Claude Sonnet 5, 38 questions, every v0 r
 records — is in [`results/v0.1-sonnet-5/`](results/v0.1-sonnet-5/README.md) with every transcript,
 judgment and token count. Runs happen once; those numbers are final. The human review the protocol
 requires (the disagreement log) is added there when it closes and annotates rather than re-scores.
-**Protocol v0.1.1**, nine controls under the same locks — the document as a constant beside every
+**Protocol v0.1.1**, ten controls under the same locks — the document as a constant beside every
 tool rung, the product's index without the untagged body, and the SEC's own full-text search — is
 pre-registered in [PROTOCOL.md §10](PROTOCOL.md) and runs once tagged.
 

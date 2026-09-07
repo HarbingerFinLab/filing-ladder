@@ -18,7 +18,7 @@ from filing_ladder.representations.mcp import make_tagged_runner
 
 
 def test_controls_are_nine_and_not_v0():
-  assert len(CONTROLS_V0_1_1) == 9 and parse_rungs("v0.1.1") == list(CONTROLS_V0_1_1)
+  assert len(CONTROLS_V0_1_1) == 10 and parse_rungs("v0.1.1") == list(CONTROLS_V0_1_1)
   assert all(BY_RUNG[r].control and not BY_RUNG[r].v0 for r in CONTROLS_V0_1_1)
   assert parse_rungs("v0") == [r for r in parse_rungs("v0") if not BY_RUNG[r].control]
 
@@ -33,6 +33,10 @@ def test_bases_and_document_flags():
     Rung.COMPANYFACTS_EFTS
   )
   assert uses_mcp(Rung.LPG_SHAPED_DOC) and uses_mcp(Rung.LPG_SHAPED_TAGGED)
+  assert uses_mcp(Rung.LPG_SHAPED_FACTS_DOC) and carries_document(
+    Rung.LPG_SHAPED_FACTS_DOC
+  )
+  assert base_rung(Rung.LPG_SHAPED_FACTS_DOC) == Rung.LPG_SHAPED
   assert not uses_mcp(Rung.LPG_CYPHER_DOC)
 
 
@@ -42,6 +46,26 @@ def test_every_control_has_a_prompt_and_the_tagged_one_is_silent():
   assert SOURCES[Rung.LPG_SHAPED_TAGGED] == SOURCES[Rung.LPG_SHAPED]
   assert "search_text" in SOURCES[Rung.RDF_SPARQL_DOC]
   assert "search_filings" in SOURCES[Rung.COMPANYFACTS_EFTS]
+  assert "search_text" in SOURCES[Rung.LPG_SHAPED_FACTS_DOC]
+  assert "search-documents" not in SOURCES[Rung.LPG_SHAPED_FACTS_DOC]
+
+
+def test_without_document_tools_keeps_the_fact_tools():
+  from filing_ladder.representations.mcp import without_document_tools
+
+  tools = [
+    ToolDef(n, "", {"type": "object"})
+    for n in (
+      "search-documents",
+      "get-document-section",
+      "build-fact-grid",
+      "read-graph-cypher",
+    )
+  ]
+  assert [t.name for t in without_document_tools(tools)] == [
+    "build-fact-grid",
+    "read-graph-cypher",
+  ]
 
 
 class _FakeMcp:
