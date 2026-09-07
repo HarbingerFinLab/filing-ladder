@@ -513,8 +513,12 @@ prompt is 7a's, unchanged, because the filter is silent.
 **What the pairs measure.** 7a-tagged against 7a: the content effect by subtraction. Each form
 with the document against the form alone: the content effect by addition; the two should agree.
 2t against each form with the document: the structure effect, per form, separated from the text.
-6+efts against 6: what the publisher's own search adds, which the API's shape predicts is nothing
-on a single-filing question.
+6+efts against 6: what the publisher's own search adds. The API's shape predicts little on a
+single-filing question, with one route left open and disclosed here: a phrase search can confirm a
+name or figure the model already holds from memory (it asks whether "Elinor Mertz, Chief Financial
+Officer" is in the filing rather than reading who signed), so a correct 6+efts answer may be the
+model's memory checked against the publisher's index rather than read from the filing. The judge
+scores the answer, not the route; the transcripts show the route.
 
 **Publication.** `results/v0.1.1-sonnet-5/` holds the nine controls' records, judged by the v0.1
 judge with the same rubrics, and a README with the combined table: the v0.1 rows carried forward
