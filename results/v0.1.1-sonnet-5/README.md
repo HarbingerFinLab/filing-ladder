@@ -29,9 +29,9 @@ controls that isolate the retrieval mechanism: the graph's index with the untagg
 
 ## The result, in one paragraph
 
-**Given the whole document behind a search tool, every representation performs about the same.**
-On lookups the ten controls land between 85% and 92%, against the PDF's 90% and the plain text's
-93% read whole — and at a tenth to a twentieth of the cost per correct answer. On derived questions
+**Given the whole document behind a search tool, every representation performs the same.**
+On lookups the eight document-carrying controls land between 85% and 92% — a spread inside the
+error bars, so not an ordering — against the PDF's 90% and the plain text's 93% read whole — and at a tenth to a twentieth of the cost per correct answer. On derived questions
 they land between 54% and 61%, the same band the document rungs occupied in v0.1. Meanwhile the
 knowledge graph with the untagged body taken out of its index falls from 85% to **48%**, into the
 structured middle exactly where every other tagged-only form sits. The tagged data was never the
@@ -116,6 +116,39 @@ thing that worked. The document was, and the form it arrived in barely mattered.
 | 7b — property graph, raw Cypher | 43% | v0.1 |
 | 6+efts — SEC companyfacts + the SEC's full-text search | 41% | v0.1.1 |
 | 6 — SEC companyfacts, search | 33% | v0.1 |
+
+## How much of the spread is real
+
+The unit is the question, not the record: three runs of one question are not three independent
+observations. Twenty lookup questions and eighteen derived ones give error bars wide enough to
+swallow most of the table.
+
+| Control | T1 lookup, question-level mean ± standard error | 95% interval |
+|---|---|---|
+| 7c+doc | 92% ± 5pp | 81–100% |
+| 6+doc | 90% ± 6pp | 78–100% |
+| 7a-facts+doc | 90% ± 5pp | 79–100% |
+| 2t | 88% ± 6pp | 76–100% |
+| 5c+doc | 88% ± 6pp | 77–99% |
+| 7a+doc | 88% ± 7pp | 75–100% |
+| 7b+doc | 87% ± 6pp | 75–99% |
+| 5a+doc | 85% ± 7pp | 71–99% |
+
+On derived questions every control sits between 54% and 61% with a standard error of 11–12
+percentage points; the intervals overlap almost completely.
+
+Paired by question, the differences between the document-carrying controls are not distinguishable:
+best against worst on lookups is +6.7 ± 4.6pp (t = 1.45), the SEC's API against the knowledge graph
+is +1.7 ± 2.9pp (t = 0.57), and the graph's fact tools against its full tool set is +1.7 ± 3.8pp
+(t = 0.44). **The honest statement is not that one form edged another; it is that with the document
+available they are the same.** The one large effect in this run is the subtraction: 7a+doc against
+7a-tagged is **+40.0 ± 12.9pp (t = 3.09)**, distinguishable at 95%.
+
+**What this means for the benchmark's design.** At 38 questions it cannot resolve differences
+smaller than roughly 10 points on lookups or 20 on derived questions. v0.1's apparent ordering
+inside the structured middle was at the edge of that resolution too. Either the question set grows,
+or the comparisons move to a tier where the differences are large — which is where tiers 3 and 4
+were always meant to live.
 
 ## The three retrieval controls
 
