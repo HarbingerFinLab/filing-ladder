@@ -10,6 +10,25 @@ pre-registered and tagged before it started. Ten controls, 38 questions, k = 3, 
 **$93.73 at list price**, zero transport errors. The v0.1 rows are unchanged and carried forward
 by identity; nothing here re-scores them.
 
+## The run
+
+| | |
+|---|---|
+| Model | `claude-sonnet-5`, Anthropic direct, model-default sampling, 1M window |
+| Questions | the same 38 as v0.1, hashes unchanged: 32 from the Vals Finance Agent public set resolved to one filing each, 6 templates on the reference filing (3M FY2024 10-K) |
+| Controls | 2t · 5a+doc · 5c+doc · 6+doc · 6+efts · 7a-tagged · 7a+doc · 7a-facts+doc · 7b+doc · 7c+doc |
+| Runs per control | k = 3 → 1,140 records |
+| Turn budget | 12, as v0.1 |
+| Judge | `claude-sonnet-5`, rubric decomposition + contradiction check; sees answer and gold only, never the control |
+| Started | 2026-09-07T02:46:43Z |
+| Versions | xbrlkit 0.4.1 · Arelle 2.44.6 · LadybugDB 0.20.2 · RoboSystems v1.11.16 (the v0.1 locks; the local stack rebuilt at that tag for this run) |
+| Cost | **$93.73 at list price** against the pre-registered $165–215 (PROTOCOL §10); every control is a tool rung, and tool rungs are cheap |
+| Errors | none: 1,140 of 1,140 records completed, 36 turn caps |
+
+T1 = lookup (20 questions, one fact from one filing). T2 = derived (18 questions: ratio, growth,
+judgement). Per the protocol, tiers are never aggregated in a headline; the per-control totals in the
+cost table below are shown for the cost curve only.
+
 ## What this run asked
 
 v0.1 measured ten representations of one filing and found the document rungs at the top, a
@@ -66,6 +85,43 @@ thing that worked. The document was, and the form it arrived in barely mattered.
 | 7a-facts+doc | knowledge graph, fact tools only + the document | 57% | 17% | 19% | $0.081 | $0.140 | 7a at 59% |
 | 7b+doc | property graph, raw Cypher + the document | 59% | 13% | 19% | $0.097 | $0.163 | 7b at 43% |
 | 7c+doc | holon (RDF), SPARQL + the document | 56% | 13% | 20% | $0.101 | $0.182 | 7c at 48% |
+
+## Cost per question and per correct answer, cached and uncached
+
+*Cached* is the run as billed: k = 3 and per-filing ordering let repeated prefixes be read from the
+prompt cache (Sonnet 5 list: $2 / $10 per million input / output, cache write $2.50, cache read
+$0.20). *Uncached* re-prices every prompt token at the input price — what one cold question costs.
+Accuracy here is both tiers together, for the cost curve only. Dollars are model tokens at list
+price and exclude the platform that serves the graph controls, the same way v0.1's document rungs
+excluded the reader.
+
+| Control | What the model had | Accuracy (all) | $/q cached | $/q uncached | $/correct cached | $/correct uncached |
+|---|---|---|---|---|---|---|
+| 2t | plain text, search tool only | 75% | $0.034 | $0.040 | $0.044 | $0.053 |
+| 5a+doc | OIM as published + the document | 74% | $0.055 | $0.066 | $0.074 | $0.089 |
+| 5c+doc | Tavi compiled model, jq + the document | 73% | $0.096 | $0.108 | $0.132 | $0.149 |
+| 6+doc | SEC companyfacts + the document | 75% | $0.044 | $0.058 | $0.058 | $0.077 |
+| 6+efts | SEC companyfacts + the SEC's full-text search | 31% | $0.086 | $0.106 | $0.280 | $0.344 |
+| 7a-tagged | knowledge graph, shaped tools, tagged text only | 49% | $0.230 | $0.311 | $0.469 | $0.632 |
+| 7a+doc | knowledge graph, shaped tools + the document | 72% | $0.059 | $0.116 | $0.081 | $0.162 |
+| 7a-facts+doc | knowledge graph, fact tools only + the document | 75% | $0.062 | $0.114 | $0.084 | $0.153 |
+| 7b+doc | property graph, raw Cypher + the document | 74% | $0.074 | $0.084 | $0.100 | $0.115 |
+| 7c+doc | holon (RDF), SPARQL + the document | 75% | $0.082 | $0.093 | $0.111 | $0.125 |
+
+**The whole run: 766 correct of 1,140, $93.73 cached and $124.98 uncached — $0.122 and $0.163 per
+correct answer.** Against v0.1's $221.90 for 608 correct, $0.365 each. Three times cheaper per
+correct answer with 158 more of them, from the same 1,140 records.
+
+**Caching barely matters here, and that is a finding.** It saved 25% across this run against 61% on
+v0.1's document rungs, because a form read through a search tool never puts the document in the
+prompt: it arrives a window at a time, and windows differ between questions. The gap between cached
+and uncached is what a *first* question on a filing costs, and for these controls the two numbers
+are nearly the same. The document rungs' cheapness in v0.1 depended on asking many questions of one
+filing; retrieval does not.
+
+The exceptions prove the rule. The two controls whose uncached cost is roughly double their cached
+cost are 7a+doc and 7a-facts+doc, the two that reach a *platform* index rather than a local file —
+their repeated tool prefixes cache, their retrieved content does not.
 
 ## Every form, both versions, ranked — T1 lookup
 
