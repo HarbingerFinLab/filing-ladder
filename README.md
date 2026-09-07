@@ -13,6 +13,12 @@ questions, and
 scores accuracy, abstention versus confident-wrong, provenance, repeatability, and **dollars per
 correct answer at list price**. Representation is the only variable.
 
+Every rung is an attempt at the same thing. The inline XBRL document holds everything the filing
+says, text and tags, and it is the most expensive form to read: a model reading it whole scored
+below the plain text at three times the cost per correct answer, and could not read it at all on
+three of the 26 filings. Each other form is a bet that a model can get the document's answers from
+less. The ladder measures how much of the document each form keeps, and what a right answer costs.
+
 ## Disclosure, first
 
 Filing Ladder is published by **Harbinger FinLab**, the implementation-and-training practice for
@@ -55,6 +61,14 @@ requires (the disagreement log) is added there when it closes and annotates rath
 Questions are stratified so that each structural gap the serializations have — dimensional
 contexts, period semantics, custom-concept identity, and where the taxonomy lives — gets its own
 number. The full design, the metrics, and the fairness rules are in [PROTOCOL.md](PROTOCOL.md).
+
+**Representations and projections.** Rungs 1 to 3 carry the filing. Rungs 4 through 7c carry its
+tagged subset: on a 10-K the business description, risk factors and MD&A are untagged, so no
+XBRL-derived form holds them. Rung 7a carries both, facts in a graph and the whole text in a
+search index, and in v0.1 a third of its correct answers came from the untagged sections; the
+[results](results/v0.1-sonnet-5/README.md#what-rung-7as-index-contained-measured-after-publication-2026-09-06)
+record what that means for the comparisons. A reader who wants structure and context needs both,
+and one of the rungs is the join.
 
 ## The two claims under test
 
