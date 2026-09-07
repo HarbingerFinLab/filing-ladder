@@ -8,7 +8,7 @@
 A benchmark that hands the *same* SEC filing to the *same* model in every form the filing exists in —
 rendered PDF, HTML text, inline XBRL, the XBRL package, OIM (xBRL-JSON / xBRL-CSV), the Tavi
 compiled model (XBRL International's OIM Taxonomy Model, facts and taxonomy in one JSON document),
-the SEC's `companyfacts` API, a property graph over MCP, and the filing as RDF — asks the *same*
+the SEC's `companyfacts` API, a knowledge graph with a document index over MCP, and the filing as RDF — asks the *same*
 questions, and
 scores accuracy, abstention versus confident-wrong, provenance, repeatability, and **dollars per
 correct answer at list price**. Representation is the only variable.
@@ -47,7 +47,7 @@ requires (the disagreement log) is added there when it closes and annotates rath
 | 5a / 5b | OIM | xBRL-JSON and xBRL-CSV as published (file tools) / with text-block facts removed (in context) | tools / in context |
 | 5c / 5d | Tavi | the OIM Taxonomy Model (Tavi) compiled model — facts and taxonomy in one JSON document — describe + one jq tool / with text-block facts removed (in context) | tools / in context |
 | 6 | `companyfacts` | the SEC's own structured API, three thin tools | tools |
-| 7a | property graph, shaped tools | the RoboSystems `sec` graph via its MCP tools | tools |
+| 7a | knowledge graph + document index, shaped tools | the RoboSystems `sec` graph via its MCP tools: facts in the graph; the filing's tagged text blocks *and* its parsed narrative sections (Items 1, 1A, 1C, 2, 7, 7A) in a search index | tools |
 | 7b | property graph, raw Cypher | the filing as a LadybugDB property graph (the `sec` graph's schema, text blocks inline), describe + one query tool | tools |
 | 7c | RDF, raw SPARQL | the filing as `holon.jsonld` in an in-memory store, describe + one query tool | tools |
 | 7d | RDF in context | the `holon.jsonld` as text | in context (once compacted) |
