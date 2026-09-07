@@ -437,6 +437,13 @@ and reported beside the rungs, never as one. The harness names it `7b-mcp`.
 ## 8. Publication and maintenance
 
 Order: this protocol (frozen) → the harness → the results dataset and transcripts → the write-up.
+
+**Versions.** The protocol version is the row of the results table; the model is the column. The
+first number after *v0* changes when locks, question sets or rung definitions change, and every
+rung re-runs. The last number changes when rungs or controls are *added* under unchanged locks and
+question sets: they are pre-registered here before they run, tagged, and every earlier row carries
+forward unchanged by identity (the same records, the same hashes). Corrections to this text after a
+freeze go in §9, dated; additions go in their own numbered section, like §10.
 The benchmark is re-run on each major model release or the page comes down. Every re-run
 re-instantiates the templates on the newest filings (a new quarter of 10-Ks, public templates, new
 instantiation) and re-runs the Vals public 50 as the fixed comparison point — contamination-proof
@@ -463,4 +470,54 @@ pre-registration.
   section and no search tool. v0.2 pre-registers two controls: 7a with search restricted to
   tagged disclosures (a harness-side filter on the tool's results), and shaped tools over the
   loaded XBRL model with tagged content only.
+
+## 10. v0.1.1 — the document as a constant (pre-registered 2026-09-07)
+
+**What v0.1 could not separate.** §9's first entry: rung 7a's search index held the untagged body
+of the 10-K, so 7a against the XBRL forms compared the whole filing made queryable with projections
+of its tagged subset, and 7a against 7b was confounded by content as well as by the query layer.
+`results/v0.1-sonnet-5/README.md` measured the shares: the tagged text blocks carry a median 46% of
+a filing's text, the parsed Items a median 57%, the two together nearly all of it.
+
+**The rule.** Every tool rung gets the whole primary document the same way, so the document is a
+constant and the form is again the only variable. In-context rungs cannot take it, for size; that
+stays their finding.
+
+**Nine controls**, reported beside the rungs and never as rungs (the §7.3 / §7.4 precedent), same
+locks as v0.1 (§6), same 38 questions (`questions/manifest.json`, hashes unchanged), same model
+(`claude-sonnet-5`, Anthropic direct, model-default sampling), k = 3, the same turn budget (12),
+prompt skeleton and output contract as v0.1 (fairness rule 3):
+
+| Control | Built on | What is added or removed |
+|---|---|---|
+| 2t | — | rung 2's plain text behind `search_text` / `read_text` and nothing else: the minimal retrieval baseline |
+| 5a+doc | 5a | the document tools beside the file tools over the OIM files |
+| 5c+doc | 5c | the document tools beside describe + jq |
+| 6+doc | 6 | the document tools beside the three companyfacts tools |
+| 6+efts | 6 | `search_filings`: the SEC's EDGAR full-text search pinned to the filing — file-level hits with scores, no text (the publisher's own two surfaces, and nothing else) |
+| 7a-tagged | 7a | `search-documents` results with every `narrative_section` hit removed and the total recomputed; `get-document-section` refuses any id the model was never shown; same tools, same descriptions, same prompt |
+| 7a+doc | 7a | the document tools beside the MCP tools (the product's specified public shape: graph, index, and the raw filing beside) |
+| 7b+doc | 7b | the document tools beside describe + Cypher |
+| 7c+doc | 7c | the document tools beside describe + SPARQL |
+
+**The document tools, identical everywhere** (`filing_ladder/representations/document.py`):
+`search_text(pattern, window=300, max_hits=10)` — a case-insensitive regular expression over the
+plain text, each hit returned as its character offset and a window centred on it, with the total
+match count (window ≤ 1,500, hits ≤ 25); `read_text(offset, length≤4000)` — the span at an
+offset. The text is rung 2's (the EDGAR primary document, tags stripped), never re-chunked or
+re-ordered; it is one line, so the tools work on offsets, not lines. The rung's own tools are
+untouched; one runner dispatches between them. Each control's system prompt is its base rung's
+plus one sentence naming the two tools (`filing_ladder/prompts.py`, `DOCUMENT_BESIDE`); 7a-tagged's
+prompt is 7a's, unchanged, because the filter is silent.
+
+**What the pairs measure.** 7a-tagged against 7a: the content effect by subtraction. Each form
+with the document against the form alone: the content effect by addition; the two should agree.
+2t against each form with the document: the structure effect, per form, separated from the text.
+6+efts against 6: what the publisher's own search adds, which the API's shape predicts is nothing
+on a single-filing question.
+
+**Publication.** `results/v0.1.1-sonnet-5/` holds the nine controls' records, judged by the v0.1
+judge with the same rubrics, and a README with the combined table: the v0.1 rows carried forward
+unchanged, the controls beneath them, labelled. Tags: `protocol-v0.1.1` on this section before the
+run; `results-v0.1.1` after. Estimated cost at list: $150–200 for the nine at k = 3, plus the judge.
 

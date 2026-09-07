@@ -115,7 +115,35 @@ SOURCES: dict[Rung, str] = {
       second_step="Write a jq program (starting from .xbrlModel, using the patterns from describe_model) and run it with run_jq.",
     )
   ),
+  Rung.TEXT_SEARCH: (
+    "You have the filing's primary document as plain text (its HTML tags removed) through two tools only: search_text and read_text. "
+    + TOOLS_WORKFLOW.format(
+      first_step="Call search_text with the line item, concept or phrase the question names; read the windows around the hits.",
+      second_step="Call read_text at a hit's offset to read the surrounding passage or table; search again with a narrower pattern when the first one is too broad.",
+    )
+  ),
 }
+
+# v0.1.1: the document beside a rung's own source, the same two tools everywhere.
+DOCUMENT_BESIDE = (
+  " You also have the filing's primary document as plain text (its HTML tags removed) through search_text and read_text: "
+  "search for a phrase, then read the passage at an offset. Use it when the structured source does not carry what the "
+  "question needs; cite the passage."
+)
+EFTS_BESIDE = (
+  " You also have the SEC's own EDGAR full-text search over this filing through search_filings: it returns which files of "
+  "the filing contain a phrase, with scores, and no text."
+)
+SOURCES[Rung.OIM_FILES_DOC] = SOURCES[Rung.OIM_FILES] + DOCUMENT_BESIDE
+SOURCES[Rung.TAVI_JQ_DOC] = SOURCES[Rung.TAVI_JQ] + DOCUMENT_BESIDE
+SOURCES[Rung.COMPANYFACTS_DOC] = SOURCES[Rung.COMPANYFACTS] + DOCUMENT_BESIDE
+SOURCES[Rung.COMPANYFACTS_EFTS] = SOURCES[Rung.COMPANYFACTS] + EFTS_BESIDE
+SOURCES[Rung.LPG_SHAPED_TAGGED] = SOURCES[
+  Rung.LPG_SHAPED
+]  # the filter is silent: same prompt
+SOURCES[Rung.LPG_SHAPED_DOC] = SOURCES[Rung.LPG_SHAPED] + DOCUMENT_BESIDE
+SOURCES[Rung.LPG_CYPHER_DOC] = SOURCES[Rung.LPG_CYPHER] + DOCUMENT_BESIDE
+SOURCES[Rung.RDF_SPARQL_DOC] = SOURCES[Rung.RDF_SPARQL] + DOCUMENT_BESIDE
 
 
 def system_prompt(rung: Rung) -> str:

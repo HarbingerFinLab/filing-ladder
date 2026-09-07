@@ -123,3 +123,46 @@ def make_tool_runner(client: McpClient, allowed: list[ToolDef]):
     return client.call(name, args)
 
   return run
+
+
+NARRATIVE_SECTION = "narrative_section"
+
+
+def make_tagged_runner(client: McpClient, allowed: list[ToolDef]):
+  """7a-tagged: the same tools, with the untagged body of the filing removed from what they return.
+
+  search-documents results drop every hit whose source_type is narrative_section (the parsed
+  Items of the 10-K body) and report the kept count as the total; get-document-section refuses
+  any id the model was never shown, including a dropped hit's continuation parts. Nothing else
+  changes: same tools, same descriptions, same prompt.
+  """
+  names = {t.name for t in allowed}
+  seen: set[str] = set()
+
+  def run(name: str, args: dict) -> str:
+    if name not in names:
+      return json.dumps({"error": f"tool {name} is not available on this rung"})
+    if name == "get-document-section":
+      if str(args.get("document_id", "")) not in seen:
+        return json.dumps({"error": "document not available on this rung"})
+      return client.call(name, args)
+    raw = client.call(name, args)
+    if name != "search-documents":
+      return raw
+    try:
+      payload = json.loads(raw)
+    except (json.JSONDecodeError, TypeError):
+      return raw
+    hits = payload.get("hits") if isinstance(payload, dict) else None
+    if not isinstance(hits, list):
+      return raw
+    kept = [h for h in hits if h.get("source_type") != NARRATIVE_SECTION]
+    for h in kept:
+      for key in ("document_id", "next_document_id", "parent_document_id"):
+        if h.get(key):
+          seen.add(str(h[key]))
+    payload["hits"] = kept
+    payload["total"] = len(kept)
+    return json.dumps(payload)
+
+  return run
