@@ -1632,9 +1632,45 @@ A display defect in the published column, not a scoring one; recorded for the ha
 ---
 ## Judge repeatability (PROTOCOL §4)
 
-The protocol checks the judge's own repeatability on the human-reviewed sample. The 330 records above were re-judged once with the same judge (`claude-sonnet-5`, rubric + contradiction, model default sampling) into a separate run directory; agreement with the published judgments is reported here when that pass completes.
+The protocol checks the judge's own repeatability on the human-reviewed sample.
 
-_Pending._
+Second pass run 2026-09-06 over the same 330 records, same judge (`claude-sonnet-5`, rubric + contradiction, model-default sampling), into a separate run directory; its judgments are beside this file as `judgments-rejudge-sample.jsonl` (652,602 input / 269,669 output judge tokens, ≈ $4.00 at list).
+
+| Field | Agreement, pass 1 vs pass 2 |
+|---|---|
+| `correct` (the verdict that scores) | 329 / 330 = 99.7% |
+| `abstained` | 329 / 330 = 99.7% |
+| `contradiction` | 312 / 330 = 94.5% |
+| rubric points met, exact count | 280 / 309 = 90.6% |
+
+**The verdict that scores flipped on 1 record:** vals-11 rung 7a run 2 (published wrong, second pass correct). Records where the two passes disagree on `correct` or `abstained` are judge disagreements in the protocol's sense and belong inside the 09-17 read.
+
+The contradiction flag is the least stable field: 18 flips, by question {'vals-11': 1, 'vals-16': 4, 'vals-33': 1, 'vals-43': 1, 'vals-46': 11}; 17 of them leave `correct` unchanged because no rubric point was met either way. Rubric point counts differed on 29 of 309 rubric-scored records without changing a verdict.
+
+| Question | Rung | Run | Field | Published | Second pass | `correct` unchanged |
+|---|---|---|---|---|---|---|
+| vals-11 | 7a | 2 | correct | False | True | **no** |
+| vals-11 | 7a | 2 | contradiction | True | False | **no** |
+| vals-16 | 1 | 3 | contradiction | True | False | yes |
+| vals-16 | 5a | 1 | abstained | False | True | yes |
+| vals-16 | 5a | 1 | contradiction | False | True | yes |
+| vals-16 | 5c | 1 | contradiction | True | False | yes |
+| vals-16 | 5c | 2 | contradiction | False | True | yes |
+| vals-33 | 2 | 2 | contradiction | False | True | yes |
+| vals-43 | 2 | 3 | contradiction | False | True | yes |
+| vals-46 | 1 | 2 | contradiction | False | True | yes |
+| vals-46 | 6 | 1 | contradiction | False | True | yes |
+| vals-46 | 5a | 1 | contradiction | True | False | yes |
+| vals-46 | 5a | 2 | contradiction | False | True | yes |
+| vals-46 | 5b | 3 | contradiction | True | False | yes |
+| vals-46 | 5c | 2 | contradiction | True | False | yes |
+| vals-46 | 5c | 3 | contradiction | True | False | yes |
+| vals-46 | 7b | 2 | contradiction | False | True | yes |
+| vals-46 | 7b | 3 | contradiction | False | True | yes |
+| vals-46 | 7c | 1 | contradiction | False | True | yes |
+| vals-46 | 7c | 2 | contradiction | True | False | yes |
+
+**Reviewer note on repeatability:** 
 
 ---
 
