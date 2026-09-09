@@ -134,7 +134,7 @@ corpus dump, which is what makes the graph rungs reproducible offline.
 
 - [`robosystems`](https://github.com/RoboFinSystems/robosystems) — the platform whose `sec` graph is rung 7a, and whose graph projection rung 7b's file carries
 - [`xbrlkit`](https://github.com/RoboFinSystems/xbrlkit) — builds the `holon.jsonld` for rungs 7c/7d, the Tavi compiled model for rungs 5c/5d, and the property-graph file for rung 7b
-- [`robosystems-holon-viewer`](https://github.com/RoboFinSystems/robosystems-holon-viewer) — the parallel Cypher / SPARQL hand-offs rungs 7b/7c reuse
+- [`xbrlkit-viewer`](https://github.com/RoboFinSystems/xbrlkit-viewer) — the parallel Cypher / SPARQL hand-offs rungs 7b/7c reuse (hosted at [xbrlkit.com](https://xbrlkit.com))
 - [`vals-ai/finance-agent`](https://github.com/vals-ai/finance-agent) — the document-agent baseline
 
 ## Contributing
