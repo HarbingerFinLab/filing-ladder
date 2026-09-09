@@ -280,7 +280,7 @@ limits and overloads get exponential backoff with jitter.
 
 Filing acquisition, rung materialization and the graph rungs reuse published code: the
 `xbrlkit` EDGAR client and holon builder, Arelle for the OIM export, the
-`sec` graph's MCP transport, and the holon viewer's parallel Cypher / SPARQL hand-offs. Nothing in
+`sec` graph's MCP transport, and the xbrlkit viewer's parallel Cypher / SPARQL hand-offs. Nothing in
 the platform is built for the benchmark.
 
 Versions locked for v0: `xbrlkit` 0.4.1, Arelle 2.44.6, Chrome 152.0.7977.83 for the PDF render,
