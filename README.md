@@ -18,6 +18,8 @@ says, text and tags, and it is the most expensive form to read: a model reading 
 below the plain text at three times the cost per correct answer, and could not read it at all on
 three of the 26 filings. Each other form is a bet that a model can get the document's answers from
 less. The ladder measures how much of the document each form keeps, and what a right answer costs.
+The second run then held the document constant and gave it to every tool rung: once each form had
+the whole filing behind a search tool, the form barely mattered.
 
 ## Disclosure, first
 
@@ -68,13 +70,43 @@ Questions are stratified so that each structural gap the serializations have —
 contexts, period semantics, custom-concept identity, and where the taxonomy lives — gets its own
 number. The full design, the metrics, and the fairness rules are in [PROTOCOL.md](PROTOCOL.md).
 
+## The controls (v0.1.1)
+
+Controls are reported beside the rungs, never as rungs ([PROTOCOL.md](PROTOCOL.md) §10). Each one
+gives a tool rung the **same document** — rung 2's plain text, the whole primary document, tags
+stripped — behind the **same two tools**: `search_text` (a regular expression, returning offsets
+and windows) and `read_text` (a span at an offset). Three isolate the retrieval mechanism instead:
+`7a-tagged`, `7a-facts+doc` and `6+efts`.
+
+| Control | Built on | What the model gets |
+|---|---|---|
+| 2t | 2 | the plain text through the two document tools only, never whole in context |
+| 5a+doc | 5a | OIM as published + the document tools |
+| 5c+doc | 5c | the Tavi compiled model, describe + jq + the document tools |
+| 6+doc | 6 | `companyfacts` + the document tools |
+| 6+efts | 6 | `companyfacts` + the SEC's own EDGAR full-text search, in place of the document tools |
+| 7a-tagged | 7a | the graph's shaped tools with the untagged body (Items 1, 1A, 1C, 2, 7, 7A) removed from its index |
+| 7a+doc | 7a | the graph's shaped tools + the document tools |
+| 7a-facts+doc | 7a | the graph's fact tools only, its search index replaced by the document tools |
+| 7b+doc | 7b | raw Cypher + the document tools |
+| 7c+doc | 7c | SPARQL over the holon + the document tools |
+
+Same 38 questions, same model, same locks, same turn budget as v0.1; k = 3, 1,140 records. The
+whole run cost $93.73 at list price, $0.122 per correct answer against v0.1's $0.365. Prompt caching
+saved 25% of it against 61% on v0.1's document rungs, because a document read through a search tool
+arrives a window at a time and windows differ between questions. Results:
+[`results/v0.1.1-sonnet-5/`](results/v0.1.1-sonnet-5/README.md).
+
 **Representations and projections.** Rungs 1 to 3 carry the filing. Rungs 4 through 7c carry its
 tagged subset: on a 10-K the business description, risk factors and MD&A are untagged, so no
 XBRL-derived form holds them. Rung 7a carries both, facts in a graph and the whole text in a
-search index, and in v0.1 a third of its correct answers came from the untagged sections; the
-[results](results/v0.1-sonnet-5/README.md#what-rung-7as-index-contained-measured-after-publication-2026-09-06)
-record what that means for the comparisons. A reader who wants structure and context needs both,
-and one of the rungs is the join.
+search index, and in v0.1 a third of its correct answers came from the untagged sections
+([measured after publication](results/v0.1-sonnet-5/README.md#what-rung-7as-index-contained-measured-after-publication-2026-09-06)).
+v0.1.1 settled what that meant: with the untagged body taken out of its index, 7a fell from 85% to
+48% on lookups, into the structured middle with every other tagged-only form, and with the
+constant document added, the eight controls that carry it landed at 85–92%
+([results](results/v0.1.1-sonnet-5/README.md)). A reader who wants structure and context needs
+both, and one of the rungs is the join.
 
 ## The two claims under test
 
