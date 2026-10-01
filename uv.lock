@@ -48,7 +48,7 @@ wheels = [
 
 [[package]]
 name = "arelle-release"
-version = "2.44.6"
+version = "2.45.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "bottle" },
@@ -67,9 +67,9 @@ dependencies = [
     { name = "truststore" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/fb/d0/363e68342f1c575229770a86af9daed4fb2f508845c86ea729fbd88073d6/arelle_release-2.44.6.tar.gz", hash = "sha256:6514c0d978ecb5e47a321f3a6c49ffb86b76aa9c11e68cd148ffcbc9a9779665", size = 5669173, upload-time = "2026-09-01T16:14:11.147Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/fe/7b/96e1f7ed41ff7b9f4eedb63bc77347fb7b214e613ef971a897deef1c5973/arelle_release-2.45.3.tar.gz", hash = "sha256:8f4e89ab74ad5b4468a5736ddb284e5ed9ec88962759500d1ff405ab638a9d8e", size = 5695363, upload-time = "2026-09-24T21:07:39.102Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d4/e9/b1aba7385bde7d2bcc90fa8586b1722667156292803b4c691f9510746655/arelle_release-2.44.6-py3-none-any.whl", hash = "sha256:ac6757b7e6dcc3b2b9a4cf2db3618ad273a17cac1880ace3a380682fce6ecde9", size = 6083902, upload-time = "2026-09-01T16:14:09.078Z" },
+    { url = "https://files.pythonhosted.org/packages/04/22/671a49aa10863e6ead53d98d103abe105e1aa0082888f167648e4fb74fd2/arelle_release-2.45.3-py3-none-any.whl", hash = "sha256:9474d0b01bbcde1d11c08aab831c08915be58507afecdb3fe3c560cd9391ef48", size = 6118322, upload-time = "2026-09-24T21:07:36.488Z" },
 ]
 
 [[package]]
