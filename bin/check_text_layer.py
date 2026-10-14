@@ -16,7 +16,9 @@ primary document and checks:
   fact's (page furniture inside the block, a hijacked continuation);
 - every 10-K / 10-Q Item the extractor targets: present, not headed by a
   table-of-contents row, carrying its expected words, free of other Items'
-  headings (an overrun), and its share of the document.
+  headings (an overrun), and its share of the document. An Item the
+  extractor skips is a pointer when its heading carries under 1,500
+  characters (incorporated by reference, see Note N), and missing otherwise.
 
 usage: uv run python bin/check_text_layer.py [--data data] [--json out.json] [ACCESSION ...]
 """
@@ -49,8 +51,13 @@ KEYWORDS = {
   "Risk Factors": ["risk"],
   "Cybersecurity": ["cybersecurity", "cyber"],
   "Properties": ["propert", "facilit", "office", "lease", "square feet"],
+  "Legal Proceedings": ["legal proceeding", "litigation", "lawsuit", "claim"],
+  "Market for Common Equity": ["common stock", "dividend", "holders of record"],
   "MD&A": ["results of operations", "liquidity"],
   "Market Risk": ["market risk", "interest rate", "foreign currency", "exchange rate"],
+  "Controls and Procedures": ["disclosure controls", "internal control"],
+  "Executive Compensation": ["compensation"],
+  "Related Party Transactions": ["related", "director independence"],
 }
 ITEM_HEAD_RE = re.compile(
   r"^[ \t|]*(?:PART\s+[IV]+\s*[,.\-–—]?\s*)?ITEM\s+(\d+[A-C]?)\s*[.:\-–—|]",
@@ -144,13 +151,23 @@ def check_items(html: str, form: str) -> tuple[list[dict], int, int, int]:
   by_id: dict[str, list] = defaultdict(list)
   for s in sections:
     by_id[s.section_id].append(s)
-  total = max(1, len(_clean_text(_html_to_text(html))))
+  text = _clean_text(_html_to_text(html))
+  total = max(1, len(text))
+  # The longest span under each Item heading: the extractor skips an Item that only
+  # points elsewhere (the proxy, a note), which is short by nature, not lost text.
+  heads = list(ITEM_HEAD_RE.finditer(text))
+  spans: dict[str, int] = defaultdict(int)
+  for m, nxt in zip(heads, heads[1:] + [None]):
+    end = nxt.start() if nxt else len(text)
+    spans[m.group(1).upper()] = max(spans[m.group(1).upper()], end - m.start())
   expected = SECTIONS_10K if form.upper().startswith("10-K") else SECTIONS_10Q
   rows = []
   for number, (section_id, label, _part) in expected.items():
     parts = sorted(by_id.get(section_id, []), key=lambda p: p.part)
     if not parts:
-      rows.append(dict(item=section_id, label=label, status="MISSING"))
+      span = spans.get(number.upper(), 0)
+      status = "pointer" if 0 < span < 1500 else "MISSING"
+      rows.append(dict(item=section_id, label=label, chars=span, status=status))
       continue
     content = "\n".join(p.content for p in parts)
     first_line = content.split("\n", 1)[0]
