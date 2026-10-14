@@ -85,7 +85,7 @@ and windows) and `read_text` (a span at an offset). Three isolate the retrieval 
 | 5c+doc | 5c | the Tavi compiled model, describe + jq + the document tools |
 | 6+doc | 6 | `companyfacts` + the document tools |
 | 6+efts | 6 | `companyfacts` + the SEC's own EDGAR full-text search, in place of the document tools |
-| 7a-tagged | 7a | the graph's shaped tools with the untagged body (Items 1, 1A, 1C, 2, 7, 7A) removed from its index |
+| 7a-tagged | 7a | the graph's shaped tools with the narrative Items (1, 1A, 1C, 2, 7, 7A) removed from its index; all but Item 1C are untagged, and 1C's cyd text blocks stay in the tagged set |
 | 7a+doc | 7a | the graph's shaped tools + the document tools |
 | 7a-facts+doc | 7a | the graph's fact tools only, its search index replaced by the document tools |
 | 7b+doc | 7b | raw Cypher + the document tools |
