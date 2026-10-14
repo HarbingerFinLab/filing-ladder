@@ -34,9 +34,10 @@ cost table below are shown for the cost curve only.
 v0.1 measured ten representations of one filing and found the document rungs at the top, a
 "structured middle" at 37–48%, and the knowledge graph with shaped tools alone reaching the
 document rungs' accuracy. After publication we found that comparison was not clean: rung 7a's
-search index also held the **untagged body** of the 10-K (Items 1, 1A, 1C, 2, 7, 7A), which no
-XBRL-derived form carries, because those sections are not tagged. So 7a had more of the filing
-than the forms it beat.
+search index also held the **narrative Items** of the 10-K (1, 1A, 1C, 2, 7, 7A) as sections, which
+no XBRL-derived form carries: all but Item 1C are untagged, and 1C, which the SEC tags under cyd as
+text blocks, rides inside the tagged text-block facts rather than as a named section. So 7a had
+more of the filing than the forms it beat.
 
 v0.1.1 removes that difference. Every tool rung gets the **same document** — rung 2's plain text,
 the whole primary document, tags stripped — behind the **same two tools**: `search_text` (a regular
