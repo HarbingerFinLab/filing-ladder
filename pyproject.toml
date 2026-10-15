@@ -3,7 +3,7 @@ name = "filing-ladder"
 version = "0.0.1"
 description = "One filing, every representation: which shape of the same financial filing can a model actually use? A benchmark with cost."
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.13"
 authors = [{ name = "Harbinger FinLab" }]
 license = { text = "MIT" }
 keywords = ["benchmark", "xbrl", "ixbrl", "oim", "sec", "edgar", "financial-analysis", "llm", "mcp", "rdf", "sparql", "cypher"]
@@ -14,8 +14,8 @@ classifiers = [
   "Intended Audience :: Science/Research",
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Topic :: Office/Business :: Financial",
   "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
