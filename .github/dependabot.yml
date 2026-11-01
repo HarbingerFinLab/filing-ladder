@@ -25,8 +25,3 @@ updates:
         update-types:
           - 'minor'
           - 'patch'
-    ignore:
-      # Held in step with the RoboSystems fleet: setup-uv majors move together.
-      - dependency-name: 'astral-sh/setup-uv'
-        update-types:
-          - 'version-update:semver-major'
