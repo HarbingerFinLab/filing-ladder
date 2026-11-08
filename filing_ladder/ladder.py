@@ -20,6 +20,7 @@ class Rung(StrEnum):
   HTML_TEXT = "2"
   IXBRL = "3"
   XBRL_PACKAGE = "4"
+  XBRLKIT_SERVE = "4c"  # protocol v0.1.2: the package behind xbrlkit's shaped tools
   OIM_FILES = "5a"
   OIM_IN_CONTEXT = "5b"
   TAVI_JQ = "5c"
@@ -165,6 +166,16 @@ RUNGS: tuple[RungSpec, ...] = (
     True,
     0,
     ("sec_user_agent",),
+  ),
+  RungSpec(
+    Rung.XBRLKIT_SERVE,
+    "XBRL package, xbrlkit's shaped tools",
+    Shape.TOOLS,
+    "the filing parsed from its own XBRL package and held in memory behind xbrlkit serve's shaped tools: statements, fact grids, calculations, disclosures and information blocks, element resolution, and the whole primary document through search_text / read_text",
+    "the open-source library: the query craft done once, on the reader's own machine — no server, no account, no network",
+    False,
+    0,
+    (),
   ),
   RungSpec(
     Rung.LPG_SHAPED,
@@ -333,6 +344,21 @@ BY_RUNG: dict[Rung, RungSpec] = {spec.rung: spec for spec in RUNGS}
 V0_RUNGS: tuple[Rung, ...] = tuple(spec.rung for spec in RUNGS if spec.v0)
 CONTROLS_V0_1_1: tuple[Rung, ...] = tuple(spec.rung for spec in RUNGS if spec.control)
 
+# Protocol v0.1.2 (PROTOCOL §11): the four forms that are ours re-run under the locks as they
+# stand, one rung added, the document delivered by xbrlkit's own text tools; rung 2 re-run as
+# the drift control. In run order — the headline first, the identity checks last.
+V0_1_2_RUNGS: tuple[Rung, ...] = (
+  Rung.XBRLKIT_SERVE,
+  Rung.LPG_SHAPED,
+  Rung.TAVI_JQ_DOC,
+  Rung.LPG_CYPHER_DOC,
+  Rung.RDF_SPARQL_DOC,
+  Rung.TAVI_JQ,
+  Rung.LPG_CYPHER,
+  Rung.RDF_SPARQL,
+  Rung.HTML_TEXT,
+)
+
 # Every control is one rung plus the document (``+doc``), a rung minus part of its source
 # (``-tagged``), a rung plus the publisher's own search (``+efts``), or the document alone.
 _BASES: dict[Rung, Rung | None] = {
@@ -379,6 +405,8 @@ def parse_rungs(text: str) -> list[Rung]:
     return list(V0_RUNGS)
   if text == "v0.1.1":
     return list(CONTROLS_V0_1_1)
+  if text == "v0.1.2":
+    return list(V0_1_2_RUNGS)
   if text == "all":
     return [spec.rung for spec in RUNGS]
   return [Rung(part.strip()) for part in text.split(",") if part.strip()]

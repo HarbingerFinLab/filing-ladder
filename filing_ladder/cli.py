@@ -143,6 +143,12 @@ def build_parser() -> argparse.ArgumentParser:
     help="what rung 5b hands the model",
   )
   r.add_argument("--label", default="")
+  r.add_argument(
+    "--document",
+    default="xbrlkit",
+    choices=("xbrlkit", "harness"),
+    help="the document instrument on the +doc controls and 2t: xbrlkit's search_text / read_text over the filing loaded from its package (protocol v0.1.2, default) or the harness's two tools over the plain text (v0.1.1)",
+  )
   r.add_argument("--resume", help="an existing run directory to continue")
   r.add_argument(
     "--retry-errors",
@@ -326,6 +332,12 @@ def _mcp_url(settings: Settings) -> str:
   return f"{settings.robosystems_api_url}/v1/graphs/{settings.robosystems_graph_id}/mcp"
 
 
+def _xbrlkit_version() -> str:
+  from xbrlkit import __version__
+
+  return __version__
+
+
 # ---- run -----------------------------------------------------------------------------
 
 
@@ -417,6 +429,9 @@ def cmd_run(args: argparse.Namespace) -> int:
       "betas": provider_kwargs.get("betas"),
       "provider_order": provider_kwargs.get("provider_order"),
       "oim_form": args.oim_form,
+      "document_instrument": args.document,
+      "xbrlkit": _xbrlkit_version(),
+      "mcp_url": _mcp_url(settings) if any(uses_mcp(r) for r in rungs) else None,
       "question_ids": [q.id for q in questions],
       "started": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     },
@@ -454,6 +469,7 @@ def cmd_run(args: argparse.Namespace) -> int:
               context_window,
               mcp_client,
               args.model,
+              args.document,
             )
           ctx = contexts[ctx_key]
           system = system_prompt(rung)
@@ -570,6 +586,7 @@ def _build_context(
   context_window: int,
   mcp_client,
   model: str = "",
+  document: str = "xbrlkit",
 ) -> RungContext:
   from .filings import FilingPaths
 
@@ -586,7 +603,18 @@ def _build_context(
   from .ladder import base_rung, carries_document
 
   base = base_rung(rung)
-  if base is None:  # 2t: the plain text behind search_text / read_text and nothing else
+  if base is None:  # 2t: the document behind search_text / read_text and nothing else
+    if document == "xbrlkit":
+      from .representations import xbrlkit_serve as xk
+
+      if not paths.package.exists():
+        return RungContext(cannot_attempt="package not materialized")
+      sf = xk.served(paths.package)
+      return RungContext(
+        tools=sf.tool_defs(xk.DOCUMENT_TOOLS),
+        runner=xk.make_tool_runner(sf, xk.DOCUMENT_TOOLS),
+        note=f"document via {sf.note()}",
+      )
     from .representations import document as doc_rep
 
     if not paths.text.exists():
@@ -599,7 +627,7 @@ def _build_context(
     )
   if base != rung:
     ctx = _build_context(
-      base, filing, settings, oim_form, context_window, mcp_client, model
+      base, filing, settings, oim_form, context_window, mcp_client, model, document
     )
     if ctx.cannot_attempt:
       return ctx
@@ -610,7 +638,15 @@ def _build_context(
       ctx.tools = mcp_rep.without_document_tools(ctx.tools)
       ctx.runner = mcp_rep.make_tool_runner(mcp_client, ctx.tools)
       ctx.note = ", ".join(t.name for t in ctx.tools)
-    if carries_document(rung):
+    if carries_document(rung) and document == "xbrlkit":
+      from .representations import xbrlkit_serve as xk
+
+      if not paths.package.exists():
+        return RungContext(cannot_attempt="package not materialized")
+      sf = xk.served(paths.package)
+      ctx.tools, ctx.runner = xk.beside(ctx.tools, ctx.runner, sf)
+      ctx.note = f"{ctx.note} + document via {sf.note()}".strip(" +")
+    elif carries_document(rung):
       from .representations import document as doc_rep
 
       if not paths.text.exists():
@@ -693,6 +729,17 @@ def _build_context(
     return text_attachment(paths.holon, "application/json", "holon.jsonld")
   if rung == Rung.TAVI_IN_CONTEXT:
     return text_attachment(paths.tavi_notext, "application/json", "model.tavi.json")
+  if rung == Rung.XBRLKIT_SERVE:
+    from .representations import xbrlkit_serve as xk
+
+    if not paths.package.exists():
+      return RungContext(cannot_attempt="package not materialized")
+    sf = xk.served(paths.package)
+    return RungContext(
+      tools=sf.tool_defs(xk.SERVE_TOOLS),
+      runner=xk.make_tool_runner(sf, xk.SERVE_TOOLS),
+      note=sf.note(),
+    )
   if rung in (Rung.XBRL_PACKAGE, Rung.OIM_FILES):
     from .representations import files as files_rep
 

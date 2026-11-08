@@ -410,7 +410,7 @@ dependencies = [
     { name = "pypdf" },
     { name = "python-dotenv" },
     { name = "rdflib" },
-    { name = "xbrlkit", extra = ["lpg"] },
+    { name = "xbrlkit", extra = ["lpg", "mcp"] },
 ]
 
 [package.optional-dependencies]
@@ -436,7 +436,7 @@ requires-dist = [
     { name = "python-dotenv", specifier = ">=1.0" },
     { name = "rdflib", specifier = ">=7.6" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.12" },
-    { name = "xbrlkit", extras = ["lpg"], specifier = ">=0.21" },
+    { name = "xbrlkit", extras = ["lpg", "mcp"], specifier = ">=0.21.4" },
 ]
 provides-extras = ["dev"]
 
@@ -1633,7 +1633,7 @@ wheels = [
 
 [[package]]
 name = "xbrlkit"
-version = "0.21.3"
+version = "0.21.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "arelle-release" },
@@ -1645,13 +1645,16 @@ dependencies = [
     { name = "regex" },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/70/e5/dbdf1dc0dbfcc228f38d82f47b01f2ec03af5110f7bdf1bc3c326c7443e3/xbrlkit-0.21.3.tar.gz", hash = "sha256:3e80b7fdaac088015e0bfd86c29d3c05469393b18748629f9c17a949111aac0e", size = 2155660, upload-time = "2026-10-15T18:53:03.03Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/3b/a9/d0c5680bdcc2e04834a6fbb94291622bb93b67ea81a9bf5ac5515e65cbe0/xbrlkit-0.21.4.tar.gz", hash = "sha256:2722b2a39f45e98adc313853f3adb19a5751c67527eca0cc6ec5dd3eefc0cd9f", size = 2155659, upload-time = "2026-11-01T21:51:15.247Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/53/e7/ec58aebfbdc7361bd08a7c61cc610fc666cd723b8097a8c803c1aa35035a/xbrlkit-0.21.3-py3-none-any.whl", hash = "sha256:a2525b8c06ef0c5cd75cc24d7ba244e7ddf6c9fc0060018e2f55ab41343a2ddb", size = 2090718, upload-time = "2026-10-15T18:53:01.307Z" },
+    { url = "https://files.pythonhosted.org/packages/23/19/0ecfb4b440039e40a903541d0c56b4a74dc2514e01050ce8e8ff16e7d544/xbrlkit-0.21.4-py3-none-any.whl", hash = "sha256:8b5e7d0c3d46bc027a03f0739bf52b484256d3dc279b1a4e4dbbcf63d3bc6275", size = 2090717, upload-time = "2026-11-01T21:51:13.243Z" },
 ]
 
 [package.optional-dependencies]
 lpg = [
     { name = "ladybug" },
     { name = "pyarrow" },
+]
+mcp = [
+    { name = "mcp" },
 ]

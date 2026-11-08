@@ -471,6 +471,17 @@ pre-registration.
   tagged disclosures (a harness-side filter on the tool's results), and shaped tools over the
   loaded XBRL model with tagged content only.
 
+- **2026-11-08 — a third versioning case (§8), for v0.1.2.** §8 names two: the first number
+  moves when locks, question sets or rung definitions change and every rung re-runs; the last
+  moves when rungs or controls are *added* under unchanged locks and question sets. v0.1.2 is
+  neither: four rungs re-run under new locks, one is added, the question set, the model and the
+  prompt skeleton are untouched. The rule, from here on: *a rung is re-materialized when its
+  artifact bytes or its tool list change under a new lock; a re-materialized rung re-runs, and its
+  published rows gain a successor rather than carrying forward. Every rung whose artifacts and
+  tools are unchanged carries forward by identity, and the pre-registration records the SHA-256 of
+  each carried-forward form so the identity is checkable rather than asserted. The last version
+  number moves.* §11 is the first pre-registration under it.
+
 ## 10. v0.1.1 — the document as a constant (pre-registered 2026-09-07)
 
 **What v0.1 could not separate.** §9's first entry: rung 7a's search index held the untagged body
@@ -534,3 +545,183 @@ judge with the same rubrics, and a README with the combined table: the v0.1 rows
 unchanged, the controls beneath them, labelled. Tags: `protocol-v0.1.1` on this section before the
 run; `results-v0.1.1` after. Estimated cost at list: $165–215 for the ten at k = 3, plus the judge.
 
+
+## 11. v0.1.2 — the forms that are ours, re-materialized; the document through xbrlkit (pre-registered 2026-11-08)
+
+**What this is.** A re-measurement of the four forms that are ours — 5c (Tavi), 7a (the `sec`
+graph's shaped tools), 7b (the filing as a LadybugDB file, raw Cypher), 7c (the holon, SPARQL) —
+with the tooling as it stands, on the frozen question set, beside the published document rows; one
+rung added; the document delivered to every rung of ours by xbrlkit's own text tools. It is not
+v0.2: one filing per question, no corpus claim, the same model. It is the first pre-registration
+under §9's 2026-11-08 erratum: the re-materialized rungs re-run and gain successor rows, every other
+row carries forward by identity with its hash recorded.
+
+**What changed since the freeze.** (1) xbrlkit 0.4.1 → 0.21.4. The holon went lossless in 0.7
+(per-report namespace bindings, every label role, the lexical value), the property-graph projection
+gained the single-file `.lbdb` export in 0.20, and `xbrlkit serve` arrived in 0.5 — shaped tools over
+a filing held in memory, no graph, no platform. Every 7b and 7c artifact in the corpus was
+re-materialized under 0.21.4 on 2026-11-08 (the 26 holons total 233 MB, about a quarter larger than
+under 0.4.1; the 26 graphs 555 MB; 4–6 s a filing); the 5c Tavi files regenerated on 2026-10-14
+stand. (2) The `sec` server grew five tools, all of them xbrlkit's own functions wrapped by the
+platform over the filing held whole: `describe-filing`, `disclosures`, `information-block`,
+`search-text`, `read-text`. The last two read the whole primary document — cover page, signatures,
+Part III — which v0.1's results README named as the index gaps behind 7a's misses. 7a's tool filter
+is by exclusion, so the five flow in; 15 tools listed, 13 given. (3) RoboSystems v1.22.1 carries the
+`canonical_concept` restamp (#1941) the parent spec named as a known defect of the 7a path, verified
+on the hosted repository on 2026-11-08, read-only.
+
+**The lineup**, in run order — the headline first, the identity checks last, so that a cut for
+cost falls on the rows whose predecessors already exist:
+
+| | What the model gets | The document | v0.1.2 | Sits beside |
+|---|---|---|---|---|
+| **4c** *(new)* | xbrlkit's shaped tools over the filing parsed from its own XBRL package, in memory | native — `search_text` / `read_text`, product profile | **added** | 7a (the platform's shaped tools against the library's); 5c (shaped tools against raw jq over the same model) |
+| **7a** | the `sec` repository's 13 shaped tools over MCP, hosted | native — `search-text` / `read-text` | **re-run** (lock: RoboSystems v1.22.1, hosted) | 7a v0.1; 7a+doc v0.1.1 |
+| **5c+doc** | 5c + xbrlkit's two text tools | the instrument below | **re-run** | 5c+doc v0.1.1 |
+| **7b+doc** | 7b + the two text tools | the instrument | **re-run** | 7b+doc v0.1.1 |
+| **7c+doc** | 7c + the two text tools | the instrument | **re-run** | 7c+doc v0.1.1 |
+| **5c** | the Tavi compiled model, describe + jq | none in the form | **re-run** (artifacts of 2026-10-14) | 5c v0.1 |
+| **7b** | the filing as `.lbdb`, describe + read-only Cypher | none in the form | **re-run** (re-materialized) | 7b v0.1 |
+| **7c** | the holon in rdflib, describe + SPARQL | none in the form | **re-run** (re-materialized) | 7c v0.1 |
+| **2** | the plain text, whole, in context | by construction | **re-run as the drift control**: same bytes, same model, nine weeks later | 2 v0.1 |
+| 1 · 3 · 5a · 5b · 6 · 2t · 5a+doc · 6+doc · 6+efts · 7a-tagged · 7a+doc · 7a-facts+doc · 7b-mcp | — | — | **carried forward by identity**; the SHA-256 of every artifact they read is recorded in `results/v0.1.2-sonnet-5/carried-forward.json` | — |
+
+7a's own "+doc" control is retired: the product carries the document natively. 7a-tagged and
+7a-facts+doc are not re-run — their tool subsets would need redefining against the new names, and
+neither is what this run asks. Rungs 1 and 3 are the most expensive and the least affected
+(nothing in either lock touches a PDF or an inline document), so they are the clearest identity
+carries. 5a and 5b come from Arelle's export, untouched since 2026-09-05; the ladder's Arelle pin
+moved to 2.45.3 since, recorded here, not acted on.
+
+**Rung 4c — the package behind `xbrlkit serve`.** The harness loads the filing's package folder
+(`data/<accession>/package/`, the inline document with its schema and linkbases, as acquired from
+EDGAR) through xbrlkit's `FilingSession`, and builds the server `xbrlkit serve` runs —
+`xbrlkit.serve.build_server` — over it, in-process: the tool definitions come from the server's own
+`list_tools`, every call goes through its `call_tool`, so the tools, their descriptions, their
+argument schemas and their answers are the library's and not the harness's. Only the Streamable HTTP
+transport is left out; the transport is not a variable. `read_from` is `file`: the filing as filed,
+no CDN, no EDGAR, no network (the filer-metadata lookup xbrlkit makes is on its EDGAR and CDN load
+paths only). Product profile, the document on — what `uvx xbrlkit serve <package>` gives any reader.
+**Nine tools given**: `describe_filing`, `resolve_element`, `fact_grid`, `statement`, `calculation`,
+`disclosures`, `information_block`, `search_text`, `read_text`. **Ten withheld**, each for a reason
+recorded in `filing_ladder/representations/xbrlkit_serve.py` (`WITHHELD`) and tested against the
+server's registration so a tool xbrlkit adds later is placed rather than defaulted: `run_cypher`
+(raw Cypher over the same file is rung 7b); `load_filing`, `unload_filing`, `list_filings` (the
+one-filing frame, and housekeeping — 7a withholds `list-subgraphs` and `get-graph-info` the same
+way); `search_filings` (the SEC's full-text search, the 6+efts control's surface); `export_filing`,
+`view_filing` (side effects, not answers); `documents`, `read_document` (the filing's other
+documents — more than the one primary document every other rung has, so out under v0.1.1's rule);
+`records` (the XML-lane tool, not applicable to an XBRL report). The hand-off prompt is the tool
+rungs' skeleton with `describe_filing` as the first step, parallel to 7a's. Whose claim: the
+open-source library's — the query craft done once, on the reader's own machine, with no server,
+account or network. It is the parent spec's candidate 3 ("the control the ladder is missing": the
+package family's 7a) and the pair it makes with 7a is the point: the same functions behind the
+platform and behind the library, on the same model and the same document.
+
+**7a on the hosted repository — a lock change, disclosed.** v0.1 and v0.1.1 ran 7a on a fresh
+local load of the 26 corpus filings under a named release (§6). v0.1.2 runs it on the hosted `sec`
+repository at `api.robosystems.ai`, RoboSystems v1.22.1, over the same MCP transport with the same
+filing hint (ticker, form, fiscal year, CIK, accession). Why: the local-load rule existed to pin a
+release carrying the corpus fixes, and the hosted graph is at a named release, verified the morning
+of the pre-registration; a local load of the corpus, its filer catalog and its text index is two to
+three days of the five the funding window has; and the hosted repository is the product as a user
+gets it. What differs, stated so it can be read in the transcripts: the corpus is every processed
+filing, not 26, so the corpus-wide tools (cross-filer fact grids, `search-documents` over the whole
+index) are present — no frozen question needs them; an answer read from a filing other than the
+question's is a confident-wrong of the form and is scored as such. The 7a prompt's source paragraph
+now names the five tools in its second step; its first step and the skeleton are v0.1's. 7a's
+carried-forward controls derive their prompt from 7a's in code and are not re-run; their published
+transcripts carry the prompts they ran with. One engine issue is known going in: on 2026-11-08 a
+deterministic wrong-results read was found on the hosted graph (a fact's `numeric_value` returned
+as 0.0 under one combination of Cypher patterns) on a filer outside the corpus; breadth unmeasured.
+A 7a transcript that shows it is a defect of the form, disclosed in the results, never re-scored.
+
+**The document instrument — xbrlkit's text tools on every rung of ours.** v0.1.1's "+doc" was two
+harness tools over rung 2's text file. In v0.1.2 the document on 5c+doc, 7b+doc and 7c+doc is
+xbrlkit's `search_text` and `read_text` over the same loaded filing 4c reads — one loaded filing
+per corpus filing, shared by the rung and the controls — with the definitions the server lists and
+calls through the server. What differs from v0.1.1's tools, all of it the product profile: a section
+label on each hit; when more matched than came back, `sections` counts where the matches fall and
+`sections_omitted` how many further sections hold the rest; on no match, `terms` counts the
+pattern's own words; `read_text` pages to 8,000 characters (was 4,000) and returns `next_offset`.
+`--pure` restores v0.1.1's hit shape and read cap and is documented in the library as the ladder's;
+it is not run here, and `filing-ladder run --document harness` keeps v0.1.1's own instrument for a
+replication wanting parity with those rows. The gate (principle 11): xbrlkit's readable text and
+rung 2's plain text must carry the same document on all 26 filings, compared on alphanumerics —
+length ratio within ±3%, and 24 probes of 80 characters taken from each and found in the other,
+matched with whitespace removed because the two renderers split table cells and footnote markers
+differently. `bin/check_readable_text.py` (`just check-readable`); the result is published in
+`results/v0.1.2-sonnet-5/text-layer-gate.json` either way. **Result, 2026-11-08: 26 of 26.** Alphanumeric
+length ratios 0.9989–1.0000 (xbrlkit's text is the longer by 1–3% in raw characters, the renderers'
+whitespace). Three filings — Microsoft FY2024, KKR's 2025 quarter, Zillow FY2024 — matched only under
+the whitespace rule, on a glued footnote marker, a table header split across cells and a page-footer
+link; none is a difference in what the document says, and the rule was written for them before any
+answer was read.
+
+**Locks.**
+
+| Lock | v0.1 / v0.1.1 | v0.1.2 |
+|---|---|---|
+| Model | `claude-sonnet-5`, Anthropic direct, model-default sampling | **same** — a newer model is a lock change that re-runs every rung and confounds "the tools improved" with "the model improved", the one thing this run exists to separate |
+| Questions | 38 (32 Vals + 6 templates), `questions/manifest.json` | **same**; verified unchanged on 2026-11-08. `filing-token-counts.json` is one of its four hashed files and is deliberately not re-exported: the re-materialized holon's size goes in the results README |
+| k · turn cap · max tokens · prompt skeleton · output contract | 3 · 12 · 16,384 · as frozen | **same** |
+| xbrlkit | 0.4.1 | **0.21.4** (`xbrlkit[lpg,mcp]`); the hosted server runs 0.21.3 — identical package code, the release differs in README and CI only |
+| RoboSystems, rung 7a | v1.11.16, fresh local load | **v1.22.1, the hosted `sec` repository** (above) |
+| LadybugDB (7b) | 0.20.x | 0.22.1 |
+| Arelle | 2.44.6 | 2.45.3 in the lock; 5a/5b exports not regenerated — recorded |
+| Prices | `prices.json` 2026-09-03 | **same** — Sonnet 5 list unchanged, re-verified 2026-10-24; the model confirmed served 2026-11-08 |
+
+**Cost, pre-registered.** Published per-rung actuals from v0.1 and v0.1.1 (k = 3, 38 questions,
+114 records a rung) at Sonnet 5 list; tool rungs cache little, so these are robust to ordering.
+
+| Piece | Estimate | Basis |
+|---|---|---|
+| 4c | $10–15 | shaped like 5c+doc ($10.99) |
+| 7a, 13 tools | $12–15 | v0.1 $11.17; more tools, more text reads |
+| 5c+doc · 7b+doc · 7c+doc | $11 · $9 · $10 | v0.1.1 $10.99 · $8.40 · $9.40 |
+| 5c · 7b · 7c | $22 · $17 · $24–26 | v0.1 $22.00 · $17.12 · $23.96; the holon is a quarter larger |
+| 2 (drift control) | $17 | v0.1 $16.58 |
+| Judge, and a k = 1 shakedown on the six template questions | $10–15 | |
+| **Total** | **$142–162** | funded by a promotional credit expiring 2026-11-13; the ceiling is $233 |
+
+The run order is the cut order. If actuals at the midpoint of the plan run a quarter over the
+estimate, the bare re-runs (5c, 7b, 7c) and then rung 2 are dropped, and their predecessors carry
+forward by identity — stated now so a cut is a pre-registered branch, not a choice made on the
+numbers.
+
+**Expectations, stated before the run** (principle 2). (a) 7a's T1 moves up toward the plain-text
+row: v0.1 bounded the whole-document gain at roughly 90–92% against plain text's 93%, and the two
+named misses are now reachable. (b) 4c lands near 7a, not near 5c — the same facts behind shaped
+tools with the same document; if so, the parent spec's sentence applies, "retrieval does the work,
+not the platform", and is published as such; (c) 4c costs less per correct answer than 7a (no
+transport, no index, no graph round trips). (d) 7b and 7c move little on T1 and more on narrative
+questions through their +doc controls, as in v0.1.1; the re-materialization is a fidelity change,
+not a reach change. (e) 5c is unchanged within error bars. (f) Rung 2 reproduces its v0.1 row
+within the k = 3 spread; a drift there bounds every other comparison in this section. (g) Cost per
+correct answer on the four forms stays in the v0.1.1 band ($0.08–0.15), with 7a's native text reads
+costing more than the file-beside controls did. A result that contradicts any of these is the
+finding.
+
+**Shakedown.** The six template questions, k = 1, on the eight tool rungs, run on 2026-11-08
+before the tag and never published (principle 10); what it changed in this section is recorded
+here: nothing.
+48 of 48 records completed, every one on `end_turn`, no transport error, no turn-cap hit, $5.25
+at list. 16 of 181 tool calls errored: nine were `search_text` called with `query` or `program`
+in place of `pattern` — the library's schema refused and the model corrected on the next turn,
+which is the model's behaviour against the tool as shipped and stays as it is; the rest were the
+engines' (a regex group in Cypher, a SPARQL query without its PREFIX line, `fact_grid` called with
+`concepts` for `elements`), as in v0.1. Two things about the first step, recorded and not acted
+on (fairness rule 3): on these six questions 7a never called `get-graph-schema` or
+`get-example-queries` and never fell back to Cypher — it answered from
+`financial-statement-analysis`, `search-text`, `disclosures` and `information-block`; and 4c called
+`describe_filing` once in six, answering the rest from `statement`, `fact_grid`, `search_text` and
+`information_block` in two turns. Per-question cost on the six: 4c $0.026 · 7a $0.064 · 5c+doc $0.069
+· 7b+doc $0.065 · 7c+doc $0.129 · 5c $0.170 · 7b $0.102 · 7c $0.251 — below the estimate's basis,
+which stands because the Vals questions run longer than these.
+
+**Publication.** `results/v0.1.2-sonnet-5/`: the records of the nine rows, judged by the v0.1 judge
+(`claude-sonnet-5`, rubric decomposition + contradiction check) with the same rubrics; the 20%
+human-review sample and every disagreement; a README with the per-rung tables beside their
+predecessors, the carried-forward rows marked as such with their hashes, the gate result, the cost
+actuals beside the estimate, and the expectations above scored. Tags: `protocol-v0.1.2` on this
+section before the run; `results-v0.1.2` after. Transcripts gzipped, as before.

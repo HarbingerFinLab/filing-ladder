@@ -80,10 +80,20 @@ SOURCES: dict[Rung, str] = {
   ),
   Rung.LPG_SHAPED: (
     "You have the RoboSystems SEC knowledge graph through its MCP tools (financial statements, fact grids, element resolution, "
+    "a filing's layout, disclosures and information blocks, its whole primary document through search-text and read-text, "
     "document search and sections, and read-only Cypher). "
     + TOOLS_WORKFLOW.format(
       first_step="Call get-example-queries and get-graph-schema first — never guess the schema.",
-      second_step="Prefer the shaped tools (financial-statement-analysis, build-fact-grid, resolve-element, search-documents); fall back to read-graph-cypher.",
+      second_step="Prefer the shaped tools (financial-statement-analysis, build-fact-grid, resolve-element, describe-filing, disclosures, information-block, search-text / read-text, search-documents); fall back to read-graph-cypher.",
+    )
+  ),
+  Rung.XBRLKIT_SERVE: (
+    "You have this ONE filing, parsed from its own XBRL package and held in memory, through xbrlkit's shaped tools: "
+    "describe_filing, resolve_element, fact_grid, statement, calculation, disclosures and information_block, and its whole "
+    "primary document through search_text and read_text. "
+    + TOOLS_WORKFLOW.format(
+      first_step="Call describe_filing FIRST — the entity, the periods with the keys the other tools take, the statements and disclosures by role, the axes present. Never guess a concept name or a period key.",
+      second_step="Prefer the shaped tools (statement, fact_grid, calculation, resolve_element; disclosures, then information_block for one section whole); use search_text and read_text for what the narrative says.",
     )
   ),
   Rung.LPG_CYPHER: (
