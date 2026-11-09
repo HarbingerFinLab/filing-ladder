@@ -49,15 +49,20 @@ constant across every tool rung. Given the whole filing behind one search tool, 
 representation lands within 85–92% on lookups and 54–61% on derived questions, and the knowledge
 graph with the untagged body removed from its index falls from 85% to 48%. On a single filing, the
 document is what worked; the form it arrived in barely mattered.
-**Protocol v0.2 is pre-registered** ([PROTOCOL §11](PROTOCOL.md#11-v02--the-forms-that-are-ours-re-materialized-the-document-through-xbrlkit-the-model-moved-to-sonnet-55-pre-registered-2026-11-08)):
-the model moves to Sonnet 5.5, which opens a new column of the results table, and the four forms that
-are ours — Tavi, the filing's own property graph, the holon, and the `sec` graph's tools — run under
-the tooling as it stands (xbrlkit 0.21.4; the hosted `sec` repository at RoboSystems v1.22.2), one rung
-added (`4c`: the package behind `xbrlkit serve`'s shaped tools, on the reader's own machine), the
-document delivered to every one of them by xbrlkit's own `search_text` / `read_text`, and rung 2 run
-as the anchor that reads the model's own gain on the same bytes. Same 38 questions, same k, same judge.
-Nothing carries forward across a model change: the column's other rows are pre-registered and wait on
-funding. Results land in `results/v0.2-sonnet-5-5/` when the run closes.
+**Protocol v0.2 has run** ([PROTOCOL §11](PROTOCOL.md#11-v02--the-forms-that-are-ours-re-materialized-the-document-through-xbrlkit-the-model-moved-to-sonnet-55-pre-registered-2026-11-08);
+results in [`results/v0.2-sonnet-5-5/`](results/v0.2-sonnet-5-5/README.md)): the model moved to Sonnet 5.5, which opens a new
+column of the results table, and the four forms that are ours — Tavi, the filing's own property graph,
+the holon, and the `sec` graph's tools — ran under the tooling as it stands (xbrlkit 0.21.4; the hosted
+`sec` repository at RoboSystems v1.22.2), with one rung added (`4c`: the package behind `xbrlkit serve`'s
+shaped tools, on the reader's own machine) and the document delivered to every one of them by xbrlkit's
+own `search_text` / `read_text`. **The model moved and the reading did not**: rung 2, the plain text read
+whole, scored 93% and 63% against Sonnet 5's 93% and 61%, question for question identical on lookups.
+Against that anchor the forms that are ours land at 90–93% on lookups and 59–63% on derived questions,
+inside one another's error bars, at $0.06–0.08 per correct lookup; the open-source package (4c) matches
+the hosted platform (7a) on both tiers at the same cost. Five of the hosted graph's correct derived
+answers were read from a filing other than the question's and are scored, as pre-registered, as
+confident-wrong of the form. Nothing carries forward across a model change; the column's other thirteen
+rows are pre-registered and wait on funding.
 
 ## The ladder
 

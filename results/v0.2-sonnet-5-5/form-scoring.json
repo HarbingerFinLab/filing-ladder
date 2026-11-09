@@ -1,0 +1,81 @@
+{
+ "rule": "PROTOCOL \u00a711 (v0.2), 7a on the hosted repository: the corpus is every processed filing, not 26; an answer read from a filing other than the question's is a confident-wrong of the form and is scored as such.",
+ "method": "Every 7a tool result was scanned for an SEC accession number other than the question's filing's (the results carry `accession` / `resolved_report`). Six of 114 records read another filing; the five the judge marked correct are re-scored as confident-wrong of the form. judgments.jsonl is the judge's output, unchanged; summary.json is the judge's aggregate, unchanged; the README reports 7a's T2 row form-scored, with the judge's figure beside it.",
+ "records": [
+  {
+   "question_id": "vals-17",
+   "run_index": 1,
+   "judge_correct": true,
+   "foreign_accessions": [
+    "0001559720-24-000006"
+   ],
+   "question_filing": "0001559720-25-000010",
+   "form_scored": "confident-wrong of the form"
+  },
+  {
+   "question_id": "vals-17",
+   "run_index": 2,
+   "judge_correct": true,
+   "foreign_accessions": [
+    "0001559720-24-000006"
+   ],
+   "question_filing": "0001559720-25-000010",
+   "form_scored": "confident-wrong of the form"
+  },
+  {
+   "question_id": "vals-17",
+   "run_index": 3,
+   "judge_correct": true,
+   "foreign_accessions": [
+    "0001559720-24-000006"
+   ],
+   "question_filing": "0001559720-25-000010",
+   "form_scored": "confident-wrong of the form"
+  },
+  {
+   "question_id": "vals-22",
+   "run_index": 1,
+   "judge_correct": true,
+   "foreign_accessions": [
+    "0001559720-23-000003"
+   ],
+   "question_filing": "0001559720-25-000010",
+   "form_scored": "confident-wrong of the form"
+  },
+  {
+   "question_id": "vals-22",
+   "run_index": 2,
+   "judge_correct": false,
+   "foreign_accessions": [
+    "0001559720-24-000006"
+   ],
+   "question_filing": "0001559720-25-000010",
+   "form_scored": "unchanged (already not correct)"
+  },
+  {
+   "question_id": "vals-22",
+   "run_index": 3,
+   "judge_correct": true,
+   "foreign_accessions": [
+    "0001559720-24-000006"
+   ],
+   "question_filing": "0001559720-25-000010",
+   "form_scored": "confident-wrong of the form"
+  }
+ ],
+ "7a_T2": {
+  "n": 54,
+  "judge": {
+   "correct": 38,
+   "accuracy": 0.7037,
+   "confident_wrong": 0.2778,
+   "cost_per_correct": 0.1496
+  },
+  "form_scored": {
+   "correct": 33,
+   "accuracy": 0.6111,
+   "confident_wrong": 0.3704,
+   "cost_per_correct": 0.1722
+  }
+ }
+}
