@@ -10,6 +10,8 @@ from __future__ import annotations
 import asyncio
 import json
 import threading
+import time
+from collections import deque
 from typing import Any
 
 import httpx2
@@ -22,14 +24,67 @@ from .companyfacts import clip
 SHAPED_EXCLUDE = {"list-subgraphs", "get-graph-info"}
 CYPHER_ONLY = ("get-graph-schema", "get-example-queries", "read-graph-cypher")
 
+# The hosted `sec` repository counts every MCP tool call against the subscriber's plan and refuses
+# over the cap with HTTP 429, which reaches the model as a tool error. The ladder's key holds the
+# advanced plan: 25 calls a minute, 500 a UTC clock hour. The harness stays under both with a
+# margin, so a cap never answers a question (PROTOCOL §11).
+SEC_ADVANCED_PLAN_MCP_CAPS = (25, 500)
+PACE = (20, 450)
+
+
+class Pacer:
+  """Lets a call go out only when fewer than ``per_minute`` went out in the trailing 60 s and
+  fewer than ``per_hour`` in the current UTC clock hour; sleeps otherwise. The model never sees
+  the wait; the wall clock does."""
+
+  def __init__(
+    self, per_minute: int, per_hour: int, *, clock=time.time, sleep=time.sleep
+  ) -> None:
+    self.per_minute = per_minute
+    self.per_hour = per_hour
+    self._clock = clock
+    self._sleep = sleep
+    self._sent: deque[float] = deque()
+    self.calls = 0
+    self.waited_s = 0.0
+
+  def delay(self, now: float) -> float:
+    hour_start = now - now % 3600
+    while self._sent and self._sent[0] < hour_start:
+      self._sent.popleft()
+    recent = [t for t in self._sent if t > now - 60]
+    delay = 0.0
+    if len(recent) >= self.per_minute:
+      delay = max(delay, recent[-self.per_minute] + 60 - now)
+    if len(self._sent) >= self.per_hour:
+      delay = max(delay, hour_start + 3600 - now)
+    return delay
+
+  def wait(self) -> float:
+    waited = 0.0
+    while (delay := self.delay(self._clock())) > 0:
+      self._sleep(delay)
+      waited += delay
+    self._sent.append(self._clock())
+    self.calls += 1
+    self.waited_s += waited
+    return waited
+
 
 class McpClient:
   """One live MCP session on a background event loop, callable synchronously."""
 
-  def __init__(self, url: str, api_key: str, timeout_s: float = 120.0) -> None:
+  def __init__(
+    self,
+    url: str,
+    api_key: str,
+    timeout_s: float = 120.0,
+    pace: tuple[int, int] | None = PACE,
+  ) -> None:
     self.url = url
     self._headers = {"X-API-Key": api_key}
     self._timeout_s = timeout_s
+    self.pacer = Pacer(*pace) if pace else None
     self._loop = asyncio.new_event_loop()
     self._thread = threading.Thread(
       target=self._loop.run_forever, name="mcp-loop", daemon=True
@@ -87,6 +142,8 @@ class McpClient:
 
   def call(self, name: str, args: dict) -> str:
     assert self._session is not None
+    if self.pacer is not None:
+      self.pacer.wait()
     result = self._run(self._session.call_tool(name, args))
     texts: list[str] = []
     for block in result.content:

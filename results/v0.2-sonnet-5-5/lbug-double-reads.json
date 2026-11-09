@@ -1,0 +1,439 @@
+{
+  "checked_at": "2026-11-09T01:06:07Z",
+  "ladybug": "0.22.1",
+  "shapes": {
+    "flag": "MATCH (f:Fact) WHERE f.has_dimensions = false AND f.numeric_value IS NOT NULL RETURN f.value, f.numeric_value",
+    "flag+element": "MATCH (f:Fact {has_dimensions: false})-[:FACT_HAS_ELEMENT]->(e:Element) WHERE e.is_numeric = true AND f.numeric_value IS NOT NULL RETURN f.value, f.numeric_value"
+  },
+  "filings": [
+    {
+      "accession": "0000012927-25-000015",
+      "shapes": {
+        "flag": {
+          "compared": 877,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 877,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0000066740-25-000006",
+      "shapes": {
+        "flag": {
+          "compared": 825,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 825,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0000091419-24-000054",
+      "shapes": {
+        "flag": {
+          "compared": 604,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 604,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0000899051-25-000015",
+      "shapes": {
+        "flag": {
+          "compared": 1142,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 1142,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0000950170-24-075605",
+      "shapes": {
+        "flag": {
+          "compared": 710,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 710,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0000950170-24-087843",
+      "shapes": {
+        "flag": {
+          "compared": 638,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 638,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0000950170-25-067220",
+      "shapes": {
+        "flag": {
+          "compared": 352,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 352,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001065280-25-000044",
+      "shapes": {
+        "flag": {
+          "compared": 582,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 582,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001108524-25-000006",
+      "shapes": {
+        "flag": {
+          "compared": 579,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 579,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001163302-25-000018",
+      "shapes": {
+        "flag": {
+          "compared": 752,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 752,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001321655-25-000022",
+      "shapes": {
+        "flag": {
+          "compared": 513,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 513,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001327811-25-000056",
+      "shapes": {
+        "flag": {
+          "compared": 574,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 574,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001404912-25-000022",
+      "shapes": {
+        "flag": {
+          "compared": 469,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 469,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001408198-25-000053",
+      "shapes": {
+        "flag": {
+          "compared": 695,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 695,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001437107-25-000031",
+      "shapes": {
+        "flag": {
+          "compared": 897,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 897,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001477333-25-000043",
+      "shapes": {
+        "flag": {
+          "compared": 585,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 585,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001498710-25-000008",
+      "shapes": {
+        "flag": {
+          "compared": 602,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 602,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001543151-24-000012",
+      "shapes": {
+        "flag": {
+          "compared": 739,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 739,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001543151-25-000008",
+      "shapes": {
+        "flag": {
+          "compared": 730,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 730,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001559720-25-000010",
+      "shapes": {
+        "flag": {
+          "compared": 591,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 591,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001564408-25-000019",
+      "shapes": {
+        "flag": {
+          "compared": 512,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 512,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001591698-24-000151",
+      "shapes": {
+        "flag": {
+          "compared": 530,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 530,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001617640-25-000016",
+      "shapes": {
+        "flag": {
+          "compared": 530,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 530,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001794669-25-000011",
+      "shapes": {
+        "flag": {
+          "compared": 592,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 592,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001831631-24-000285",
+      "shapes": {
+        "flag": {
+          "compared": 498,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 498,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    },
+    {
+      "accession": "0001866581-25-000048",
+      "shapes": {
+        "flag": {
+          "compared": 531,
+          "zero_misreads": 0,
+          "other": 0
+        },
+        "flag+element": {
+          "compared": 531,
+          "zero_misreads": 0,
+          "other": 0
+        }
+      },
+      "ok": true
+    }
+  ],
+  "totals": {
+    "flag": {
+      "compared": 16649,
+      "zero_misreads": 0,
+      "other": 0
+    },
+    "flag+element": {
+      "compared": 16649,
+      "zero_misreads": 0,
+      "other": 0
+    }
+  },
+  "ok": true
+}

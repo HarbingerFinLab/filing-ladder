@@ -49,6 +49,15 @@ constant across every tool rung. Given the whole filing behind one search tool, 
 representation lands within 85–92% on lookups and 54–61% on derived questions, and the knowledge
 graph with the untagged body removed from its index falls from 85% to 48%. On a single filing, the
 document is what worked; the form it arrived in barely mattered.
+**Protocol v0.2 is pre-registered** ([PROTOCOL §11](PROTOCOL.md#11-v02--the-forms-that-are-ours-re-materialized-the-document-through-xbrlkit-the-model-moved-to-sonnet-55-pre-registered-2026-11-08)):
+the model moves to Sonnet 5.5, which opens a new column of the results table, and the four forms that
+are ours — Tavi, the filing's own property graph, the holon, and the `sec` graph's tools — run under
+the tooling as it stands (xbrlkit 0.21.4; the hosted `sec` repository at RoboSystems v1.22.2), one rung
+added (`4c`: the package behind `xbrlkit serve`'s shaped tools, on the reader's own machine), the
+document delivered to every one of them by xbrlkit's own `search_text` / `read_text`, and rung 2 run
+as the anchor that reads the model's own gain on the same bytes. Same 38 questions, same k, same judge.
+Nothing carries forward across a model change: the column's other rows are pre-registered and wait on
+funding. Results land in `results/v0.2-sonnet-5-5/` when the run closes.
 
 ## The ladder
 

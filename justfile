@@ -61,6 +61,14 @@ questions:
 check-text *args:
     uv run python bin/check_text_layer.py {{args}}
 
+# The v0.2 document gate: xbrlkit's readable text against rung 2's plain text, every filing
+check-readable *args:
+    uv run python bin/check_readable_text.py {{args}}
+
+# The v0.2 engine check: every 7b graph's numeric facts read through a filter against their text
+check-lbug-doubles *args:
+    uv run python bin/check_lbug_doubles.py {{args}}
+
 # Run rungs on a question set (see `filing-ladder run --help`)
 run *args:
     uv run filing-ladder run {{args}}
