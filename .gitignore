@@ -30,3 +30,4 @@ logs/
 .claude/settings.local.json
 CLAUDE.local.md
 !results/v0.2-sonnet-5-5/
+!results/v0.2.1-sonnet-5-5/

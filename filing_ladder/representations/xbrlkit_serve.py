@@ -40,6 +40,23 @@ SERVE_TOOLS: tuple[str, ...] = (
 )
 DOCUMENT_TOOLS: tuple[str, ...] = ("search_text", "read_text")
 
+# Protocol v0.2.1, rung 4c.1: the argument name each tool takes beside its original (xbrlkit 0.21.5).
+ALIASES: dict[str, tuple[str, str]] = {
+  "fact_grid": ("elements", "concepts"),
+  "resolve_element": ("query", "phrase"),
+}
+
+
+def accepts_aliases(tools: list[ToolDef]) -> bool:
+  """Whether the served tools take the v0.2.1 argument aliases; 4c.1 does not run otherwise."""
+  by_name = {t.name: t for t in tools}
+  return all(
+    name in by_name
+    and set(pair) <= set(by_name[name].input_schema.get("properties", {}))
+    for name, pair in ALIASES.items()
+  )
+
+
 # Every other tool the server registers, with why the rung does not get it. A tool the
 # library adds later lands in neither set and fails the registration test, so the decision
 # is taken rather than defaulted.

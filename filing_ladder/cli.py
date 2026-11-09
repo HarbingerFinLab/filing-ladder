@@ -111,7 +111,11 @@ def build_parser() -> argparse.ArgumentParser:
   mt.set_defaults(func=cmd_mcp_tools)
 
   r = sub.add_parser("run", help="run rungs on a question set")
-  r.add_argument("--rungs", default="v0", help="v0 | all | comma list, e.g. 2,5b,7c")
+  r.add_argument(
+    "--rungs",
+    default="v0",
+    help="v0 | v0.1.1 | v0.2 | v0.2.1 | all | comma list, e.g. 2,5b,7c",
+  )
   r.add_argument("--provider", default="nvidia", choices=PROVIDERS)
   r.add_argument("--model", required=True)
   r.add_argument("--set", default="all", help="vals-public-50 | templates | all")
@@ -636,6 +640,15 @@ def _build_context(
     )
     if ctx.cannot_attempt:
       return ctx
+    if rung == Rung.XBRLKIT_SERVE_V021:
+      from .representations import xbrlkit_serve as xk
+
+      # The row is 4c on an xbrlkit that takes the aliases; never 4c again by accident.
+      if not xk.accepts_aliases(ctx.tools):
+        return RungContext(
+          cannot_attempt="xbrlkit without the concepts / phrase aliases (4c.1 needs 0.21.5)",
+          note=ctx.note,
+        )
     if rung == Rung.LPG_SHAPED_FACTS_DOC:
       from .representations import mcp as mcp_rep
 

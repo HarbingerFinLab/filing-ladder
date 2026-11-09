@@ -62,7 +62,12 @@ inside one another's error bars, at $0.06–0.08 per correct lookup; the open-so
 the hosted platform (7a) on both tiers at the same cost. Five of the hosted graph's correct derived
 answers were read from a filing other than the question's and are scored, as pre-registered, as
 confident-wrong of the form. Nothing carries forward across a model change; the column's other thirteen
-rows are pre-registered and wait on funding.
+rows are pre-registered and wait on funding. **v0.2.1 is pre-registered** ([PROTOCOL §12](PROTOCOL.md#12-v021--two-rows-added-beside-4c-and-7a-each-with-one-friction-the-v02-transcripts-showed-removed-pre-registered-2026-11-09)):
+two rows added beside 4c and 7a under §8's last-number rule, each with one friction the v0.2 transcripts
+showed removed — xbrlkit taking the argument names the model sent (37 of 4c's 44 tool errors), and 7a's
+first workflow step pointed at its tools instead of the Cypher prerequisites (46 of 114 records opened with
+a 6,718-character example fetch; Cypher followed in 9). The v0.2 rows carry forward by identity; the two
+rows run next.
 
 ## The ladder
 
