@@ -147,7 +147,7 @@ def build_parser() -> argparse.ArgumentParser:
     "--document",
     default="xbrlkit",
     choices=("xbrlkit", "harness"),
-    help="the document instrument on the +doc controls and 2t: xbrlkit's search_text / read_text over the filing loaded from its package (protocol v0.1.2, default) or the harness's two tools over the plain text (v0.1.1)",
+    help="the document instrument on the +doc controls and 2t: xbrlkit's search_text / read_text over the filing loaded from its package (protocol v0.2, default) or the harness's two tools over the plain text (v0.1.1)",
   )
   r.add_argument("--resume", help="an existing run directory to continue")
   r.add_argument(

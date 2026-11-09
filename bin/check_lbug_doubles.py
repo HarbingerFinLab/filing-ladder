@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""The 7b engine check for protocol v0.1.2 (PROTOCOL §11, principle 11).
+"""The 7b engine check for protocol v0.2 (PROTOCOL §11, principle 11).
 
 LadybugDB 0.22.x can project a DOUBLE as 0.0 when a filtered scan's batch straddles a
 compression segment boundary — the defect found on the hosted ``sec`` graph on 2026-11-08
@@ -85,7 +85,7 @@ def check(path: Path) -> dict:
 def main() -> int:
   ap = argparse.ArgumentParser()
   ap.add_argument("--data", default="data")
-  ap.add_argument("--json", default="results/v0.1.2-sonnet-5/lbug-double-reads.json")
+  ap.add_argument("--json", default="results/v0.2-sonnet-5-5/lbug-double-reads.json")
   ap.add_argument("accessions", nargs="*")
   args = ap.parse_args()
   data = Path(args.data)

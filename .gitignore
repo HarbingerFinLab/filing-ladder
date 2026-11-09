@@ -29,4 +29,4 @@ logs/
 # AI tooling
 .claude/settings.local.json
 CLAUDE.local.md
-!results/v0.1.2-sonnet-5/
+!results/v0.2-sonnet-5-5/

@@ -2,7 +2,7 @@
  "0000012927-25-000015": {
   "ticker": "BA",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "68e6fb54f2f42f68aed80cf19caed692dfc1919af7d229da77fa18b8c1c0434f",
    "rung2.text.txt": "0bc2732ab3c68db92926dc701178656c519070c7b1c6777327815da1f14524d9",
    "rung3.ixbrl.htm": "99b067e9cfc18ad1fea536e355397466ba2490b4623d414b44bd171795e61e73",
@@ -12,7 +12,7 @@
    "oim/oim-metadata.json": "9ea1acdb5b61e4aaf0a77effad64b7686a28e407fd049feda3f6f82b74253180",
    "oim/oim.json": "27a6ab4b8a3e347d11b5a5f63caf4f6f2c645dd92b330f9056cab4dbdb09a1c7"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "fdf347678121401294c31722e7cb11127e7e686a228ca36ae4ed43a7f38265e8",
    "rung7b.filing.lbug": "29b992cef3b5a1503ee8fe5bb260596c6d02e6c28b59109407c92570aa5b4c99",
    "rung7c.holon.jsonld": "50d5809f7a8f95609fc61003811e3fffb31c7d39b1d1dd59e0ab132bb685a051"
@@ -21,7 +21,7 @@
  "0000066740-25-000006": {
   "ticker": "MMM",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "bb9d7f081f764df8051bfb9de606e857e01f8a2b291db1ab2e74f2979ae809ee",
    "rung2.text.txt": "7058a17aa223e7c8746d8184af8b45d4398fe6302f9486e9ae9b0d449126d0ca",
    "rung3.ixbrl.htm": "a4bb13c01cedace78c5ee0a0c7062881fd493e64790d2fb0fd129b6ccf2abeb0",
@@ -32,7 +32,7 @@
    "oim/oim-metadata.json": "0f600b3713d9eb47a2d2282cd5d38091e31190951ec5029d60e3d606bcd5ef0f",
    "oim/oim.json": "7b3f25ad6ac82254bad004af57f2641bf05c93370e1d243344133030f9622f62"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "d4652c90b50563477c5df346e28f1cfab1ffe4951221988282415c15379e29ff",
    "rung7b.filing.lbug": "3474f8711a33129cf80f16df71a55d5694f2316085fc243854acdc466e6f0410",
    "rung7c.holon.jsonld": "5340c3d0fa3446670b412b166d09e0cce30022a9e3e943c50bf688fb4ecf918a"
@@ -41,7 +41,7 @@
  "0000091419-24-000054": {
   "ticker": "SJM",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "c15b64667ab3f9666e5a458b56867188678eb3fb31c49c6ea7ef116ab8392dfc",
    "rung2.text.txt": "f586b1ab6221f479b6cf482d20954681a18b7b36b3613c2dc3e86c00b7538863",
    "rung3.ixbrl.htm": "784a5b5e24348028f65243cc78b788cd29f71008d667755b08e2ca6e943b1fa8",
@@ -52,7 +52,7 @@
    "oim/oim-metadata.json": "f3ab25ace1609c85520e95ae503c0e545be7c091bec5b32b0a8179ff5aa616c0",
    "oim/oim.json": "a57be6218fde50dbd19fe3f8d827bb811a4803a6857ec9532ef69fab454b4b7d"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "d61638f8da9dab041330fa6a72dcdd24927d5bd8c8dacb263b046da4bacb2f69",
    "rung7b.filing.lbug": "c1d630d10811a9ce469018d1715b0d7ae8a4f8ee6a6cd5941803c2a8db35a4da",
    "rung7c.holon.jsonld": "4fcde37557e8cbb962d25671b164902456ddd41108dfb1e9d9cd1551719e5ad4"
@@ -61,7 +61,7 @@
  "0000899051-25-000015": {
   "ticker": "ALL",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "7bf2a2a1f2b710dffa5123e532c79b6a3ec0af52a7fb4927a97a227c9ac21295",
    "rung2.text.txt": "edfcc15bfea34653fc1a20db303ac0a12485bb1cff7c8a21bbf99fad1fbe4bf0",
    "rung3.ixbrl.htm": "ada62fc0acc2c81b7c1580cf4c825a8c493e2ce35718c7133e78dc7a658187ec",
@@ -71,7 +71,7 @@
    "oim/oim-metadata.json": "0d7e21fe72e40f3c7720cb266bcbd5c779eb21ce926a88fa77cba434933d093a",
    "oim/oim.json": "acfa7f3d1a5784c04b6825c42e18341e1a2d249e82e1d3fd282f2f0eeae1ce9b"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "9e5a47ec86cfd6c6fb877a73d84a51e46966d62c2354f1f33e90a651f484e86c",
    "rung7b.filing.lbug": "8b3058b5557a05a4a4bf5290b1c9af042f3690716252e90293eb01b9180d14f1",
    "rung7c.holon.jsonld": "7329e531d6264b629939b92a77543f26c93490073c325b52d5f5f8089b58310f"
@@ -80,7 +80,7 @@
  "0000950170-24-075605": {
   "ticker": "ORCL",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "7813f6e2aadc71bd76bbfc800ce7326dac78ea6af270ab52d9dba3697dd76545",
    "rung2.text.txt": "7286964175306ea78af93f83ebb47ad9032c9facdadaeeac8ca242ffafb5fc23",
    "rung3.ixbrl.htm": "709207092585419d97b57756c53d236d5cba8b1a8dc9cdc4755cc24247d41cea",
@@ -91,7 +91,7 @@
    "oim/oim-metadata.json": "af555fcf5262397b6b9f660f04288db26121df9593690718047299f3d01bd849",
    "oim/oim.json": "d0ee9c9a7c7892d4a6071d6516ae8da33d472f451349d232f237331af6e99474"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "f4943d937e0db9e614a3149e8181a19dd6c54075b02e2af395a8102221333a0c",
    "rung7b.filing.lbug": "0875ad2286c501f17da844914707e10ea7dc81e29e1bee7c3d02c9b69c0f56d5",
    "rung7c.holon.jsonld": "efdacb73c3b24a4ec9b80325062b0227a3ec243c84fa96c2d72748b30ce2bc95"
@@ -100,7 +100,7 @@
  "0000950170-24-087843": {
   "ticker": "MSFT",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "a5bcd8ecc4c31ba47b24f059ce45217730122021a8e95d9fdf908916e2deaf65",
    "rung2.text.txt": "31e84aae842a4473bc8b84cb88062666198cfedfb5922a2775cd1fe13a00c5de",
    "rung3.ixbrl.htm": "03c8fb37fa4dcdcc64c5e01804f0f1ae4d572348e7537a09e63370c0a8b340e4",
@@ -111,7 +111,7 @@
    "oim/oim-metadata.json": "e5528cb0c67d14130dea7f5218afcc4a1d1893dca5eff84f76d1eb133fe1a5a4",
    "oim/oim.json": "6374d158715339be34f78e92b694d942298d702eea9ef9edc4aacea371699364"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "f2eb76264b156fcdc5ddb147413de039546a7cf2f45f2b10615386d54978308c",
    "rung7b.filing.lbug": "f36967d8cd79ef9d63db0671345d6059b4c36cfdf1985b12b059b77b6ffd274f",
    "rung7c.holon.jsonld": "2e9013ddaebbfef218c9d6958e3aef1a844fc4c050e951f8e923d88d4872250b"
@@ -120,7 +120,7 @@
  "0000950170-25-067220": {
   "ticker": "TKO",
   "form": "10-Q",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "05488439b7ce0617176816a4e7cd19c3b62c7ddbcddd105e690aedb01fde921c",
    "rung2.text.txt": "407bf6f7be9c864e9a4a12575b7e5a1942b6784c6c85819e0903ec54b4fd28da",
    "rung3.ixbrl.htm": "97c2a1f209671b4cd1d1eb45a510f279ff069c2fa03d49d18bebfeeca303d9bf",
@@ -130,7 +130,7 @@
    "oim/oim-metadata.json": "7393e6eed985bee4091da904eae0d04b55b9456e131aa7f22266cdd9f530d44c",
    "oim/oim.json": "a3603280e3dbad1a3c6b5c8e6cd6ba563ffcbcca1e0f472e30977a738401ee4d"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "3b0c5ae434a7d40a73152591bda651e5734b8113f53e7e93516c1e479b93a583",
    "rung7b.filing.lbug": "907e863a33cbcf6d305781634205119b5b662064a619b62d0ab4b633dfc4743e",
    "rung7c.holon.jsonld": "4ce680621d3943b120f794ebcde53d27696e7e1f9deaf2e1ad821e938546d3a6"
@@ -139,7 +139,7 @@
  "0001065280-25-000044": {
   "ticker": "NFLX",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "e9694aa6b32c3ec83eaace82acfac5c433c8c3c7508c0ebac9efab0bcd6e0cd7",
    "rung2.text.txt": "684e93df8309b7ba581cd8399433b9d37325b7687a701f254587b0bd93840702",
    "rung3.ixbrl.htm": "9370b649a4930b759a9d1fab4602047af04724e2a7fef684a15c45797bdafdbf",
@@ -149,7 +149,7 @@
    "oim/oim-metadata.json": "5cb3b5fe615c7a60cde1683a5fd0e0de4a8d8d31c28e57a11c2ba9a2a971ecc8",
    "oim/oim.json": "bb19423e2cad90e5188e464cb30312fe36d9856e6ed9ebbafe564a9d10ade054"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "d859acd725243febceed6e00ba545b36d1c52e1aac6d1003364f822ed530d64e",
    "rung7b.filing.lbug": "3624d791db18c044e1b87e0ba16d0a65ff29890ce167f3d002ad524f340b2c6d",
    "rung7c.holon.jsonld": "3d29459196c5aa3ef62c8c268ff8034a3a8fd066a2b3b55930a51b35ff1bf2b6"
@@ -158,7 +158,7 @@
  "0001108524-25-000006": {
   "ticker": "CRM",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "e1ac945d6833095758fa43df863786474f9ec42ec73eb443869b9a070d95bc83",
    "rung2.text.txt": "1b79c96ade432d048a2d2bfdad86d827d5b4bbe9c0d977256f54cb3996b0c9ea",
    "rung3.ixbrl.htm": "053a8e87a1efeb51d47112f63f376802e3a141edac85774b5df6e5eba9434dfe",
@@ -169,7 +169,7 @@
    "oim/oim-metadata.json": "2fb1e4d43e1856254ee020d9fea75393ff753a3f24752b418c94e55cb4ca3025",
    "oim/oim.json": "760bf514262058298427816a1c0252c9b8e963f628cd5c97b65eff661d11d12f"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "b46d9afaa594efe320b85376d4545290909c848a689f33f5a8a9f4135b633467",
    "rung7b.filing.lbug": "6a7e0de8590ec19ad481891c862a29a79394669e58b05f44e15fa5f57e523357",
    "rung7c.holon.jsonld": "aef432fe574b644298d7b2317226560ebcbe36d5411d422f473d1679a8658d33"
@@ -178,7 +178,7 @@
  "0001163302-25-000018": {
   "ticker": null,
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "a19ccfb6f44d64da2f6bb331bf0bc127711068ac24c4d3fedd80a6e8cd0605e2",
    "rung2.text.txt": "4b7c4526c214218521397ddded3490cf34e0985d635cdca0096b92a7baa39708",
    "rung3.ixbrl.htm": "bb2625f1f591a7d017c6730a1fcd4784e9a3e81ee5653d284f4c825592fe964b",
@@ -189,7 +189,7 @@
    "oim/oim-metadata.json": "2ed1edeea29eba55dc1a0310f53c1f7c699ce558b733ffe51d1ce5d322b903d0",
    "oim/oim.json": "b96906bfd6c40700f2e9593d9e8f6f1742b4adf0982c117fd1056c2b1a90773b"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "d6b94654428a0fd5f4d4a0a74e812cdb999a9d68a718a09308598a3d933f6d99",
    "rung7b.filing.lbug": "be31eaa90de9a16669c207eb78b52fb3787ad5b9f323f97fa7624c6a1b1235fc",
    "rung7c.holon.jsonld": "7d1159378d359845b114a5071641c4e88f5c4acb378411f621507466d8639718"
@@ -198,7 +198,7 @@
  "0001321655-25-000022": {
   "ticker": "PLTR",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "685e3a82ae70c000d08584314597a654a78a941ead2cb58bcefec892afc8d562",
    "rung2.text.txt": "bb675b60fe9dec86abe01e6d497785760969fa779d39ab8a024b37403b0047f3",
    "rung3.ixbrl.htm": "c0d9875e3efeb7d813a642a0a848d65f2ea99a3d973311581478e5237e44ad74",
@@ -208,7 +208,7 @@
    "oim/oim-metadata.json": "50a7c7b32839ad2ae99f8461f393ef7e2064a8dc85475fefe96ea936690a1298",
    "oim/oim.json": "bbe1a8dced889c4abc50644e6f3c891aa84eb20f63c86346ae26762bd1944de1"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "ad259b1fc7beff2256882e526ab881e079c7087e1257426cab64b059b7dca0f7",
    "rung7b.filing.lbug": "162efeda91ec1fdb4e80541093e4c5543cb4db5ce91372ec6599eb9556e2bc89",
    "rung7c.holon.jsonld": "8b9efb443b76e2637659f78fa348a3e5515ab1fe893d6e4ce5d3fa20365b0d25"
@@ -217,7 +217,7 @@
  "0001327811-25-000056": {
   "ticker": "WDAY",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "82f50c7d9f3ed3d91433fbd8624593ad6ed4b30857866869b28b2a8e2626dcde",
    "rung2.text.txt": "765d4e51c5434645ae604b70076da17861b72ceaf4372c86c963230acc11af14",
    "rung3.ixbrl.htm": "b9d1e6d3a8b8f9dec8b5053293ef47f821f21ee3ce81b7e79119496a0b506c17",
@@ -228,7 +228,7 @@
    "oim/oim-metadata.json": "538a88442d75a2c0c41487a4b6f4c2941725c5eb85f9f575426380a3d97e2f35",
    "oim/oim.json": "dea0f735b0e93882584fdb02ae1c5af2822677f2566fd2437d2289cadbfcf581"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "7cf60a1093012da32b4d32152ba29f278802a1c5a605703d675010c14cc96616",
    "rung7b.filing.lbug": "95dcab9e7d15f1ef382fadeb77a8d47f86efd6b8e084a5b23660fd8fb37b020f",
    "rung7c.holon.jsonld": "0ff657ad164000e37a9c7c3681f5ba080b5b5158e37d5152599d7e810e466600"
@@ -237,7 +237,7 @@
  "0001404912-25-000022": {
   "ticker": "KKR",
   "form": "10-Q",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "4048b300af640a16feef30f93e4fb816d4f0a1e9504bc4d040380c5e2bae5319",
    "rung2.text.txt": "92ce023fb4b550886fddae68f30ab0c43efb2e9032dd504ddf8b8ad7bfe26f0c",
    "rung3.ixbrl.htm": "0f8bd068c9d24ac0ee4750ef14aea0cab94ae4fb53dc9c99e2ea477dd9e62209",
@@ -247,7 +247,7 @@
    "oim/oim-metadata.json": "00ef48d835b95ff131b1b54baab9557725ed3e62d72768282fe8476242bc03e8",
    "oim/oim.json": "ebc789ae8120a52aeedf7df9e38cd91a8d1d81689e5516e522fdabcec9437b20"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "ffd47d9d96b7b737889b7e2e035e8894caf68783a6b4dc7e5767f0d5d9903cad",
    "rung7b.filing.lbug": "0cbe72793bd4d6fd68fb9d913f2dfb7ceb96915e891d51a24bf50a1df58674ff",
    "rung7c.holon.jsonld": "1c6a3177a2ec37185283468dd7fec493ce46b94fb36a248fc462e054e58d60eb"
@@ -256,7 +256,7 @@
  "0001408198-25-000053": {
   "ticker": "MSCI",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "cdd4abda520ca9ec633bd4365c9aac54552a8b544ad68ed93d7875dd186642dc",
    "rung2.text.txt": "df28fc194965ed7900a6393e9855947792815b7b10c6a3ba95f663a2cb298e9a",
    "rung3.ixbrl.htm": "b6b2452ba0cb50c191d772d9a7f15db1e0db726dbbba105d1b55486f98f2a1de",
@@ -266,7 +266,7 @@
    "oim/oim-metadata.json": "13d5156656b31c37a23561aa3602c0523e18860e92bea6a5ad9b0cc272b512c8",
    "oim/oim.json": "055ed4d318ca1022fb899ed83247d5b3015deb2a496baba5cd9c2f711f2761e1"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "29897d07afa14d663ae97fe2f6385fa5e00a3ed3bdd2466079c898a98a19a47a",
    "rung7b.filing.lbug": "09496a596077c089dcf3b56ad5ec39c56aa772cbc845560dc06261bc641b9bed",
    "rung7c.holon.jsonld": "1db29d92d3e7260160d2f2b515f147609f1c8fc88ed1d7972bf4f7cf13acc045"
@@ -275,7 +275,7 @@
  "0001437107-25-000031": {
   "ticker": "WBD",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "7456e350daf5a45d8ea143830c72d996e815aa5a1d4e61a97674ca0895c43b90",
    "rung2.text.txt": "1b93dae1fa450912fcaa57568815554125db02f6b36e814aeabb524a6004a251",
    "rung3.ixbrl.htm": "ad16fdba2e0589974df061d3639ee0e10bf3054277a705cf0122ff96a6301aff",
@@ -285,7 +285,7 @@
    "oim/oim-metadata.json": "b4ca010716bdf2663f9dbd1a63f30de9470ef7e35b472ebae0600df990b3afd3",
    "oim/oim.json": "3ff01f76d0a7ca0942eee77932a2a1c25e07fbc1dfae1af52d3eec1b9c45ba8d"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "eb767bc5776e47362ae1b40b70fea30e3857f5a74ec7ee4d2957b2d2d3352e23",
    "rung7b.filing.lbug": "fb6afb9c09df05eb355f8e52677c327dc21b586e15e4a926016668d249d56c06",
    "rung7c.holon.jsonld": "ca9c21b8997f91b280b29701f30c78ec90b57d52c76a39968c7d98412821978c"
@@ -294,7 +294,7 @@
  "0001477333-25-000043": {
   "ticker": "NET",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "879bf5360ccb13a0449f21f17c84ee0bcb71921806408006c1e2ba0c607dc798",
    "rung2.text.txt": "420c8eded14a498ea58d3af68aeb2d4b1166901b4150de683224588edb3f5ae6",
    "rung3.ixbrl.htm": "935e6b4c89abb0583d2655582abfed57623a1b462445f7131be7ed3d7c4d5d79",
@@ -304,7 +304,7 @@
    "oim/oim-metadata.json": "f978834d231c7771e2fe70ea4486f36edfddbe7d8afb8218f6ac0a24d0146aad",
    "oim/oim.json": "362b088fd825cbb79e49f8d9b6bedfe1ffd3009a26990c07a9b415e5b91827ce"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "3017dd9127d0c6c7a57a4e98e07cc97ef8787751c032b492012f7b0e33d1a032",
    "rung7b.filing.lbug": "79fa96d48756bf0a37cfdca51b51e7f6f37cfd5b8355c294016878f5e812baf4",
    "rung7c.holon.jsonld": "9865ece8c92c8b60bc60651b55887149b8581c817b9ce4fa6902649604827921"
@@ -313,7 +313,7 @@
  "0001498710-25-000008": {
   "ticker": "FLYYQ",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "0b16e34301e8efd092b0010c8e9b1919de136e77284ce1ae0d8432316119afb8",
    "rung2.text.txt": "a8551fa2453966161f1fc5e0e3aef41573b0c1046e059822ec5e304d377eb7ae",
    "rung3.ixbrl.htm": "f450818ed5bee9c8c164dc2f885dabe58d05d77d6252ec728f958fef6371f0b8",
@@ -324,7 +324,7 @@
    "oim/oim-metadata.json": "5483d6e4023d9ca9a2ba260deaa1dc1f443ac7374374652f58b5d72a091ed2fe",
    "oim/oim.json": "ebe9bb6c6df9e165fe6872c57eb135a17129e5dcfcb334c7b771199e73045fec"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "f72f5257eb71fc3ddd743ebadf572264e5eb83a466ae64e2cff21dbec9b4e936",
    "rung7b.filing.lbug": "7c790398f314460fe3333f40cfc3f2155a52cc57729998d452d8aea3ab41e3b4",
    "rung7c.holon.jsonld": "49b73104bab4de807697949318d05e738f9cf369478b44f8bcba8da3dad88395"
@@ -333,7 +333,7 @@
  "0001543151-24-000012": {
   "ticker": "UBER",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "83e27782018608d7e462ba37b7688c1954e5999ae5fee44f3c6ae9eb5d8d3f2c",
    "rung2.text.txt": "4a5e45be76f856f7d4d64b7d3729972135000400c6c0f21f6329bcc051891e3e",
    "rung3.ixbrl.htm": "b90f5514c29db3776b9fbe5bfb9970a9b49e620edc1116d30d2f8bdb9b96595e",
@@ -343,7 +343,7 @@
    "oim/oim-metadata.json": "d64be955137109bbbb0091b1ddcce96e814d7393870a3af5f49dfe49cc30b3af",
    "oim/oim.json": "35df44690bad2a9735ce316be7dbf7af78016906d0dcf8908f817533f3a94b49"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "ad142994bd1225b79217c23bb7a7317415c1f2e3a0f49ca95cb3c0d1209d38d1",
    "rung7b.filing.lbug": "1d1fed92ed5f8c30e88bb14f0319d862eb83648ae719c37e338fbf6286e5ec31",
    "rung7c.holon.jsonld": "c11d37f2daebf74b3552481ce6fe225bc67613ea9990c73114c2ea0347e42a98"
@@ -352,7 +352,7 @@
  "0001543151-25-000008": {
   "ticker": "UBER",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "d57cc7ea4c8e5208304a249b81f126c2df54232900e388165768cfb718875f3b",
    "rung2.text.txt": "3c60ae3f85f47ac41ca4bbdf822c535fbc58e48dc0532dc9f0b9ace1ca625ed4",
    "rung3.ixbrl.htm": "1d77f1dd31896c58779c0611058bd5aaf377c4dcb7362bd9d330605aa8fb0b6a",
@@ -362,7 +362,7 @@
    "oim/oim-metadata.json": "8ea2c9a1e4af90a8e21a279fb14ae1496373c665eb323369cd12b2623861ccaf",
    "oim/oim.json": "00ba207122516f5c7efd7c5a2b2c889caa0bc593d7fae94fba1f663f46944815"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "3cde76427d5fad2f1cc5524ba6bec87e9cae3ec52a06fefef242647868ec5843",
    "rung7b.filing.lbug": "89c22edcb84f4c7a12ee07b122b5bef7d511cefbb6b889f11679872d749c4814",
    "rung7c.holon.jsonld": "05dc34f2a904f91be7756659f3cc53be5abc9736c4e0c5127a2e47bd6ecaba34"
@@ -371,7 +371,7 @@
  "0001559720-25-000010": {
   "ticker": "ABNB",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "529382d776de8151623022d2feca424b6eca0b254554704b04eb00791faa96f5",
    "rung2.text.txt": "9e0fd983ef9611430addb940ce10f9bbc8ce5da1f91ae136e068f50ba6754e22",
    "rung3.ixbrl.htm": "3127e6d895f73a0c197cfb23bf60345b4b82e85964b112071c71efdce8ed4ac7",
@@ -381,7 +381,7 @@
    "oim/oim-metadata.json": "ca6843cda1332b4ceedba4f8f08c019a7a2e9989c5a7549c4cfe22de29b70cf2",
    "oim/oim.json": "0fee425f9a51268d8f68dff366c88f938c79c41569b5efa03800b59ac5fb613d"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "abf9bb5ac1172527d180d4133611a227157719567ef1ef4ff87283d45683e37e",
    "rung7b.filing.lbug": "9795ace5ea9893642db57edf83f87929e5c6a34408e6a1e7045a5ed7a3829cd0",
    "rung7c.holon.jsonld": "7cc99cf6ed285c891e89596788b9531bad3ce824e7e1f80e68a14103effa717b"
@@ -390,7 +390,7 @@
  "0001564408-25-000019": {
   "ticker": "SNAP",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "7c5cc742daed1322f4d37ef716c61afcf0771568bb23b495a201677282a306de",
    "rung2.text.txt": "b4c9c8b9f987a54e75d4a2727e64459a9542fd705ba79f44791f7d5612e4c72b",
    "rung3.ixbrl.htm": "223d0cc245bb11286ae1d1a6bc8d1b50ce7310375c931fa004bbfd0842a5d5b0",
@@ -400,7 +400,7 @@
    "oim/oim-metadata.json": "56883a8497961072441bfab6d441fd87cab18f8fc14cdc1556ce71d6f0ea4fd3",
    "oim/oim.json": "8a80895b21a4e660550cda0c6dbee4225e682bdc19342d848241041d3ef928f7"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "927b1dfbd134f1353cba9ea7ed2e23a599534451312f9087bc37c771fd4005fc",
    "rung7b.filing.lbug": "9abce79b09e3923d59bace32ee454ee391784bc4867a4dbbe21f8cbf1b6411a8",
    "rung7c.holon.jsonld": "20e982f1b942c41dcb88d2262073a890409452cab234adc939cd592f9f8a443f"
@@ -409,7 +409,7 @@
  "0001591698-24-000151": {
   "ticker": "PCTY",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "c0372ef9639a69a2adebcd54d9e577578a91390a79ac37407ad3a4ec843d34ce",
    "rung2.text.txt": "2548da6e9e62a0de460be621c64fdbc2477e12bc9b076a02bdc8eb909b241dee",
    "rung3.ixbrl.htm": "b64cd1565f75f86c4f197bc433754d3962e2cfda9f6c1f7fdd8b619b8757abda",
@@ -419,7 +419,7 @@
    "oim/oim-metadata.json": "4866c4ddf96758975e90d18363d743f8c628498c4a0255ade9c0c579c3a703ee",
    "oim/oim.json": "c3fb0e818736af3e3cb4d1e6f65ed761ca3316a58c7c89106dd48d1677787b29"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "cb52d6ecd8f630b3cbdddcfb54349d78d2c364b1c49f809475d4001cb8cc2deb",
    "rung7b.filing.lbug": "67f0d737bd04a4dd8a7cf1e2cca77a2ef6c99e7789e876d019b947a10e0ce335",
    "rung7c.holon.jsonld": "47844a6d17b703688b1e431ade386ac39d944037e6377d6f1ae0fe4faf82667f"
@@ -428,7 +428,7 @@
  "0001617640-25-000016": {
   "ticker": "ZG",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "1e8bd141782d7336d3ef7ba4d0d74d15679b662981cc41d9fbddea502a289bbd",
    "rung2.text.txt": "b0222f1b6c3f8ca534b3e079aea8928cf8a5193e82ca2eec5fb36466d74db2e3",
    "rung3.ixbrl.htm": "4f64246a53abe033500b27fe80b24f10a82e4add352a2565bd776112e2b0f534",
@@ -438,7 +438,7 @@
    "oim/oim-metadata.json": "e1bc4a9d4378f8bd40ec30e060b16aa38e2cb03b7f39a83f1bd4737e594a8e7b",
    "oim/oim.json": "1fd239fecf28c897179221302cba3fb07a4243a7ea0b5200908aa363d47fe01f"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "1e77cff7fd7f4cfea52f3bc31493f2aaf191eab8e7deae3b8e1a40d271085ebd",
    "rung7b.filing.lbug": "7f20ae0e5cfec7d4e35ece55586fd719f2f9544fc4e7517064c2dd3145bf48d9",
    "rung7c.holon.jsonld": "cdc3abc2a401476230e0f2f4bb651f0eb0716d21f1abaec0428020b185c75954"
@@ -447,7 +447,7 @@
  "0001794669-25-000011": {
   "ticker": "FOUR",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "ae5e9278d8ae41efba4723670eccde9f0a0b412233d891c1248029d6c769a3d6",
    "rung2.text.txt": "a5fa5eb8f5cd53acc01bfea2b4447fb24d7983b617530ba2520568b981cd71ae",
    "rung3.ixbrl.htm": "89254278ea62ac43cb72d95c23c9a06eaa11feb006db12399be4c1a8fc9c0653",
@@ -458,7 +458,7 @@
    "oim/oim-metadata.json": "eff496ad3020d1d374b76b0c7dff880f6e89aaeef5bd84fc77950bb1db053400",
    "oim/oim.json": "38831e6b385a6a723fb7623495a6623e64e7145e1755de9ad9f3b98d702c2ec1"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "2b0f9de316feb17a9fbf7b96c73017080714056615607d39232cc39c30be08f4",
    "rung7b.filing.lbug": "68b6fa5c9e4adb31bdcda525ae6d10006c19075616e22e7b3373fb6eb23e49e7",
    "rung7c.holon.jsonld": "458db1f0eec83801072e752da48fc8f80969822da29d1ef5bcefe69b69e8560b"
@@ -467,7 +467,7 @@
  "0001831631-24-000285": {
   "ticker": "LDI",
   "form": "10-Q",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "9fde762af2a0906761c148ea49f3abcb0bd1ed2f86b6fecbe6387182a6e7d5e4",
    "rung2.text.txt": "ea99c7cfd0dcfb762654e14feb8bc4408c4445308064a31221972472e49e03dd",
    "rung3.ixbrl.htm": "ed6a5ed42b54b1bdd9a9ff07248c3fa7de37b5ab007978a7fdcf3e89b25ce540",
@@ -477,7 +477,7 @@
    "oim/oim-metadata.json": "c6a6f67cd1e1ae25785ce627db9321106dd263e3864a696cb5d84e4917211c85",
    "oim/oim.json": "0a305f3fee2d575b37517c18ac0f1a6089d81b4abe24920fd87d89bfe9140443"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "aa7edd96673cc2c3338f6d4ff5a8b355f55cd44e1e21af6e503716848cd12632",
    "rung7b.filing.lbug": "faee015a67e0564cac805249f0c5f60c25b3b628ddbb947cdf5f3971886c5bd2",
    "rung7c.holon.jsonld": "b4d5b7823e499f7e8192e67620531c33f8948650bace10efe09cca25ea551459"
@@ -486,7 +486,7 @@
  "0001866581-25-000048": {
   "ticker": "BROS",
   "form": "10-K",
-  "carried_forward": {
+  "held": {
    "rung1.filing.pdf": "1a945609d0d4d6287f63a97f148c487332ad827595a0cb72de7e77fb3adea0db",
    "rung2.text.txt": "fb4865d1583bc66b768635028df2dc1f54e1b702e1b5d4d598d6c4790993518a",
    "rung3.ixbrl.htm": "c3f65e61d7988ee18de7d7daeb8df0b6f48f5325a020aa100cb63eac4e38fa84",
@@ -496,7 +496,7 @@
    "oim/oim-metadata.json": "c4233608166c587d51e1ee9dfee0b1fa22cfaa2b5c0e706eacb8c41da1384f79",
    "oim/oim.json": "52f5cf83d7dd800a47770dbb0cb4cab4bc4e716347b710baf7d3d3fc39b1f77b"
   },
-  "re_run": {
+  "re_materialized": {
    "rung5c.tavi.json": "b7e1b5bf227f90b4b7481def862c6bad958e2bec42bf11d277cc90fc40e4558e",
    "rung7b.filing.lbug": "101b15895caa0f4a5c3f7bfdba085e7b4463e161745a8b4c842ea217d2e7e43c",
    "rung7c.holon.jsonld": "b68a82bac70c0c9ce320ca0bb64cd839e9df86b134f4852ac6491d9a0bb49ecf"

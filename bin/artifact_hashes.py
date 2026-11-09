@@ -1,13 +1,14 @@
 #!/usr/bin/env python
-"""SHA-256 of every artifact a carried-forward form reads, per filing (PROTOCOL §9, 2026-11-08).
+"""SHA-256 of every artifact a row of the ladder reads, per filing (PROTOCOL §11, v0.2).
 
-A row that carries forward by identity from an earlier protocol version is checkable only if the
-bytes it read are named: the PDF (rung 1), the plain text (rung 2, and the v0.1.1 document tools),
-the inline document (rung 3), the OIM exports (5a, 5b) and the companyfacts file (6). The
-re-materialized forms (the Tavi, the holon, the property graph) are listed too, as the bytes the
-re-run rows read.
+v0.2 opens a new model column, and nothing carries forward by identity across a model change. The
+hashes pin the corpus as it stood at the pre-registration, so the rows run now and the rows that
+wait on funding are known to read the same bytes: the PDF (rung 1), the plain text (rung 2, and the
+v0.1.1 document tools), the inline document (rung 3), the OIM exports (5a, 5b) and the companyfacts
+file (6), held unchanged since the v0.1 freeze; and the re-materialized forms (the Tavi, the holon,
+the property graph), the bytes the rows of ours read.
 
-usage: uv run python bin/carried_forward_hashes.py [--data data] [--json out.json]
+usage: uv run python bin/artifact_hashes.py [--data data] [--json out.json]
 """
 
 from __future__ import annotations
@@ -18,14 +19,14 @@ import json
 import sys
 from pathlib import Path
 
-CARRIED = (
+HELD = (
   "rung1.filing.pdf",
   "rung2.text.txt",
   "rung3.ixbrl.htm",
   "rung5b.oim-notext.json",
   "rung5b.oim-notext-facts.csv",
 )
-RERUN = ("rung5c.tavi.json", "rung7b.filing.lbug", "rung7c.holon.jsonld")
+REMATERIALIZED = ("rung5c.tavi.json", "rung7b.filing.lbug", "rung7c.holon.jsonld")
 
 
 def sha256(path: Path) -> str:
@@ -52,7 +53,7 @@ def main() -> int:
       else {}
     )
     files: dict[str, str] = {}
-    for name in CARRIED + RERUN:
+    for name in HELD + REMATERIALIZED:
       path = folder / name
       if path.exists():
         files[name] = sha256(path)
@@ -66,8 +67,10 @@ def main() -> int:
     out[folder.name] = {
       "ticker": meta.get("ticker"),
       "form": meta.get("form"),
-      "carried_forward": {k: v for k, v in files.items() if not k.startswith(RERUN)},
-      "re_run": {k: v for k, v in files.items() if k.startswith(RERUN)},
+      "held": {k: v for k, v in files.items() if not k.startswith(REMATERIALIZED)},
+      "re_materialized": {
+        k: v for k, v in files.items() if k.startswith(REMATERIALIZED)
+      },
     }
     print(f"{folder.name}  {len(files)} files hashed", flush=True)
   if args.json:

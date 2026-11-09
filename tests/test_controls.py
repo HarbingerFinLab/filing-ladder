@@ -21,7 +21,7 @@ def test_controls_are_nine_and_not_v0():
   assert len(CONTROLS_V0_1_1) == 10 and parse_rungs("v0.1.1") == list(CONTROLS_V0_1_1)
   assert (
     Rung.XBRLKIT_SERVE not in CONTROLS_V0_1_1
-  )  # v0.1.2's addition is a rung, not a control
+  )  # v0.2's addition is a rung, not a control
   assert all(BY_RUNG[r].control and not BY_RUNG[r].v0 for r in CONTROLS_V0_1_1)
   assert parse_rungs("v0") == [r for r in parse_rungs("v0") if not BY_RUNG[r].control]
 

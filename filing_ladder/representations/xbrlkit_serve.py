@@ -1,5 +1,5 @@
 """Rung 4c — ``xbrlkit serve``: the filing's XBRL package behind xbrlkit's shaped tools — and,
-for protocol v0.1.2's "+doc" controls, xbrlkit's two text tools as the document instrument.
+for protocol v0.2's "+doc" controls, xbrlkit's two text tools as the document instrument.
 
 The server is the one ``xbrlkit serve`` runs: ``xbrlkit.serve.build_server`` over a
 ``FilingSession`` holding the filing parsed from the package folder on disk (``read_from:
@@ -172,7 +172,7 @@ def beside(
   sf: ServedFiling,
 ) -> tuple[list[ToolDef], Callable[[str, dict], str]]:
   """A rung's own tools plus xbrlkit's two text tools, one runner dispatching between them
-  (protocol v0.1.2's document instrument; v0.1.1's is ``document.beside``)."""
+  (protocol v0.2's document instrument; v0.1.1's is ``document.beside``)."""
   doc_run = make_tool_runner(sf, DOCUMENT_TOOLS)
 
   def run(name: str, args: dict) -> str:

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-"""The document-as-a-constant gate for protocol v0.1.2 (PROTOCOL §11, principle 11).
+"""The document-as-a-constant gate for protocol v0.2 (PROTOCOL §11, principle 11).
 
 v0.1.1 delivered the document to every tool rung as rung 2's plain text behind two harness
-tools. v0.1.2 delivers it through xbrlkit's own ``search_text`` / ``read_text`` over the filing
+tools. v0.2 delivers it through xbrlkit's own ``search_text`` / ``read_text`` over the filing
 loaded from its package — the text layer every xbrlkit user gets, and the one the ``sec``
 server's text tools run. The two must read the same document: this checks, for every
 materialized filing, that xbrlkit's readable text and rung 2's plain text carry the same

@@ -20,7 +20,7 @@ class Rung(StrEnum):
   HTML_TEXT = "2"
   IXBRL = "3"
   XBRL_PACKAGE = "4"
-  XBRLKIT_SERVE = "4c"  # protocol v0.1.2: the package behind xbrlkit's shaped tools
+  XBRLKIT_SERVE = "4c"  # protocol v0.2: the package behind xbrlkit's shaped tools
   OIM_FILES = "5a"
   OIM_IN_CONTEXT = "5b"
   TAVI_JQ = "5c"
@@ -344,10 +344,10 @@ BY_RUNG: dict[Rung, RungSpec] = {spec.rung: spec for spec in RUNGS}
 V0_RUNGS: tuple[Rung, ...] = tuple(spec.rung for spec in RUNGS if spec.v0)
 CONTROLS_V0_1_1: tuple[Rung, ...] = tuple(spec.rung for spec in RUNGS if spec.control)
 
-# Protocol v0.1.2 (PROTOCOL §11): the four forms that are ours re-run under the locks as they
+# Protocol v0.2 (PROTOCOL §11): the four forms that are ours re-run under the locks as they
 # stand, one rung added, the document delivered by xbrlkit's own text tools; rung 2 re-run as
 # the drift control. In run order — the headline first, the identity checks last.
-V0_1_2_RUNGS: tuple[Rung, ...] = (
+V0_2_RUNGS: tuple[Rung, ...] = (
   Rung.XBRLKIT_SERVE,
   Rung.LPG_SHAPED,
   Rung.TAVI_JQ_DOC,
@@ -405,8 +405,8 @@ def parse_rungs(text: str) -> list[Rung]:
     return list(V0_RUNGS)
   if text == "v0.1.1":
     return list(CONTROLS_V0_1_1)
-  if text == "v0.1.2":
-    return list(V0_1_2_RUNGS)
+  if text == "v0.2":
+    return list(V0_2_RUNGS)
   if text == "all":
     return [spec.rung for spec in RUNGS]
   return [Rung(part.strip()) for part in text.split(",") if part.strip()]

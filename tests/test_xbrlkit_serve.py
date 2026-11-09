@@ -1,4 +1,4 @@
-"""Rung 4c and the v0.1.2 document instrument: xbrlkit's server in-process."""
+"""Rung 4c and the v0.2 document instrument: xbrlkit's server in-process."""
 
 import asyncio
 import json
@@ -8,7 +8,7 @@ import pytest
 
 from filing_ladder.ladder import (
   BY_RUNG,
-  V0_1_2_RUNGS,
+  V0_2_RUNGS,
   Rung,
   Shape,
   base_rung,
@@ -46,8 +46,8 @@ def test_rung_4c_is_a_rung_in_the_v0_1_2_lineup_and_needs_no_server():
   assert spec.needs == () and not uses_mcp(Rung.XBRLKIT_SERVE)
   assert base_rung(Rung.XBRLKIT_SERVE) == Rung.XBRLKIT_SERVE
   assert not carries_document(Rung.XBRLKIT_SERVE)
-  assert parse_rungs("v0.1.2") == list(V0_1_2_RUNGS)
-  assert V0_1_2_RUNGS[0] == Rung.XBRLKIT_SERVE and V0_1_2_RUNGS[-1] == Rung.HTML_TEXT
+  assert parse_rungs("v0.2") == list(V0_2_RUNGS)
+  assert V0_2_RUNGS[0] == Rung.XBRLKIT_SERVE and V0_2_RUNGS[-1] == Rung.HTML_TEXT
   assert Rung.XBRLKIT_SERVE not in parse_rungs("v0")
   assert Rung.XBRLKIT_SERVE not in parse_rungs("v0.1.1")
 
