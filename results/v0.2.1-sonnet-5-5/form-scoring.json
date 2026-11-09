@@ -1,0 +1,95 @@
+{
+  "rule": "PROTOCOL \u00a711 (carried into \u00a712): an answer read from a filing other than the question's is a confident-wrong of the form, however right the number.",
+  "method": "Every 7a.1 tool result scanned for SEC accession numbers other than the question's filing; a record whose results carry one and whose answer the judge marked correct is re-scored. Eight records carried a foreign accession; two (vals-16 run 2, vals-34 run 2) only inside search listings, one hitting the turn cap and one abstaining, so neither is an answer read from another filing. The six below are the same two Airbnb questions the v0.2 scan found.",
+  "records": [
+    {
+      "rung": "7a.1",
+      "question_id": "vals-17",
+      "run_index": 1,
+      "own_accession": "0001559720-25-000010",
+      "foreign_accessions": [
+        "0001559720-24-000006"
+      ],
+      "judge_correct": true,
+      "form_correct": false,
+      "answer": "FY2022: 13.29%; FY2023: 13.54%; FY2024: 13.57%. The take rate edged up each year, with most of the gain in 2023 and a sl"
+    },
+    {
+      "rung": "7a.1",
+      "question_id": "vals-17",
+      "run_index": 2,
+      "own_accession": "0001559720-25-000010",
+      "foreign_accessions": [
+        "0001559720-24-000006"
+      ],
+      "judge_correct": true,
+      "form_correct": false,
+      "answer": "FY2022: 13.29% ($8,399M / $63,212M); FY2023: 13.54% ($9,917M / $73,252M); FY2024: 13.57% ($11,102M / $81,784M). The take"
+    },
+    {
+      "rung": "7a.1",
+      "question_id": "vals-17",
+      "run_index": 3,
+      "own_accession": "0001559720-25-000010",
+      "foreign_accessions": [
+        "0001559720-23-000003"
+      ],
+      "judge_correct": true,
+      "form_correct": false,
+      "answer": "FY2022: 13.29%; FY2023: 13.54%; FY2024: 13.57%. The take rate edged up modestly each year, with most of the gain in 2023"
+    },
+    {
+      "rung": "7a.1",
+      "question_id": "vals-22",
+      "run_index": 1,
+      "own_accession": "0001559720-25-000010",
+      "foreign_accessions": [
+        "0001559720-24-000006"
+      ],
+      "judge_correct": true,
+      "form_correct": false,
+      "answer": "FY 2022: $160.44"
+    },
+    {
+      "rung": "7a.1",
+      "question_id": "vals-22",
+      "run_index": 2,
+      "own_accession": "0001559720-25-000010",
+      "foreign_accessions": [
+        "0001559720-24-000006"
+      ],
+      "judge_correct": true,
+      "form_correct": false,
+      "answer": "FY 2022: $160.43"
+    },
+    {
+      "rung": "7a.1",
+      "question_id": "vals-22",
+      "run_index": 3,
+      "own_accession": "0001559720-25-000010",
+      "foreign_accessions": [
+        "0001559720-24-000006"
+      ],
+      "judge_correct": true,
+      "form_correct": false,
+      "answer": "FY 2022: $160.44; FY 2023: $163.51; FY 2024: $166.23"
+    }
+  ],
+  "7a.1_T2": {
+    "n": 54,
+    "judge": {
+      "correct": 39,
+      "accuracy": 0.7222,
+      "confident_wrong": 0.2778,
+      "cost_per_correct": 0.1337
+    },
+    "form_scored": {
+      "correct": 33,
+      "accuracy": 0.6111,
+      "confident_wrong": 0.3889,
+      "cost_per_correct": 0.158
+    },
+    "re_scored": 6,
+    "cost_usd": 5.2135
+  }
+}

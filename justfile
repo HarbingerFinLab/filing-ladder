@@ -80,6 +80,10 @@ freeze:
     @echo "questions/manifest.json written — commit it, then tag: git tag -a protocol-vX.Y -m 'Filing Ladder protocol vX.Y'"
 
 # Create a feature branch from origin/main and push it (the only way branches are created here)
+# Regenerate the one table of every published row in results/README.md
+results-table:
+    uv run python bin/results_table.py
+
 create-feature branch_type="feature" branch_name="" base_branch="main" update="no":
     bin/create-feature.sh {{branch_type}} {{branch_name}} {{base_branch}} {{update}}
 
