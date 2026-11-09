@@ -40,6 +40,23 @@ SERVE_TOOLS: tuple[str, ...] = (
 )
 DOCUMENT_TOOLS: tuple[str, ...] = ("search_text", "read_text")
 
+# Protocol v0.2.1, rung 4c.1: the argument name each tool takes beside its original (xbrlkit 0.21.5).
+ALIASES: dict[str, tuple[str, str]] = {
+  "fact_grid": ("elements", "concepts"),
+  "resolve_element": ("query", "phrase"),
+}
+
+
+def accepts_aliases(tools: list[ToolDef]) -> bool:
+  """Whether the served tools take the v0.2.1 argument aliases; 4c.1 does not run otherwise."""
+  by_name = {t.name: t for t in tools}
+  return all(
+    name in by_name
+    and set(pair) <= set(by_name[name].input_schema.get("properties", {}))
+    for name, pair in ALIASES.items()
+  )
+
+
 # Every other tool the server registers, with why the rung does not get it. A tool the
 # library adds later lands in neither set and fails the registration test, so the decision
 # is taken rather than defaulted.
@@ -87,15 +104,7 @@ class ServedFiling:
 
   def all_tools(self) -> list[ToolDef]:
     if self._tools is None:
-      listed = self._run(self.server.list_tools())
-      self._tools = [
-        ToolDef(
-          t.name,
-          t.description or "",
-          dict(getattr(t, "inputSchema", None) or {"type": "object"}),
-        )
-        for t in listed
-      ]
+      self._tools = tool_defs_from(self._run(self.server.list_tools()))
     return list(self._tools)
 
   def tool_defs(self, names: tuple[str, ...]) -> list[ToolDef]:
@@ -133,6 +142,20 @@ class ServedFiling:
       f"{self.text_chars:,} chars of {'document' if lf.has_document else 'text blocks'}, "
       f"read_from={read_from}"
     )
+
+
+def _schema(tool: Any) -> dict:
+  """The server's own argument schema, under the attribute mcp 2.x gives it or the wire name.
+  v0.2 read the wire name alone and defaulted to ``{"type": "object"}`` (PROTOCOL §9, 2026-11-09)."""
+  schema = getattr(tool, "input_schema", None) or getattr(tool, "inputSchema", None)
+  if not isinstance(schema, dict) or not isinstance(schema.get("properties"), dict):
+    raise RuntimeError(f"xbrlkit serve listed {tool.name!r} without an argument schema")
+  return dict(schema)
+
+
+def tool_defs_from(listed: list[Any]) -> list[ToolDef]:
+  """The server's tools as the model will see them: name, description, and its own schema."""
+  return [ToolDef(t.name, t.description or "", _schema(t)) for t in listed]
 
 
 def _version() -> str:

@@ -44,6 +44,9 @@ class Rung(StrEnum):
   LPG_SHAPED_FACTS_DOC = "7a-facts+doc"
   LPG_CYPHER_DOC = "7b+doc"
   RDF_SPARQL_DOC = "7c+doc"
+  # protocol v0.2.1 (§12): a rung with one friction removed, reported beside its base
+  XBRLKIT_SERVE_V021 = "4c.1"
+  LPG_SHAPED_V021 = "7a.1"
 
 
 class Tier(StrEnum):
@@ -338,6 +341,26 @@ RUNGS: tuple[RungSpec, ...] = (
     (),
     control=True,
   ),
+  RungSpec(
+    Rung.XBRLKIT_SERVE_V021,
+    "XBRL package, xbrlkit's shaped tools, argument aliases",
+    Shape.TOOLS,
+    "rung 4c on xbrlkit 0.21.5: fact_grid takes concepts beside elements and resolve_element takes phrase beside query; the same tools, the same prompt",
+    "the open-source library taking the argument names the model sends",
+    False,
+    0,
+    (),
+  ),
+  RungSpec(
+    Rung.LPG_SHAPED_V021,
+    "property graph, shaped tools, first step re-pointed",
+    Shape.TOOLS,
+    "rung 7a with workflow step 1 naming its shaped tools instead of the Cypher prerequisites; the same tools from the same server",
+    "the product, its prompt's first step given the treatment every other tools rung has",
+    False,
+    0,
+    ("robosystems_api_key",),
+  ),
 )
 
 BY_RUNG: dict[Rung, RungSpec] = {spec.rung: spec for spec in RUNGS}
@@ -359,8 +382,14 @@ V0_2_RUNGS: tuple[Rung, ...] = (
   Rung.HTML_TEXT,
 )
 
+# Protocol v0.2.1 (PROTOCOL §12): two rows added beside 4c and 7a under §8's last-number rule,
+# each its base with one friction the v0.2 transcripts showed removed. The v0.2 rows carry
+# forward by identity.
+V0_2_1_RUNGS: tuple[Rung, ...] = (Rung.XBRLKIT_SERVE_V021, Rung.LPG_SHAPED_V021)
+
 # Every control is one rung plus the document (``+doc``), a rung minus part of its source
 # (``-tagged``), a rung plus the publisher's own search (``+efts``), or the document alone.
+# A v0.2.1 row is its base with one friction removed: the same context, built once.
 _BASES: dict[Rung, Rung | None] = {
   Rung.TEXT_SEARCH: None,
   Rung.OIM_FILES_DOC: Rung.OIM_FILES,
@@ -372,11 +401,13 @@ _BASES: dict[Rung, Rung | None] = {
   Rung.LPG_SHAPED_FACTS_DOC: Rung.LPG_SHAPED,
   Rung.LPG_CYPHER_DOC: Rung.LPG_CYPHER,
   Rung.RDF_SPARQL_DOC: Rung.RDF_SPARQL,
+  Rung.XBRLKIT_SERVE_V021: Rung.XBRLKIT_SERVE,
+  Rung.LPG_SHAPED_V021: Rung.LPG_SHAPED,
 }
 
 
 def base_rung(rung: Rung) -> Rung | None:
-  """The rung a control is built on; the rung itself when it is not a control."""
+  """The rung a control or a v0.2.1 row is built on; the rung itself otherwise."""
   if rung in _BASES:
     return _BASES[rung]
   return rung
@@ -407,6 +438,8 @@ def parse_rungs(text: str) -> list[Rung]:
     return list(CONTROLS_V0_1_1)
   if text == "v0.2":
     return list(V0_2_RUNGS)
+  if text == "v0.2.1":
+    return list(V0_2_1_RUNGS)
   if text == "all":
     return [spec.rung for spec in RUNGS]
   return [Rung(part.strip()) for part in text.split(",") if part.strip()]

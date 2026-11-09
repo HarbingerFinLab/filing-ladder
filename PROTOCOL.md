@@ -485,6 +485,32 @@ pre-registration.
   first-number case, under which nothing carries forward. The rule stands for the next case that
   fits it; v0.1.2 never ran.
 
+- **2026-11-09 — what the served tools' argument schemas contained in v0.2.** §11 says rung 4c's
+  tool definitions "come from the server's own `list_tools` … so the tools, their descriptions,
+  their argument schemas and their answers are the library's and not the harness's", and that the
+  "+doc" instrument on 5c, 7b and 7c is xbrlkit's `search_text` / `read_text` served the same way.
+  The descriptions and the answers were the library's; the argument schemas were not. The harness
+  read each tool's schema off the server's listing under the wire name `inputSchema`, which the mcp
+  2.x `Tool` object does not carry as an attribute (it is `input_schema`), and fell back to
+  `{"type": "object"}` — so every tool served from xbrlkit reached the model with no argument
+  names, types, bounds or required list, and the model had the descriptions alone to go on. The 7a
+  path reads the attribute by its right name; 7a's schemas were whole (0 validation errors in 429
+  calls). Measured from the published transcripts: on 4c, 419 calls, 44 errors in 38 of 114
+  records, every one a schema-validation refusal (`fact_grid` 36, `resolve_element` 5,
+  `search_text` 2, `read_text` 1) — the 33 `concepts`-for-`elements` and 4 `phrase`-for-`query`
+  calls the results README attributes to the model guessing against the schema were the model
+  guessing without one; on 5c+doc, 7b+doc and 7c+doc, 781 served document-tool calls, 6 refusals
+  (1, 2 and 3). No score changes: the judge scores answers, and no §11 lock names the schema. For
+  the claims: 4c's cost per question ($0.076) and its error and turn counts carry a harness
+  handicap of about one turn in each of the 38 records; "4c matches 7a at the same cost" was reached
+  by a row with no argument schemas, so the direction of the error is against 4c, not for it; the
+  +doc rows' instrument was handed the same way, with a footprint of 6 refusals in 781 calls. The
+  capture is fixed in the harness the same day (`filing_ladder/representations/xbrlkit_serve.py`
+  reads the schema under its attribute name and refuses a listing without one; tested against the
+  real server), and v0.2.1's row 4c.1 (§12) is 4c with the schemas handed over, run beside the v0.2
+  row rather than in its place. Recorded in full in `results/v0.2-sonnet-5-5/README.md` ("What the
+  served tools' schemas contained").
+
 ## 10. v0.1.1 — the document as a constant (pre-registered 2026-09-07)
 
 **What v0.1 could not separate.** §9's first entry: rung 7a's search index held the untagged body
@@ -805,3 +831,108 @@ human-review sample and every disagreement; a README with the per-rung tables as
 column beside the Sonnet 5 rows, the open rows marked as such, the gate and engine-check results, the
 cost actuals beside the estimate, and the expectations above scored. Tags: `protocol-v0.2` on this
 section before the run; `results-v0.2` after. Transcripts gzipped, as before.
+
+## 12. v0.2.1 — two rows added beside 4c and 7a, each with one friction the v0.2 transcripts showed removed (pre-registered 2026-11-09)
+
+**What this is.** Two rows added to the Sonnet 5.5 column under §8's last-number rule: the locks,
+the 38 questions, the model, the judge, the prices, the pace and the turn budget are §11's, and
+every v0.2 row carries forward by identity (the same records, the same hashes;
+`results/v0.2-sonnet-5-5/artifact-hashes.json`). Each new row is one v0.2 row with one friction
+removed that the published transcripts showed and that the form never intended. **4c.1** is 4c with
+the server's argument schemas handed to the model — which §11 said they were and the harness did not
+do (§9, 2026-11-09) — on an xbrlkit that also takes the argument names the model sent without them.
+**7a.1** is 7a with its first workflow step pointed at the tools the rung has instead of at the
+prerequisites of the one it least uses. Nothing else about either row changes, nothing here changes
+a v0.2 number, and the rows are reported beside their bases, never in their place. The questions are
+unchanged, vals-17 and vals-22 included, whose gold sits outside the named filing
+(`results/v0.2-sonnet-5-5/review.md`, Part B′): a question change moves the first number and waits
+for v0.3.
+
+**The two frictions, measured from `results/v0.2-sonnet-5-5/transcripts.jsonl.gz`.**
+
+*4c's missing schemas.* Every tool served from xbrlkit in v0.2 — 4c's nine, and the `search_text` /
+`read_text` instrument on the three "+doc" rows — reached the model as a name, a description and
+`{"type": "object"}`: no argument names, types, bounds or required list (the harness read the schema
+under a wire name the mcp 2.x `Tool` object does not carry as an attribute, and defaulted; §9,
+2026-11-09). The model worked from the descriptions alone. On 4c that produced 44 tool errors in 419
+calls, in 38 of 114 records, every one a schema-validation refusal: `fact_grid` 36, of which 33 named
+the concepts `concepts` where the argument is `elements`; `resolve_element` 5, of which 4 named the
+phrase `phrase` where the argument is `query`; `search_text` 2; `read_text` 1. The names the model
+chose are the nouns of the descriptions ("values for one or more concepts"; "the concepts a filing
+reports for a phrase"), which is what a model does with a description and no schema. Each refusal
+came back as an error and was corrected on a later turn (18 on the very next call); records with a
+refusal ran 4.47 assistant turns against 3.24 without. The row's answers were not wrong for it — 4c
+matched 7a on both tiers — so the friction is a turn and its tokens, paid 38 times, for a schema the
+harness owed the model. On the three "+doc" rows the footprint is 6 refusals in 781 served calls.
+
+*7a's first step.* 7a's workflow step 1 has read "Call get-example-queries and get-graph-schema
+first — never guess the schema" since the harness was scaffolded on 2026-09-02, when the rung had
+three tools (statements, a fact grid, Cypher) and the examples were the Cypher prerequisites. By v0.2
+the rung had thirteen tools — `describe-filing`, `disclosures`, `information-block`, `search-text`
+and `read-text` among them — and the step was not revisited. In the run, 46 of 114 records fetched
+the examples (6,718 characters each; the first call of the record in 44); Cypher followed in 9 of the
+46, and the rung wrote Cypher in 9 records in all (13 calls). The other 37 fetches bought nothing the
+record used. Records that fetched the examples cost $0.112 on average against $0.057 for those that
+did not — a bound on the fetch's cost, not its measure, since the model also reaches for the schema
+on the questions the shaped tools answer less directly.
+
+**What changes, exactly.**
+
+| Row | Built on | The one change | Everything else |
+|---|---|---|---|
+| 4c.1 | 4c | **the hand-off repaired**: the model receives the server's own argument schema for each of the nine tools, read from the listing under its attribute name, a listing without one refused rather than defaulted (`filing_ladder/representations/xbrlkit_serve.py`; tested against the real server); and the installed xbrlkit is **0.21.5**, whose `fact_grid` and `resolve_element` also take `concepts` and `phrase` beside `elements` and `query` (xbrlkit PR [#105](https://github.com/RoboFinSystems/xbrlkit/pull/105)). The row does not separate the two: the schema is the defect's repair and is not optional, the aliases are in the package any reader installs, and once the schema names `elements` the aliases should go unused — the row reports how many calls named each | the same tools, descriptions and withheld list (`SERVE_TOOLS`, `WITHHELD`), the same package folder, the same prompt word for word (`SOURCES[4c.1] is SOURCES[4c]`) |
+| 7a.1 | 7a | workflow step 1 becomes *"Start with the shaped tool the question calls for: financial-statement-analysis for a statement line; build-fact-grid or resolve-element for a concept and its values; describe-filing for the filing's Items; disclosures, then information-block, for one note read whole; search-text, then read-text, for what the narrative says; search-documents for where the corpus discusses something. Never guess a concept qname — resolve-element returns the filer's own."* and step 2 *"Fall back to read-graph-cypher only when the shaped tools cannot answer, and call get-example-queries and get-graph-schema before writing it — never guess the schema."* (the old step 2: *"Prefer the shaped tools (financial-statement-analysis, build-fact-grid, resolve-element, describe-filing, disclosures, information-block, search-text / read-text, search-documents); fall back to read-graph-cypher."*) | the same thirteen tools from the same hosted server at the same pace, the same source paragraph, the same skeleton, output contract, abstention rule, steps 3 and 4, and turn budget |
+
+The harness refuses to run 4c.1 against an xbrlkit whose `fact_grid` schema has no `concepts`
+property (recorded as `cannot_attempt`), so the row cannot be taken against 0.21.4 by accident; the
+version runs in `run.json` as before. 7a.1's prompt is 7a's with the two step strings replaced; a
+test holds the paragraph before "Workflow:" identical between the two and every tool name present in
+both.
+
+**Why this is fair to the other forms.** Every tools rung's step 1 names what to do first with its
+own tools: 4c's names `describe_filing`, 5c's `describe_model`, 7b's `describe_graph`, 7c's
+`describe_report`. 7a's named the prerequisite of the tool it uses least, and 7a.1 gives it the
+treatment every other rung already has. 4c.1's schemas are what §11 promised every served tool and
+what every other tools rung had all along (the file, companyfacts, jq, Cypher and SPARQL tools carry
+their schemas in the harness; 7a's come whole from the hosted server). The three "+doc" rows keep
+v0.2's hand-off by identity and are not re-run; their footprint is 6 refusals in 781 calls, disclosed
+in §9. The two aliases are the product accepting what the model sent it, released in the package and
+not patched in the harness. No other row's source changes; no question, gold, rubric or judge
+changes; the §11 cross-filing rule applies to 7a.1 as it applied to 7a.
+
+**Locks.** §11's, with two deltas:
+
+| Lock | v0.2 | v0.2.1 |
+|---|---|---|
+| Served-tool argument schemas (4c; the "+doc" instrument) | `{"type": "object"}` for every served tool — the defect of §9, 2026-11-09 | the server's own, for 4c.1; the held rows keep theirs by identity |
+| xbrlkit | 0.21.4 | **0.21.5** for 4c.1 — the two aliases are the whole difference between the releases (the diff is the PR above); 0.21.4 stands for every held row by identity |
+| Everything else | §11 | unchanged |
+
+**Expectations, pre-registered.** (a) 4c.1's schema-validation refusals fall from 44 to fewer than
+5 in about 400 calls, and its `concepts`-for-`elements` and `phrase`-for-`query` calls from 37 to 0;
+the row reports how many `fact_grid` and `resolve_element` calls named each argument. (b) 4c.1's
+assistant turns per record fall toward 4c's refusal-free mean of 3.24, and its cost per question
+falls below 4c's $0.076. (c) 7a.1 fetches `get-example-queries` in fewer than 10 of 114 records and
+only ahead of `read-graph-cypher`; its cost per question is at or below 7a's $0.079. (d) Accuracy on
+both tiers for both rows lands inside one standard error of the base (about ±3 points on T1, ±7 on
+T2); a difference beyond that, in either direction, is reported with the paired per-question table
+and is not claimed as a gain of the form. (e) 7a.1 reads Airbnb's other 10-K on vals-17 and vals-22
+again and the §11 rule scores it as it scored 7a. (f) Cost per correct answer, the figure the rows
+exist to move, falls on both rows against the base at the same accuracy. If (a) or (c) fails, the
+friction was not what the transcripts said, and the row is published as it ran.
+
+**Cost, pre-registered.** 4c ran at $8.66 and 7a at $9.03 in v0.2 (k = 3, 38 questions, 114 records
+each); the rows are expected at or below that — $15–18 for the two, judged by `claude-sonnet-5` for
+about $2. First a k = 1 shakedown on the six template questions, both rows (12 records, under $1); it
+is never scored. It checks that the schemas arrive (the harness now refuses a listing without one, and
+4c.1 does not run unless `fact_grid`'s schema names `concepts`), that 4c.1 produces no `concepts` or
+`phrase` refusal, and that 7a.1 does not open a record with the example fetch. If either friction is still present, the fix is corrected and the shakedown
+repeated before the tag; nothing recorded runs until it passes. The mid-run cut rule is §11's.
+Budget: the remaining Anthropic credit, which expires 2026-11-13 UTC.
+
+**Publication.** `results/v0.2.1-sonnet-5-5/`: the two rows' records, judged by the v0.1 judge with
+the same rubrics; the cross-filing rule applied; a README with each row beside its v0.2 base
+(accuracy, confident-wrong, cost per question and per correct answer, tool errors, turns) and the
+expectations above scored; `run.json` carrying the xbrlkit version. The v0.2 directory is not
+touched beyond the §9 disclosure already recorded in its README. Tags: `protocol-v0.2.1` on this
+section before the run; `results-v0.2.1` after.

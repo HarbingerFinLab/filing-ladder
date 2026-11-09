@@ -29,6 +29,13 @@ TOOLS_WORKFLOW = """Workflow:
 3. If a call errors or returns nothing useful, read the message, fix the call, and try again. You have a limited number of steps — never repeat a failing call unchanged.
 4. Answer from what the tools returned. A query that returned zero rows is not evidence of a value; if you cannot retrieve the figure, abstain."""
 
+# 7a's source paragraph, shared with 7a.1 (v0.2.1), whose workflow steps differ.
+LPG_SHAPED_SOURCE = (
+  "You have the RoboSystems SEC knowledge graph through its MCP tools (financial statements, fact grids, element resolution, "
+  "a filing's layout, disclosures and information blocks, its whole primary document through search-text and read-text, "
+  "document search and sections, and read-only Cypher). "
+)
+
 SOURCES: dict[Rung, str] = {
   Rung.PDF: "The filing is attached as a PDF. Cite page numbers.",
   Rung.HTML_TEXT: "The filing's primary document is attached as plain text (its HTML tags removed). Cite the statement or section and the line item.",
@@ -79,9 +86,7 @@ SOURCES: dict[Rung, str] = {
     )
   ),
   Rung.LPG_SHAPED: (
-    "You have the RoboSystems SEC knowledge graph through its MCP tools (financial statements, fact grids, element resolution, "
-    "a filing's layout, disclosures and information blocks, its whole primary document through search-text and read-text, "
-    "document search and sections, and read-only Cypher). "
+    LPG_SHAPED_SOURCE
     + TOOLS_WORKFLOW.format(
       first_step="Call get-example-queries and get-graph-schema first — never guess the schema.",
       second_step="Prefer the shaped tools (financial-statement-analysis, build-fact-grid, resolve-element, describe-filing, disclosures, information-block, search-text / read-text, search-documents); fall back to read-graph-cypher.",
@@ -163,6 +168,23 @@ SOURCES[Rung.LPG_SHAPED_FACTS_DOC] = (
 )
 SOURCES[Rung.LPG_CYPHER_DOC] = SOURCES[Rung.LPG_CYPHER] + DOCUMENT_BESIDE
 SOURCES[Rung.RDF_SPARQL_DOC] = SOURCES[Rung.RDF_SPARQL] + DOCUMENT_BESIDE
+
+# Protocol v0.2.1 (§12): 4c.1's prompt is 4c's word for word — the change is in the installed
+# xbrlkit; 7a.1's is 7a's source paragraph with workflow steps 1 and 2 pointed at the shaped tools.
+SOURCES[Rung.XBRLKIT_SERVE_V021] = SOURCES[Rung.XBRLKIT_SERVE]
+SOURCES[Rung.LPG_SHAPED_V021] = LPG_SHAPED_SOURCE + TOOLS_WORKFLOW.format(
+  first_step=(
+    "Start with the shaped tool the question calls for: financial-statement-analysis for a statement line; "
+    "build-fact-grid or resolve-element for a concept and its values; describe-filing for the filing's Items; "
+    "disclosures, then information-block, for one note read whole; search-text, then read-text, for what the "
+    "narrative says; search-documents for where the corpus discusses something. Never guess a concept qname — "
+    "resolve-element returns the filer's own."
+  ),
+  second_step=(
+    "Fall back to read-graph-cypher only when the shaped tools cannot answer, and call get-example-queries "
+    "and get-graph-schema before writing it — never guess the schema."
+  ),
+)
 
 
 def system_prompt(rung: Rung) -> str:

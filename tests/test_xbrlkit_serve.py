@@ -115,3 +115,40 @@ def test_a_corpus_filing_loads_from_its_package_with_its_document():
   assert "error" in json.loads(sf.call("read_text", {"offset": 10**9}))
   assert "not available" in xk.make_tool_runner(sf, xk.SERVE_TOOLS)("run_cypher", {})
   assert "error" in json.loads(sf.call("no_such_tool", {}))
+
+
+def test_served_definitions_carry_the_servers_argument_schemas():
+  """v0.2 handed every served tool `{"type": "object"}` (PROTOCOL §9, 2026-11-09): the capture
+  read the wire name inputSchema, which the mcp 2.x Tool does not carry as an attribute."""
+  from xbrlkit.serve import FilingSession, build_server
+
+  server = build_server(FilingSession(), graph_tools=True)
+  defs = {t.name: t for t in xk.tool_defs_from(asyncio.run(server.list_tools()))}
+  for name in xk.SERVE_TOOLS:
+    assert defs[name].input_schema.get("properties"), name
+
+  def props(name: str) -> set[str]:
+    return set(defs[name].input_schema["properties"])
+
+  assert {"elements", "concepts"} <= props("fact_grid")
+  assert {"query", "phrase"} <= props("resolve_element")
+  assert {"pattern", "window", "max_hits"} <= props("search_text")
+  assert {"offset", "length"} <= props("read_text")
+  assert xk.accepts_aliases([defs[n] for n in xk.SERVE_TOOLS])
+
+
+def test_a_listing_without_a_schema_is_refused_not_defaulted():
+  class Wire:  # the schema under the wire name, as an older client object spells it
+    name = "t"
+    description = "d"
+    inputSchema = {"type": "object", "properties": {"a": {"type": "string"}}}
+
+  class Bare:
+    name = "t"
+    description = "d"
+
+  assert xk.tool_defs_from([Wire()])[0].input_schema["properties"] == {
+    "a": {"type": "string"}
+  }
+  with pytest.raises(RuntimeError, match="without an argument schema"):
+    xk.tool_defs_from([Bare()])
