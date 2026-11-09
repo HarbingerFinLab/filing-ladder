@@ -579,10 +579,11 @@ on the hosted repository on 2026-11-08, read-only, and the fact-read fix (#2008)
 7a lock below. (4) The model: Sonnet 5 → Sonnet 5.5 (`claude-sonnet-5-5`), the current Sonnet. Same
 list prices for input and output ($2 / $10 per million tokens) and for a cache write ($2.50); a cache
 read is half Sonnet 5's ($0.10 against $0.20); all verified on the provider's price page on
-2026-11-08 and recorded in `prices.json`. Same tokenizer. Thinking is on by default on both models,
-and the harness sends no thinking, sampling or tool-choice parameter to either, so the lock is the
-model's defaults in both columns; Sonnet 5.5's effort levels are recalibrated, so its token volume per
-question is not assumed from Sonnet 5's — it is measured on the model shakedown below. Its thinking
+2026-11-08 and recorded in `prices.json`. Same tokenizer. The harness sends no thinking, sampling or
+tool-choice parameter to either model, so the lock is the model's defaults in both columns; on the two
+shakedowns below neither model returned a thinking block in any of its 48 records. Sonnet 5.5's effort
+levels are recalibrated, so its token volume per question was not assumed from Sonnet 5's — the model
+shakedown measured it. Its thinking
 blocks are bound to the model and the conversation; the harness replays every block it receives
 unchanged and only ever appends, as it did on Sonnet 5. It can end a turn with the stop reason
 `refusal`, which the harness records as it records any stop reason.
@@ -727,19 +728,20 @@ answer was read.
 
 **Cost, pre-registered.** Published per-rung actuals from v0.1 and v0.1.1 (k = 3, 38 questions,
 114 records a rung) at Sonnet 5 list; tool rungs cache little, so these are robust to ordering. The
-table is at Sonnet 5's token volumes: Sonnet 5.5's prices per token are the same or lower, its token
-volume per question is unknown until its shakedown, and the table is re-scaled from that shakedown's
-per-question costs before the tag.
+table is those Sonnet 5 figures scaled, row by row, by the ratio of the two shakedowns' per-question
+costs on that rung (the Sonnet 5 figure and the ratio stand in the Basis column). Rung 2 was in
+neither shakedown and is held at Sonnet 5's figure as an upper bound: the same bytes in context, and
+Sonnet 5.5's output ran lower on every other row.
 
-| Piece | Estimate | Basis |
+| Piece | Estimate, Sonnet 5.5 | Basis |
 |---|---|---|
-| 4c | $10–15 | shaped like 5c+doc ($10.99) |
-| 7a, 13 tools | $12–15 | v0.1 $11.17; more tools, more text reads |
-| 5c+doc · 7b+doc · 7c+doc | $11 · $9 · $10 | v0.1.1 $10.99 · $8.40 · $9.40 |
-| 5c · 7b · 7c | $22 · $17 · $24–26 | v0.1 $22.00 · $17.12 · $23.96; the holon is a quarter larger |
-| 2 (drift control) | $17 | v0.1 $16.58 |
-| Judge, and the two k = 1 shakedowns on the six template questions | $15–20 | |
-| **Total** | **$147–167** | funded by a promotional credit expiring 2026-11-13; the ceiling is $233 |
+| 4c | $17–25 | $10–15 (shaped like 5c+doc, $10.99) × 1.65 — the one row the shakedown moved up, on three retried `fact_grid` calls |
+| 7a, 13 tools | $7–8 | $12–15 (v0.1 $11.17; more tools, more text reads) × 0.55 |
+| 5c+doc · 7b+doc · 7c+doc | $9 · $6 · $4 | $11 · $9 · $10 (v0.1.1 $10.99 · $8.40 · $9.40) × 0.85 · 0.70 · 0.38 |
+| 5c · 7b · 7c | $20 · $12 · $8–9 | $22 · $17 · $24–26 (v0.1 $22.00 · $17.12 · $23.96; the holon a quarter larger) × 0.90 · 0.73 · 0.33 |
+| 2 (the anchor) | $17 | v0.1 $16.58, held: in neither shakedown; an upper bound |
+| Judge, and the two k = 1 shakedowns on the six template questions | $18–20 | the shakedowns ran at $5.25 and $3.24; the judge about $10 |
+| **Total** | **$118–130** | funded by a promotional credit expiring 2026-11-13; the ceiling is $233 |
 
 The run order is the cut order. If actuals at the midpoint of the plan run a quarter over the
 estimate, the bare rows (5c, 7b, 7c) and then rung 2 are dropped and left as open rows of the
@@ -779,10 +781,23 @@ on (fairness rule 3): on these six questions 7a never called `get-graph-schema` 
 · 7b+doc $0.065 · 7c+doc $0.129 · 5c $0.170 · 7b $0.102 · 7c $0.251 — below the estimate's basis,
 which stands because the Vals questions run longer than these.
 
-*The model shakedown, Sonnet 5.5* — the same six questions on the same eight rungs, run after the
-model moved and before the tag; it measures what the Sonnet 5 shakedown cannot: the token volume per
-question against Sonnet 5's (the cost table's basis), the thinking blocks replayed across tool turns,
-the stop reasons seen. **Result: [recorded here before the tag].**
+*The model shakedown, Sonnet 5.5, 2026-11-09 01:40 UTC* — the same six questions on the same eight
+rungs, run after the model moved and before the tag. 48 of 48 records completed, every one on
+`end_turn`, no transport error, no turn-cap hit, no `refusal`; $3.24 at list against the Sonnet 5
+shakedown's $5.25 on the same records. Fewer turns (159 against 205), fewer tool calls (124 against
+181), fewer tool errors (9 against 15); input tokens 1.36 M against 2.18 M, output 41.9 K against
+71.3 K. Neither model returned a thinking block in any record, and on both the output tokens track the
+visible text and tool calls, so nothing unseen is billed. The nine errors are the model's and the
+engines', as before: `fact_grid` called with `concepts` for `elements` three times on 4c (once on
+Sonnet 5), corrected on the next turn each time; two jq programs that did not parse; the same
+regex-group runtime error in Cypher four times on one 7b question. Per-question cost on the six,
+Sonnet 5.5 against Sonnet 5: 4c $0.043 / $0.026 · 7a $0.035 / $0.063 · 5c+doc $0.058 / $0.069 ·
+7b+doc $0.045 / $0.065 · 7c+doc $0.049 / $0.129 · 5c $0.153 / $0.170 · 7b $0.074 / $0.101 · 7c $0.083
+/ $0.251 — 4c the one row up, 7c the furthest down. The answers agreed across the rungs on all six
+(net sales USD 24,575 million, the fourth quarter USD 6,010 million, R&D USD 1,085 million, capital
+expenditure USD 1,181 million, the PFAS exit by the end of 2025, three expense lines summing to the
+reported total); they were not judged — a shakedown is never scored. 7a's nine calls in 37 s never
+reached the pace. What it changed in this section: the cost table above, re-scaled; nothing else.
 
 **Publication.** `results/v0.2-sonnet-5-5/`: the records of the nine rows, judged by the v0.1 judge
 (`claude-sonnet-5`, rubric decomposition + contradiction check) with the same rubrics; the 20%
