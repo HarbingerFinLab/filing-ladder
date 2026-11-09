@@ -436,7 +436,7 @@ requires-dist = [
     { name = "python-dotenv", specifier = ">=1.0" },
     { name = "rdflib", specifier = ">=7.6" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.12" },
-    { name = "xbrlkit", extras = ["lpg", "mcp"], specifier = ">=0.21.4" },
+    { name = "xbrlkit", extras = ["lpg", "mcp"], specifier = ">=0.21.5" },
 ]
 provides-extras = ["dev"]
 
@@ -1633,7 +1633,7 @@ wheels = [
 
 [[package]]
 name = "xbrlkit"
-version = "0.21.4"
+version = "0.21.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "arelle-release" },
@@ -1645,9 +1645,9 @@ dependencies = [
     { name = "regex" },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/3b/a9/d0c5680bdcc2e04834a6fbb94291622bb93b67ea81a9bf5ac5515e65cbe0/xbrlkit-0.21.4.tar.gz", hash = "sha256:2722b2a39f45e98adc313853f3adb19a5751c67527eca0cc6ec5dd3eefc0cd9f", size = 2155659, upload-time = "2026-11-01T21:51:15.247Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/1b/71/df397e3fa250ff77341b5e5048a043fb2747a65ceabe30b0da63ed3baa3a/xbrlkit-0.21.5.tar.gz", hash = "sha256:6a900d52bdd1963347e455d0b98400a0d10e0f2f43539f8696ba49da2b90ed28", size = 2156281, upload-time = "2026-11-09T17:39:14.875Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/23/19/0ecfb4b440039e40a903541d0c56b4a74dc2514e01050ce8e8ff16e7d544/xbrlkit-0.21.4-py3-none-any.whl", hash = "sha256:8b5e7d0c3d46bc027a03f0739bf52b484256d3dc279b1a4e4dbbcf63d3bc6275", size = 2090717, upload-time = "2026-11-01T21:51:13.243Z" },
+    { url = "https://files.pythonhosted.org/packages/61/17/87550967408ad7b6b7b0af14e69919cce23113b9408fe8c1339c392d1b10/xbrlkit-0.21.5-py3-none-any.whl", hash = "sha256:48708b6f1b7aea5ad1dae0ffb70403365f8a1b11ba46c28a866e3fb034e21052", size = 2091051, upload-time = "2026-11-09T17:39:13.147Z" },
 ]
 
 [package.optional-dependencies]
