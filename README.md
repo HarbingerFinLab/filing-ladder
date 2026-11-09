@@ -69,7 +69,14 @@ harness defect found and disclosed on 2026-11-09 (PROTOCOL §9; all 44 of 4c's t
 refusals; no score changes) — and 4c.1 hands the schemas over, on an xbrlkit that also takes the names the
 model sent without them. 7a.1 points 7a's first workflow step at its tools instead of the Cypher
 prerequisites (46 of 114 records opened with a 6,718-character example fetch; Cypher followed in 9). The
-v0.2 rows carry forward by identity; the two rows run next.
+v0.2 rows carry forward by identity. **v0.2.1 has run** (2026-11-09; results in
+[`results/v0.2.1-sonnet-5-5/`](results/v0.2.1-sonnet-5-5/README.md)): both rows landed where their bases
+did on accuracy, every paired change inside one standard error. 7a.1 made no schema or example fetch in 114
+records and cost less per correct answer on both tiers ($0.054 and $0.158 against $0.062 and $0.172). 4c.1's
+refusals fell from 44 to 4 but its turns did not: the model spent them reading, the schemas ride along as
+cached tokens on every turn, and the open-source row cost more per correct lookup ($0.076 against $0.061)
+for one more correct answer in sixty. 7a.1 read Airbnb's other 10-Ks on the same two questions and the
+cross-filing rule scored those six answers as before. $17.61 for the two rows.
 
 ## The ladder
 
