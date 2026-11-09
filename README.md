@@ -52,7 +52,7 @@ document is what worked; the form it arrived in barely mattered.
 **Protocol v0.1.2 is pre-registered** ([PROTOCOL §11](PROTOCOL.md#11-v012--the-forms-that-are-ours-re-materialized-the-document-through-xbrlkit-pre-registered-2026-11-08)):
 the four forms that are ours — Tavi, the filing's own property graph, the holon, and the `sec` graph's
 tools — re-run under the tooling as it stands (xbrlkit 0.21.4; the hosted `sec` repository at
-RoboSystems v1.22.1), one rung added (`4c`: the package behind `xbrlkit serve`'s shaped tools, on the
+RoboSystems v1.22.2), one rung added (`4c`: the package behind `xbrlkit serve`'s shaped tools, on the
 reader's own machine), and the document delivered to every one of them by xbrlkit's own `search_text` /
 `read_text`. Same model, same 38 questions, same k. Every other row carries forward by identity, with
 hashes. Results land in `results/v0.1.2-sonnet-5/` when the run closes.

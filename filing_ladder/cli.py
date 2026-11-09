@@ -415,6 +415,8 @@ def cmd_run(args: argparse.Namespace) -> int:
     )
   )
   done = done_keys(run, drop_errors=args.retry_errors) if args.resume else set()
+  from .representations.mcp import PACE as mcp_pace
+
   write_json(
     run.config,
     {
@@ -432,6 +434,9 @@ def cmd_run(args: argparse.Namespace) -> int:
       "document_instrument": args.document,
       "xbrlkit": _xbrlkit_version(),
       "mcp_url": _mcp_url(settings) if any(uses_mcp(r) for r in rungs) else None,
+      "mcp_pace": {"per_minute": mcp_pace[0], "per_hour": mcp_pace[1]}
+      if any(uses_mcp(r) for r in rungs)
+      else None,
       "question_ids": [q.id for q in questions],
       "started": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     },

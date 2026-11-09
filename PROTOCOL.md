@@ -566,9 +566,10 @@ stand. (2) The `sec` server grew five tools, all of them xbrlkit's own functions
 platform over the filing held whole: `describe-filing`, `disclosures`, `information-block`,
 `search-text`, `read-text`. The last two read the whole primary document — cover page, signatures,
 Part III — which v0.1's results README named as the index gaps behind 7a's misses. 7a's tool filter
-is by exclusion, so the five flow in; 15 tools listed, 13 given. (3) RoboSystems v1.22.1 carries the
+is by exclusion, so the five flow in; 15 tools listed, 13 given. (3) RoboSystems v1.22.2 carries the
 `canonical_concept` restamp (#1941) the parent spec named as a known defect of the 7a path, verified
-on the hosted repository on 2026-11-08, read-only.
+on the hosted repository on 2026-11-08, read-only, and the fact-read fix (#2008) recorded under the
+7a lock below.
 
 **The lineup**, in run order — the headline first, the identity checks last, so that a cut for
 cost falls on the rows whose predecessors already exist:
@@ -576,7 +577,7 @@ cost falls on the rows whose predecessors already exist:
 | | What the model gets | The document | v0.1.2 | Sits beside |
 |---|---|---|---|---|
 | **4c** *(new)* | xbrlkit's shaped tools over the filing parsed from its own XBRL package, in memory | native — `search_text` / `read_text`, product profile | **added** | 7a (the platform's shaped tools against the library's); 5c (shaped tools against raw jq over the same model) |
-| **7a** | the `sec` repository's 13 shaped tools over MCP, hosted | native — `search-text` / `read-text` | **re-run** (lock: RoboSystems v1.22.1, hosted) | 7a v0.1; 7a+doc v0.1.1 |
+| **7a** | the `sec` repository's 13 shaped tools over MCP, hosted | native — `search-text` / `read-text` | **re-run** (lock: RoboSystems v1.22.2, hosted) | 7a v0.1; 7a+doc v0.1.1 |
 | **5c+doc** | 5c + xbrlkit's two text tools | the instrument below | **re-run** | 5c+doc v0.1.1 |
 | **7b+doc** | 7b + the two text tools | the instrument | **re-run** | 7b+doc v0.1.1 |
 | **7c+doc** | 7c + the two text tools | the instrument | **re-run** | 7c+doc v0.1.1 |
@@ -620,7 +621,7 @@ platform and behind the library, on the same model and the same document.
 
 **7a on the hosted repository — a lock change, disclosed.** v0.1 and v0.1.1 ran 7a on a fresh
 local load of the 26 corpus filings under a named release (§6). v0.1.2 runs it on the hosted `sec`
-repository at `api.robosystems.ai`, RoboSystems v1.22.1, over the same MCP transport with the same
+repository at `api.robosystems.ai`, RoboSystems v1.22.2, over the same MCP transport with the same
 filing hint (ticker, form, fiscal year, CIK, accession). Why: the local-load rule existed to pin a
 release carrying the corpus fixes, and the hosted graph is at a named release, verified the morning
 of the pre-registration; a local load of the corpus, its filer catalog and its text index is two to
@@ -631,10 +632,42 @@ index) are present — no frozen question needs them; an answer read from a fili
 question's is a confident-wrong of the form and is scored as such. The 7a prompt's source paragraph
 now names the five tools in its second step; its first step and the skeleton are v0.1's. 7a's
 carried-forward controls derive their prompt from 7a's in code and are not re-run; their published
-transcripts carry the prompts they ran with. One engine issue is known going in: on 2026-11-08 a
-deterministic wrong-results read was found on the hosted graph (a fact's `numeric_value` returned
-as 0.0 under one combination of Cypher patterns) on a filer outside the corpus; breadth unmeasured.
-A 7a transcript that shows it is a defect of the form, disclosed in the results, never re-scored.
+transcripts carry the prompts they ran with.
+
+**An engine defect, found, fixed and disclosed before the tag (principle 11).** The morning of
+the pre-registration, the hosted graph's `financial-statement-analysis` served two face-statement
+numbers as 0.0 — Microsoft's FY2025 goodwill, and the FY2025 total assets of Realty Income, a filer
+outside the corpus. The cause is in the engine, not the data: LadybugDB 0.22.x skips a compressed
+column's exception values when a filtered scan's 2,048-row batch straddles a segment boundary, so a
+DOUBLE projected through a filter can read exactly 0.0. On a production backup that was 210 of
+146,029 facts across 123 of 300 FY2025 10-Ks on the affected read path, and which facts are hit
+changes with every nightly rebuild; the fact's text `value` is never affected. RoboSystems v1.22.2
+(#2008, deployed 2026-11-09 00:46 UTC) takes the number from the text in the two shaped reads that
+return fact numbers, `financial-statement-analysis` and `build-fact-grid`: on the backup the text
+parses to exactly the number for all 74.3 million numeric facts, the wrong reads on the affected
+path go from 210 to 0, and both 0.0 reads above re-read correct on the hosted repository after the
+deploy. The ten other tools return no fact number from the graph (the five xbrlkit tools read the
+filing held whole; `resolve-element` returns names, labels and counts). What stays exposed is raw
+`read-graph-cypher` that returns, orders, filters or aggregates `f.numeric_value`: the engine
+underneath is still 0.22.1 (the fix is filed upstream, LadybugDB #1540, unreleased), and the tool's
+rules and `get-example-queries` now tell the reader to return `f.value`, which is guidance, not a
+rewrite. A 7a transcript that shows it is a defect of the form, disclosed in the results, never
+re-scored. On the shakedown's six questions 7a never reached for Cypher.
+
+**The hosted repository's caps, and the harness's pace.** The `sec` repository counts every MCP
+tool call against the subscriber's plan — the ladder's key holds the advanced plan: 25 a minute, 500
+a UTC clock hour, 5,000 a day — and refuses over the cap with HTTP 429, which the MCP client hands
+the model as a tool error indistinguishable from the engine's. The shakedown's 7a ran at about 13
+calls a minute; a full 7a row at k = 3 would cross 500 in an hour. So the harness paces: a call goes
+out only when fewer than 20 went out in the trailing minute and fewer than 450 in the current UTC
+hour, and waits otherwise (`Pacer` in `filing_ladder/representations/mcp.py`; the pace is written
+into the run's config). The model never sees the wait; the wall clock does, and the 7a row's wall
+clock in the results is read with that in mind. v0.1's local load had no cap, so this belongs to the
+lock change, not to what the model is handed. Two more facts of the hosted lock, recorded so the
+transcripts can be read against them: the repository rebuilds after each weekday's close (the
+replica cutover lands at about 04:30–05:40 UTC, Tuesday to Saturday), and 7a is run in one sitting
+outside that window, with the server's reported version (`/v1/status`) written into the results
+README at its start and at its end; and the harness runs tool calls one at a time, as it always has.
 
 **The document instrument — xbrlkit's text tools on every rung of ours.** v0.1.1's "+doc" was two
 harness tools over rung 2's text file. In v0.1.2 the document on 5c+doc, 7b+doc and 7c+doc is
@@ -666,8 +699,8 @@ answer was read.
 | Questions | 38 (32 Vals + 6 templates), `questions/manifest.json` | **same**; verified unchanged on 2026-11-08. `filing-token-counts.json` is one of its four hashed files and is deliberately not re-exported: the re-materialized holon's size goes in the results README |
 | k · turn cap · max tokens · prompt skeleton · output contract | 3 · 12 · 16,384 · as frozen | **same** |
 | xbrlkit | 0.4.1 | **0.21.4** (`xbrlkit[lpg,mcp]`); the hosted server runs 0.21.3 — identical package code, the release differs in README and CI only |
-| RoboSystems, rung 7a | v1.11.16, fresh local load | **v1.22.1, the hosted `sec` repository** (above) |
-| LadybugDB (7b) | 0.20.x | 0.22.1 |
+| RoboSystems, rung 7a | v1.11.16, fresh local load | **v1.22.2, the hosted `sec` repository** (above), on the advanced plan, paced at 20 calls a minute and 450 an hour |
+| LadybugDB (7b) | 0.20.x | 0.22.1 — the engine with the filtered-scan 0.0 read above. Checked on the 26 filing graphs on 2026-11-08 under two filter shapes (`bin/check_lbug_doubles.py`; `results/v0.1.2-sonnet-5/lbug-double-reads.json`): 16,649 consolidated numeric facts, 0 misreads, 0 other disagreements between `numeric_value` and the text. Each graph holds under 1,200 facts, a single scan batch |
 | Arelle | 2.44.6 | 2.45.3 in the lock; 5a/5b exports not regenerated — recorded |
 | Prices | `prices.json` 2026-09-03 | **same** — Sonnet 5 list unchanged, re-verified 2026-10-24; the model confirmed served 2026-11-08 |
 
@@ -704,7 +737,8 @@ finding.
 
 **Shakedown.** The six template questions, k = 1, on the eight tool rungs, run on 2026-11-08
 before the tag and never published (principle 10); what it changed in this section is recorded
-here: nothing.
+here: nothing. Two harness changes landed after it and before the tag, neither prompted by it: the
+pace on 7a's MCP calls and the 7b engine check, each recorded where it is described above.
 48 of 48 records completed, every one on `end_turn`, no transport error, no turn-cap hit, $5.25
 at list. 16 of 181 tool calls errored: nine were `search_text` called with `query` or `program`
 in place of `pattern` — the library's schema refused and the model corrected on the next turn,

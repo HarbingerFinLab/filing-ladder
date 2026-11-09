@@ -65,6 +65,10 @@ check-text *args:
 check-readable *args:
     uv run python bin/check_readable_text.py {{args}}
 
+# The v0.1.2 engine check: every 7b graph's numeric facts read through a filter against their text
+check-lbug-doubles *args:
+    uv run python bin/check_lbug_doubles.py {{args}}
+
 # Run rungs on a question set (see `filing-ladder run --help`)
 run *args:
     uv run filing-ladder run {{args}}
