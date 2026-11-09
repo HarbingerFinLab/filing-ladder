@@ -77,13 +77,19 @@
   ],
   "7a.1_T2": {
     "n": 54,
-    "judge_correct": 39,
-    "judge_accuracy": 0.7222,
+    "judge": {
+      "correct": 39,
+      "accuracy": 0.7222,
+      "confident_wrong": 0.2778,
+      "cost_per_correct": 0.1337
+    },
+    "form_scored": {
+      "correct": 33,
+      "accuracy": 0.6111,
+      "confident_wrong": 0.3889,
+      "cost_per_correct": 0.158
+    },
     "re_scored": 6,
-    "form_correct": 33,
-    "form_accuracy": 0.6111,
-    "cost_usd": 5.2135,
-    "cost_per_correct_judge": 0.1337,
-    "cost_per_correct_form": 0.158
+    "cost_usd": 5.2135
   }
 }

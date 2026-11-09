@@ -77,6 +77,8 @@ refusals fell from 44 to 4 but its turns did not: the model spent them reading, 
 cached tokens on every turn, and the open-source row cost more per correct lookup ($0.076 against $0.061)
 for one more correct answer in sixty. 7a.1 read Airbnb's other 10-Ks on the same two questions and the
 cross-filing rule scored those six answers as before. $17.61 for the two rows.
+**Every published row of every version is in one table** in [`results/README.md`](results/README.md),
+regenerated from the published runs by `bin/results_table.py`.
 
 ## The ladder
 
