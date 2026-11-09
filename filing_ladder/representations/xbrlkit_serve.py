@@ -104,15 +104,7 @@ class ServedFiling:
 
   def all_tools(self) -> list[ToolDef]:
     if self._tools is None:
-      listed = self._run(self.server.list_tools())
-      self._tools = [
-        ToolDef(
-          t.name,
-          t.description or "",
-          dict(getattr(t, "inputSchema", None) or {"type": "object"}),
-        )
-        for t in listed
-      ]
+      self._tools = tool_defs_from(self._run(self.server.list_tools()))
     return list(self._tools)
 
   def tool_defs(self, names: tuple[str, ...]) -> list[ToolDef]:
@@ -150,6 +142,20 @@ class ServedFiling:
       f"{self.text_chars:,} chars of {'document' if lf.has_document else 'text blocks'}, "
       f"read_from={read_from}"
     )
+
+
+def _schema(tool: Any) -> dict:
+  """The server's own argument schema, under the attribute mcp 2.x gives it or the wire name.
+  v0.2 read the wire name alone and defaulted to ``{"type": "object"}`` (PROTOCOL §9, 2026-11-09)."""
+  schema = getattr(tool, "input_schema", None) or getattr(tool, "inputSchema", None)
+  if not isinstance(schema, dict) or not isinstance(schema.get("properties"), dict):
+    raise RuntimeError(f"xbrlkit serve listed {tool.name!r} without an argument schema")
+  return dict(schema)
+
+
+def tool_defs_from(listed: list[Any]) -> list[ToolDef]:
+  """The server's tools as the model will see them: name, description, and its own schema."""
+  return [ToolDef(t.name, t.description or "", _schema(t)) for t in listed]
 
 
 def _version() -> str:

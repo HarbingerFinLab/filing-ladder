@@ -220,10 +220,13 @@ reach the single-filing tier must refuse. And the gold's own notes on both quest
 Recorded, not acted on (fairness rule 3): these are the model against the tools as shipped.
 
 - **4c's argument names.** 37 of 4c's 44 tool errors are 33 calls to `fact_grid` with `concepts`
-  where the schema says `elements`, and 4 calls to `resolve_element` with `phrase`;
-  each was refused by the library's schema and corrected on the next turn. It cost 4c about one extra
-  turn in three questions and is the whole of its cost gap to 7a on derived questions. The names are
-  the library's to choose; this is what a model guesses when they differ from the platform's.
+  where the library's argument is `elements`, and 4 calls to `resolve_element` with `phrase` where it
+  is `query`; each was refused by the library's schema and corrected on the next turn. It cost 4c
+  about one extra turn in three questions and is the whole of its cost gap to 7a on derived
+  questions. *Corrected 2026-11-09:* the model had no argument schema to read on this row — the
+  harness handed every served tool `{"type": "object"}` — so these are the nouns of the tool
+  descriptions, guessed without a schema, not names guessed against one. See "What the served tools'
+  schemas contained" below.
 - **7b's regex loop.** 13 of 7b's 114 records hit the 12-turn cap and ended without an answer, all
   on narrative questions. 64 of its 95 tool errors are one Cypher pattern: `regexp_extract` over a
   text block with a group index the engine refuses, retried in variants until the turns ran out.
@@ -233,6 +236,43 @@ Recorded, not acted on (fairness rule 3): these are the model against the tools 
 - **7a reached for raw Cypher 13 times in 114 records and for `search-documents` twice**; the rest
   was the shaped tools and the two text tools, with no tool errors. Its two turn caps were derived
   questions.
+
+## What the served tools' schemas contained (added 2026-11-09)
+
+Found after publication, while a guard for v0.2.1 was tested against the real server; recorded as
+PROTOCOL §9's erratum of the same date. §11 says the tools on 4c, and the `search_text` /
+`read_text` instrument on 5c+doc, 7b+doc and 7c+doc, come from xbrlkit's own server — "the tools,
+their descriptions, their argument schemas and their answers are the library's and not the
+harness's". The descriptions and the answers were; the argument schemas were not. The harness read
+each tool's schema off the server's listing under the wire name `inputSchema`, which the mcp 2.x
+`Tool` object does not carry as an attribute, and fell back to `{"type": "object"}`. Every tool
+served from xbrlkit therefore reached the model with no argument names, types, bounds or required
+list; the model had the tool descriptions alone to go on. The 7a path reads the attribute by its
+right name, and 7a's schemas were whole (0 validation errors in 429 calls).
+
+| Row | Served-tool calls | Schema-validation refusals | Records with one (of 114) |
+|---|---|---|---|
+| 4c (all nine tools) | 419 | 44 | 38 |
+| 5c+doc (`search_text` / `read_text`) | 259 | 1 | 1 |
+| 7b+doc (same) | 255 | 2 | 2 |
+| 7c+doc (same) | 267 | 3 | 3 |
+
+Every one of 4c's 44 errors is of this kind: `fact_grid` 36 (33 of them `concepts` for `elements`),
+`resolve_element` 5 (4 of them `phrase` for `query`), `search_text` 2, `read_text` 1 — the names the
+model chose are the nouns of the tool descriptions, which is what a model does with a description
+and no schema. The six on the +doc rows are a number where `pattern` wants a string, and a `window`
+or `length` outside a bound the schema would have stated.
+
+**What changes and what does not.** No score changes: the judge scores answers, and no §11 lock
+names the schema. What changes is the reading of 4c's figures above: the 44 refusals and the extra
+turn in each of 38 records are the harness's, not the model's and not the library's, so 4c's $0.076
+per question and $0.061 / $0.159 per correct answer carry a handicap, and "4c matches 7a at the same
+cost" was reached by a row the harness had hobbled. The direction of the error is against 4c. On the
+three +doc rows the instrument was handed the same way; its footprint is 6 refusals in 781 calls,
+and nothing in their figures turns on it. The capture is fixed in the harness the same day
+(`filing_ladder/representations/xbrlkit_serve.py` reads the schema under its attribute name and
+refuses a listing without one), tested against the real server, and v0.2.1's row 4c.1 (PROTOCOL
+§12) is 4c with the schemas handed over, run beside this row rather than in its place.
 
 ## The column's open rows
 
