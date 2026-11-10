@@ -263,8 +263,9 @@ marked several answers that state the 2024 increases as contradicting the gold. 
 themselves are read correctly by nearly every row (Aryeo and Spruce missed once each, Follow Up
 Boss five times, mostly for giving the $484 million total purchase price in place of $399 million
 cash). Proposed verdict: **gold wrong on the revenue-mix point for this filing**; a Gold
-correction issue with the three-year segment table. One record to read separately: 4c run 3 meets
-6 of 6 and is failed on a contradiction for "Aryeo, about $38M" against the gold's $35 million.
+correction issue with the three-year segment table. One record read separately: 4c run 3 meets
+6 of 6 and is failed on a contradiction for "Aryeo, about $38M"; the acquisitions note gives "total
+consideration of $35 million, net of cash acquired", so the judge is right on it.
 
 ## Part B — where the hosted graph trailed the anchor or the package
 
