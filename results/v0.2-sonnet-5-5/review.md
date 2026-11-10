@@ -1,6 +1,6 @@
 # Human review — v0.2, Claude Sonnet 5.5
 
-**Status: open.** Prepared 2026-11-09 from `judgments.jsonl` and `transcripts.jsonl.gz` in this
+**Status: open; reviewer notes drafted 2026-11-09 on Parts A and C, verdicts not yet entered.** Prepared 2026-11-09 from `judgments.jsonl` and `transcripts.jsonl.gz` in this
 directory. This file annotates the published run. It changes no score: the numbers in
 [`README.md`](README.md) are final under tag `results-v0.2`. A gold found wrong is filed as a
 **Gold correction** issue with the document evidence (see
@@ -100,6 +100,24 @@ filing carries two.
 | 2 | 1 |  | yes | 5/11 | KKR issued 51,750,000 shares of 6.25% Series D Mandatory Convertible Preferred Stock on March 7, 2025, with $2.59 billion aggregate liquidation preference (about $2.54 billion net proceeds). The liquidation preference is $50.00 per share pl |
 | 2 | 2 |  |  | 5/11 | KKR issued 51,750,000 shares of 6.25% Series D Mandatory Convertible Preferred Stock on March 7, 2025, with an aggregate liquidation preference of $2.59 billion (USD, $50.00 per share) and net proceeds of about USD 2.54 billion. Dividends a |
 | 2 | 3 |  |  | 6/11 | Per the 10-Q, KKR issued 51,750,000 shares of 6.25% Series D Mandatory Convertible Preferred Stock on March 7, 2025. The aggregate liquidation preference is $2.59 billion, or $50.00 per share, and net proceeds were about $2.54 billion (USD  |
+
+**Reviewer note, drafted 2026-11-09, verdict open.** The 10-Q does not carry the gold. Its only
+description of the Series D terms is the equity note ("Series D Mandatory Convertible Preferred
+Stock", rung 2 text at about offset 237,000), which gives the share count and aggregate liquidation
+preference, the March 7, 2025 issue date, the $50.00 liquidation preference, the 6.25% cumulative
+dividend and its dates, the bar on common dividends while Series D dividends are unpaid, and the
+mandatory conversion range and VWAP period. It does not state the over-allotment option (no
+"over-allotment", "6,750,000" or "337,500" anywhere in the document), an optional conversion right
+(the note says only "unless converted earlier"), voting rights, the absence of optional redemption,
+the use of proceeds, or an offering price as distinct from the liquidation preference. Those are
+the gold's prospectus terms. Of the 27 records, 23 were scored on the rubric; all 23 miss the same
+five points (offering with over-allotment, optional conversion, voting rights, redemption,
+purpose), 14 also miss the price point, and none scores above 6 of 11. Rung 2, which reads the
+whole document, misses the same five in all three runs. Proposed verdict: **not answerable from
+the filing the question was resolved to**; the judge applied the rubric as written. Under the
+every-point rule the question scores zero for every row, so it lowers the T2 ceiling equally and
+separates no two rows. For the next protocol version: re-point the rubric at what the 10-Q states,
+or resolve the question to the prospectus, or drop it.
 
 ### vals-25 — T1 lookup
 
@@ -275,6 +293,50 @@ No question: wherever rung 2 or 4c was 3 of 3, 7a was 3 of 3 too.
 | vals-37 | T1 | 5c | 1 | [1✗] About USD 4,789 million (about $4.79 billion) of restructuring and other charges, summed over 2022–2024 (3,757 + 585 + 4 ‖ [2✗] About USD 4,789 million cumulative restructuring and other charges, 2022 through 2024 (USD 3,757M + USD 585M + USD 447M) ‖ [3✓] About USD 4,789 million. This is my sum of consolidated restructuring and other charges for FY2022 (USD 3,757M), FY2023  |
 | vals-37 | T1 | 7c | 1 | [1✓] Approximately USD 4,789 million of cumulative restructuring charges (FY2022 USD 3,757M + FY2023 USD 585M + FY2024 USD 44 ‖ [2✗] About USD 4,789 million in cumulative restructuring and other charges for 2022–2024 (USD 3,757M in 2022, USD 585M in 202 ‖ [3✗] About USD 4,789 million in cumulative restructuring charges from the 2022 Merger through Dec 31, 2024 (USD 3,757M in 202 |
 | vals-40 | T2 | 7c+doc | 1 | [1✓] Airbnb starts from net income and adjusts for seven items: (1) provision for (benefit from) income taxes, (2) other expe ‖ [2✗] Starting from net income (USD 2,648 million in FY2024), Airbnb adjusts for these items to reach Adjusted EBITDA of USD 4 ‖ [3✗] Airbnb adjusts net income for seven items: (1) provision for or benefit from income taxes, (2) other expense, net, (3) i |
+
+**Reviewer notes on the mixed cells, drafted 2026-11-09, verdicts open.**
+
+- **vals-08 (gold: $3.25 billion).** The filing's sentence, in Note 1 and again in MD&A: the TKO
+  Parties "acquired the Acquired Businesses for total consideration of approximately $3.25 billion
+  plus a $50 million purchase price adjustment". The gold takes the first figure. Of the 27 records
+  23 lead with the sum, about $3.3 billion, which is 1.5% from the gold and outside the ±1% rule;
+  the judge marked 16 of those wrong and 7 correct, on answers that differ only in wording. Two
+  findings, kept apart. *The judge:* the 7 passes are inconsistent with its own 16 failures and
+  with §4's tolerance; proposed verdict, judge wrong on those 7 if the gold stands. *The gold:* the
+  sentence supports either reading of "total consideration paid", and a reader who adds the
+  adjustment has not misread the document. Proposed: a Gold correction issue asking that the next
+  version accept $3.25 billion or $3.30 billion. No published score changes either way.
+- **vals-37 (gold: $4.7 billion).** The filing states the figure outright in the restructuring
+  discussion: "approximately $4.1 - $5.3 billion in pre-tax restructuring charges, of which we have
+  incurred $4.7 billion as of December 31, 2024". Eighteen of 27 records give it and three (7b) give
+  no answer. Six instead sum the three years of the "restructuring and other charges" line
+  (3,757 + 585 + 447 = $4,789 million), a different quantity and 1.9% from the gold; the judge
+  marked 4 of those wrong and 2 correct.
+  Proposed verdict: gold right, judge wrong on the 2 passes (5c run 3, 7c run 1).
+- **vals-14 (gold: FY2022 FCF margin 24.8%).** The one pass on 4c (run 1) leads with "about 224%"
+  for FY2022 and gives "about 25% excluding" the inventory liquidation in a parenthesis; the two
+  failures on the same row give the 224% without the parenthesis. Proposed verdict: judge lenient
+  on run 1; the answer's stated margin is 224%.
+- **vals-33 (gold: $1.261 billion, 10.7%).** The one pass on 7c+doc (run 2) leads with a pre-tax
+  $1.6 billion and 13.7%, and offers about $1.28 billion and 10.8% as a tax-shielded alternative.
+  The alternative is 1.3% from the gold on the first point and is not the answer given. Proposed
+  verdict: judge lenient on run 2.
+- **vals-40 (gold: the seven reconciling items).** The gold spells out qualifiers on two items
+  ("with significant uncertainty on application to platform", "changes in the fair value of
+  contingent consideration arrangements"). In the mixed cell, 7c+doc, all three runs name all seven
+  items; the judge failed runs 2 and 3 at 5 of 7 for naming those two items without the qualifier,
+  and passed run 1. On rung 2, 4c, 7a, 5c+doc and 7b+doc it passed 3 of 3, including answers that
+  name the two items the same unqualified way. The judge applied two standards to one rubric.
+  Proposed verdict: an answer that names the item has answered the question asked, so the judge is
+  wrong on 7c+doc runs 2 and 3, and the next version's rubric states the items without the
+  qualifiers.
+- **vals-22 on 7a (run 2).** Failed on "FY 2023: $163.50" against the gold's $163.51, a difference
+  of 0.006%. Proposed verdict: judge wrong. The record is one of the six the cross-filing rule
+  already scores as wrong of the form, so no figure moves.
+- **vals-11 on 7c.** All three runs meet 4 of 4 points; the judge flagged a contradiction
+  ("Class H: 0 shares") on runs 1 and 2 and not on run 3. Open: the reviewer reads the share table.
+- **vals-27 on 5c.** Run 2 omits the scheduled maturity date (May 15, 2057) that run 1 gives, and
+  scores 4 of 5. The spread is the model's, not the judge's. Run 3 not yet read.
 
 ## Appendix D — the 20% random sample (205 records, seed 20261109)
 
@@ -492,3 +554,33 @@ A second pass of the same judge (`claude-sonnet-5`, the same rubrics) over the 2
 run 2026-11-09 after the first and never published: **205 of 205** returned the same correct /
 incorrect verdict, and 205 of 205 the same abstention call. The judge is not the source of the
 spread in this run; the reviewer's question is whether it is right, not whether it is stable.
+
+## A second judge, exploratory
+
+Not pre-registered, run 2026-11-09 after publication, and no part of any score. `claude-opus-5-5`
+was given the same rubrics and the same published answers through the same judge code
+(`filing-ladder judge`, numeric golds scored mechanically as before), over a copy of the published
+transcripts. The registered judge remains `claude-sonnet-5`; nothing in `judgments.jsonl`,
+`summary.json` or the README changed. It was run as a check on the question the repeatability
+pass above leaves open: whether the judge is right, not whether it is stable.
+
+| Run | Records | Same verdict (correct / wrong / abstained) | correct → wrong | wrong → correct | wrong → abstained |
+|---|---|---|---|---|---|
+| v0.2 (nine rows) | 1,026 | 998 (97.3%) | 16 | 3 | 9 |
+| v0.2.1 (4c.1, 7a.1) | 228 | 224 (98.2%) | 4 | 0 | 0 |
+
+Read left to right as registered judge → second judge. Per row, records the registered judge
+scored correct against the second judge: rung 2, 90 and 88; 4c, 88 and 86; 5c, 59 and 58; 5c+doc,
+87 and 85; 7a, 92 and 93; 7b, 54 and 54; 7b+doc, 89 and 85; 7c, 59 and 59; 7c+doc, 88 and 85;
+4c.1, 89 and 85; 7a.1, 92 and 92. No row moves by more than four records of 114, and where the
+two differ the second judge is the stricter in 20 of 23 correctness calls.
+
+Twenty of the 28 v0.2 differences are three questions. vals-16 (9 records): the same partial
+answers, called wrong by one judge and an abstention by the other; no accuracy figure depends on
+it. vals-08 (6) and vals-40 (5) are in the Part C notes above, as are vals-37 (2), vals-14,
+vals-33, vals-22 and vals-11 (2). The remaining one, vals-35 on 4c run 1, the second judge failed
+for a misstatement the answer makes and then corrects. The four v0.2.1 differences are the same
+questions on 4c.1: vals-08 run 1, vals-14 run 3, vals-35 run 2, vals-37 run 3.
+
+The second judge's output is not published with this run. A registered second-judge column, if a
+later version carries one, confirms what this pass already showed and says so.

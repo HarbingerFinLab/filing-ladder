@@ -511,6 +511,16 @@ pre-registration.
   row rather than in its place. Recorded in full in `results/v0.2-sonnet-5-5/README.md` ("What the
   served tools' schemas contained").
 
+- **2026-11-09 — the size of xbrlkit's `describe_filing` payload in v0.2.1.** The v0.2.1 results
+  README ("4c.1 against 4c") says the model "opened with the 16,500-character `describe_filing`".
+  The figure is wrong. Measured from the published 4c.1 transcripts (`tool_events`,
+  `result_chars`): 74 `describe_filing` results, median 22,642 characters, mean 25,474, from 17,730
+  to 48,763. No score, cost or count in the README depends on the figure; the costs were computed
+  from token usage, and the re-sent-characters row in the same table was measured, not derived from
+  it. For the claims: the payload the README names as that row's next friction is about half again
+  larger than stated, which strengthens the finding and changes nothing else. The README's sentence
+  is left as published.
+
 ## 10. v0.1.1 — the document as a constant (pre-registered 2026-09-07)
 
 **What v0.1 could not separate.** §9's first entry: rung 7a's search index held the untagged body
