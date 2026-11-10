@@ -1,11 +1,15 @@
 # Filing Ladder v0.2 — the model moves to Sonnet 5.5; the forms that are ours re-materialized; the document through xbrlkit (Claude Sonnet 5.5)
 
-**Status: judge-scored; the pre-registered cross-filing rule applied to one row; human review open.**
+**Status: judge-scored; the pre-registered cross-filing rule applied to one row; human review closed 2026-11-09.**
 The run happened once, on 2026-11-09, under tag `protocol-v0.2`, and will not be re-run. The human
-review the protocol requires (§4: the disagreement log and a 20% random sample) is prepared in
-[`review.md`](review.md); the reviewer's verdicts are added there when it closes. It annotates; it
-does not change a score. The judge's own repeatability on that sample is reported at the end of
-`review.md`.
+review the protocol requires (§4: the disagreement log and a 20% random sample) is in
+[`review.md`](review.md), with the reviewer's verdicts. It annotates; it does not change a score.
+What it found: the four questions no row answered, and two more, are problems in the gold or in
+the filing the question was resolved to, so three T2 questions and one T1 question score zero on
+every row and lower every ceiling equally; and of the judge's verdicts in the cells reviewed, 14
+are wrong (9 lenient, 5 strict), moving no row by more than two records of 114 net, with 203 of 205
+standing in the random sample. The judge's own repeatability on that sample, and an unregistered
+second-judge pass, are at the end of `review.md`.
 
 This is the first row of the results table under a new model. PROTOCOL §8 says the model is the
 column, so this run **opens the Sonnet 5.5 column** with the nine rows the funding covered — the
