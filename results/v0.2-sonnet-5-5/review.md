@@ -157,6 +157,16 @@ or resolve the question to the prospectus, or drop it.
 | 2 | 2 |  |  | 6/8 | Paylocity's FY2024 10-K (year ended June 30, 2024) lists these regulatory risks: (1) changing tax, benefit, wage-and-hour and employment requirements that could raise costs and delay or block products; (2) money transmitter / money services |
 | 2 | 3 |  |  | 6/8 | Paylocity's FY2024 10-K (fiscal year ended June 30, 2024) lists these main regulatory risks: |
 
+**Reviewer note, drafted 2026-11-09, verdict open.** The gold is wider than the question. Two of its
+eight points (third-party and supply-chain breaches; security incidents damaging trust) are met by
+none of the 27 records. Both sit in the filing under "Risks Related to Cybersecurity and
+Intellectual Property Rights" (rung 2 text from about offset 82,800), not under "Risks Related to
+Legal and Regulatory Matters" (from about 97,800), which is the section the question's "regulatory
+risks" points to and the one the answers summarise. The rows that read the document meet 4 to 6 of
+8; the facts-only rows (5c, 7b, 7c) abstain, correctly, since risk factors are untagged. Proposed
+verdict: **gold over-specified against the question**; judge right on the rubric as written. For
+the next version: drop the two cybersecurity points or reword the question to ask for them.
+
 ### vals-43 — T2 lookup
 
 **Question.** What portion of Uber’s 2024 revenue growth was driven by take-rate expansion versus volume growth?
@@ -195,6 +205,17 @@ or resolve the question to the prospectus, or drop it.
 | 2 | 2 |  | yes | 6/9 | Essentially all of Uber's FY2024 revenue growth (+$6,697M, +18%) came from volume (Gross Bookings +$24,908M, +18%), which accounts for about +$6.74B (~101%). Take-rate expansion contributed about −$39M (~−1%), because the take rate slipped  |
 | 2 | 3 |  |  | 6/9 | Approximately 100% of the $6,697M (USD, FY2024 vs FY2023) revenue growth came from volume (Gross Bookings growth of $24,908M, about +$6.7B at the 2023 take rate of 27.04%). Take-rate change contributed about −$39M (about −1%), as the take r |
 
+**Reviewer note, drafted 2026-11-09, verdict open.** Two separate problems in the gold. *Points the
+question does not ask for:* three of its nine points are segment Gross Bookings growth rates, and
+none of the 27 records states them, which alone scores every row zero. *A sign error:* the gold
+says "2% in freight"; the filing's MD&A highlights say "Freight Gross Bookings declined 2%
+year-over-year, on a constant currency basis" (and the 25% and 17% beside it are constant-currency
+figures too). On what the question asks, every row that reads the document is right: take rate
+27.04% in 2023 and 27.02% in 2024, flat, so all of the 18% revenue growth is volume; those rows
+meet 5 or 6 of 9. Proposed verdict: **gold wrong on one point and over-specified on three**;
+a Gold correction issue for the freight sign, and the next version's rubric keeps the take rates,
+the flat call, the 18% and the volume conclusion.
+
 ### vals-46 — T2 lookup
 
 **Question.** As of December 2024, what has been Zillow's (NASDAQ:Z) acquisition strategy over the past 2 years and how does it align with the company's evolving revenue mix?
@@ -232,6 +253,18 @@ or resolve the question to the prospectus, or drop it.
 | 2 | 1 |  |  | 0/0 | Over roughly Dec 2022–Dec 2024, Zillow made five small-to-mid bolt-on acquisitions: VRX Media (Dec 2022), Aryeo (Jul 2023, about $35M), Spruce (Sep 2023, about $19M cash), Follow Up Boss (Dec 2023, $399M net cash plus up to $100M contingent |
 | 2 | 2 |  | yes | 3/6 | Zillow's 2023–2024 acquisitions (VRX Media Dec-2022, Aryeo Jul-2023 ~$35M total consideration, Spruce Sep-2023 ~$19M cash, Follow Up Boss Dec-2023 $399M cash plus up to $100M contingent, Virtual Staging AI Oct-2024) were small, focused tuck |
 | 2 | 3 |  | yes | 5/6 | Over 2023–2024 Zillow made a series of software and transaction-tech acquisitions: Aryeo (July 2023, ~$35M total consideration), Spruce (Sept 2023, ~$19M cash), Follow Up Boss (Dec 2023, $399M cash net plus up to $100M contingent, $484M tot |
+
+**Reviewer note, drafted 2026-11-09, verdict open.** The gold's revenue premise does not match the
+FY2024 10-K. It says revenue "related to Mortgages and Residential (Premier Agent) has declined".
+The filing reports Residential revenue of $1,594 million in 2024 against $1,452 million in
+2023 and $1,522 million in 2022, and Mortgages of $145 million against $96 million and $119
+million: both fell in 2023 and both rose in 2024. 22 of 27 records miss that point, and the judge
+marked several answers that state the 2024 increases as contradicting the gold. The acquisitions
+themselves are read correctly by nearly every row (Aryeo and Spruce missed once each, Follow Up
+Boss five times, mostly for giving the $484 million total purchase price in place of $399 million
+cash). Proposed verdict: **gold wrong on the revenue-mix point for this filing**; a Gold
+correction issue with the three-year segment table. One record to read separately: 4c run 3 meets
+6 of 6 and is failed on a contradiction for "Aryeo, about $38M" against the gold's $35 million.
 
 ## Part B — where the hosted graph trailed the anchor or the package
 
@@ -333,10 +366,15 @@ No question: wherever rung 2 or 4c was 3 of 3, 7a was 3 of 3 too.
 - **vals-22 on 7a (run 2).** Failed on "FY 2023: $163.50" against the gold's $163.51, a difference
   of 0.006%. Proposed verdict: judge wrong. The record is one of the six the cross-filing rule
   already scores as wrong of the form, so no figure moves.
-- **vals-11 on 7c.** All three runs meet 4 of 4 points; the judge flagged a contradiction
-  ("Class H: 0 shares") on runs 1 and 2 and not on run 3. Open: the reviewer reads the share table.
+- **vals-11 on 7c.** All three runs give the cover page's four counts exactly (432,876,657;
+  188,462,942; 0; 9,200,000, as of January 31, 2025) in the answer block. Each also notes, outside
+  the answer block and labelled as such, the balance sheet's rounded December 31, 2024 counts
+  (434 million, 189 million, 0 and 0). The judge read that note as a contradiction on runs 1 and 2
+  and not on run 3. Proposed verdict: judge wrong on runs 1 and 2; a second date's figures, named
+  as a second date, contradict nothing.
 - **vals-27 on 5c.** Run 2 omits the scheduled maturity date (May 15, 2057) that run 1 gives, and
-  scores 4 of 5. The spread is the model's, not the judge's. Run 3 not yet read.
+  scores 4 of 5; run 3 omits it too. The spread is the model's, not the judge's. Proposed verdict:
+  judge right.
 
 ## Appendix D — the 20% random sample (205 records, seed 20261109)
 
