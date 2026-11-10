@@ -1,6 +1,6 @@
 # Human review — v0.2, Claude Sonnet 5.5
 
-**Status: open; reviewer notes drafted 2026-11-09 on Parts A and C, Appendix D reviewed, two Part C verdicts entered, the rest open.** Prepared 2026-11-09 from `judgments.jsonl` and `transcripts.jsonl.gz` in this
+**Status: closed 2026-11-09.** Verdicts are entered on Parts A, B′ and C and on every row of Appendix D; a summary follows the scope table. Prepared 2026-11-09 from `judgments.jsonl` and `transcripts.jsonl.gz` in this
 directory. This file annotates the published run. It changes no score: the numbers in
 [`README.md`](README.md) are final under tag `results-v0.2`. A gold found wrong is filed as a
 **Gold correction** issue with the document evidence (see
@@ -43,6 +43,29 @@ by `random.sample` over the judgments in file order, seed 20261109 (Appendix D).
 | Part B′ | vals-17 |
 | Part C | 12 cells, 36 records |
 | Appendix D | 205 records, seed 20261109 |
+
+## What the review found
+
+**The golds.** All four questions no row answered are problems in the gold or in the filing the
+question was resolved to, not failures of every reader: vals-16 asks for prospectus terms its 10-Q
+does not carry; vals-25's gold includes two cybersecurity risks under a question about regulatory
+ones; vals-43's gold requires three segment growth rates the question does not ask for and has the
+sign of one wrong; vals-46's gold says two revenue lines declined that the filing shows rising in
+2024. vals-17 needs a year its filing does not report, and vals-08's gold takes one of two figures
+its sentence supports. Three of these six are T2 questions that score zero on every row (vals-16,
+vals-43, vals-46) and one is T1 (vals-25), so they lower every row's ceiling by the same amount
+and separate no two rows. Gold corrections are filed as issues and recorded in the next protocol
+version; no published score changes.
+
+**The judge.** In the cells reviewed (Parts A to C and the 205-record sample, not all 1,026
+records), 14 verdicts are wrong. Nine are passes that should have failed: an answer outside the ±1%
+rule or one that leads with a figure other than the gold's (vals-08, five records; vals-37, two;
+vals-14 and vals-33, one each). Five are failures that should have passed (vals-40 and vals-11, two
+each; vals-22, one, on a row the cross-filing rule already scores as wrong). By row, passes that
+should have failed and failures that should have passed: rung 2, 2 and 0; 4c, 1 and 0; 5c, 1 and 0;
+7a, 0 and 1; 7b+doc, 1 and 0; 7c, 1 and 2; 7c+doc, 3 and 2. No row's count of correct records moves, net,
+by more than two of 114 on these, and `judgments.jsonl` stays the judge's output, unchanged. In
+the random sample alone, 203 of 205 verdicts stand.
 
 ## The cross-filing rule, applied before publication
 
@@ -101,7 +124,7 @@ filing carries two.
 | 2 | 2 |  |  | 5/11 | KKR issued 51,750,000 shares of 6.25% Series D Mandatory Convertible Preferred Stock on March 7, 2025, with an aggregate liquidation preference of $2.59 billion (USD, $50.00 per share) and net proceeds of about USD 2.54 billion. Dividends a |
 | 2 | 3 |  |  | 6/11 | Per the 10-Q, KKR issued 51,750,000 shares of 6.25% Series D Mandatory Convertible Preferred Stock on March 7, 2025. The aggregate liquidation preference is $2.59 billion, or $50.00 per share, and net proceeds were about $2.54 billion (USD  |
 
-**Reviewer note, drafted 2026-11-09, verdict open.** The 10-Q does not carry the gold. Its only
+**Reviewer note and verdict, 2026-11-09.** The 10-Q does not carry the gold. Its only
 description of the Series D terms is the equity note ("Series D Mandatory Convertible Preferred
 Stock", rung 2 text at about offset 237,000), which gives the share count and aggregate liquidation
 preference, the March 7, 2025 issue date, the $50.00 liquidation preference, the 6.25% cumulative
@@ -113,7 +136,7 @@ the use of proceeds, or an offering price as distinct from the liquidation prefe
 the gold's prospectus terms. Of the 27 records, 23 were scored on the rubric; all 23 miss the same
 five points (offering with over-allotment, optional conversion, voting rights, redemption,
 purpose), 14 also miss the price point, and none scores above 6 of 11. Rung 2, which reads the
-whole document, misses the same five in all three runs. Proposed verdict: **not answerable from
+whole document, misses the same five in all three runs. **Verdict:** **not answerable from
 the filing the question was resolved to**; the judge applied the rubric as written. Under the
 every-point rule the question scores zero for every row, so it lowers the T2 ceiling equally and
 separates no two rows. For the next protocol version: re-point the rubric at what the 10-Q states,
@@ -157,14 +180,14 @@ or resolve the question to the prospectus, or drop it.
 | 2 | 2 |  |  | 6/8 | Paylocity's FY2024 10-K (year ended June 30, 2024) lists these regulatory risks: (1) changing tax, benefit, wage-and-hour and employment requirements that could raise costs and delay or block products; (2) money transmitter / money services |
 | 2 | 3 |  |  | 6/8 | Paylocity's FY2024 10-K (fiscal year ended June 30, 2024) lists these main regulatory risks: |
 
-**Reviewer note, drafted 2026-11-09, verdict open.** The gold is wider than the question. Two of its
+**Reviewer note and verdict, 2026-11-09.** The gold is wider than the question. Two of its
 eight points (third-party and supply-chain breaches; security incidents damaging trust) are met by
 none of the 27 records. Both sit in the filing under "Risks Related to Cybersecurity and
 Intellectual Property Rights" (rung 2 text from about offset 82,800), not under "Risks Related to
 Legal and Regulatory Matters" (from about 97,800), which is the section the question's "regulatory
 risks" points to and the one the answers summarise. The rows that read the document meet 4 to 6 of
-8; the facts-only rows (5c, 7b, 7c) abstain, correctly, since risk factors are untagged. Proposed
-verdict: **gold over-specified against the question**; judge right on the rubric as written. For
+8; the facts-only rows (5c, 7b, 7c) abstain, correctly, since risk factors are untagged. **Verdict:**
+ **gold over-specified against the question**; judge right on the rubric as written. For
 the next version: drop the two cybersecurity points or reword the question to ask for them.
 
 ### vals-43 — T2 lookup
@@ -205,14 +228,14 @@ the next version: drop the two cybersecurity points or reword the question to as
 | 2 | 2 |  | yes | 6/9 | Essentially all of Uber's FY2024 revenue growth (+$6,697M, +18%) came from volume (Gross Bookings +$24,908M, +18%), which accounts for about +$6.74B (~101%). Take-rate expansion contributed about −$39M (~−1%), because the take rate slipped  |
 | 2 | 3 |  |  | 6/9 | Approximately 100% of the $6,697M (USD, FY2024 vs FY2023) revenue growth came from volume (Gross Bookings growth of $24,908M, about +$6.7B at the 2023 take rate of 27.04%). Take-rate change contributed about −$39M (about −1%), as the take r |
 
-**Reviewer note, drafted 2026-11-09, verdict open.** Two separate problems in the gold. *Points the
+**Reviewer note and verdict, 2026-11-09.** Two separate problems in the gold. *Points the
 question does not ask for:* three of its nine points are segment Gross Bookings growth rates, and
 none of the 27 records states them, which alone scores every row zero. *A sign error:* the gold
 says "2% in freight"; the filing's MD&A highlights say "Freight Gross Bookings declined 2%
 year-over-year, on a constant currency basis" (and the 25% and 17% beside it are constant-currency
 figures too). On what the question asks, every row that reads the document is right: take rate
 27.04% in 2023 and 27.02% in 2024, flat, so all of the 18% revenue growth is volume; those rows
-meet 5 or 6 of 9. Proposed verdict: **gold wrong on one point and over-specified on three**;
+meet 5 or 6 of 9. **Verdict:** **gold wrong on one point and over-specified on three**;
 a Gold correction issue for the freight sign, and the next version's rubric keeps the take rates,
 the flat call, the 18% and the volume conclusion.
 
@@ -254,7 +277,7 @@ the flat call, the 18% and the volume conclusion.
 | 2 | 2 |  | yes | 3/6 | Zillow's 2023–2024 acquisitions (VRX Media Dec-2022, Aryeo Jul-2023 ~$35M total consideration, Spruce Sep-2023 ~$19M cash, Follow Up Boss Dec-2023 $399M cash plus up to $100M contingent, Virtual Staging AI Oct-2024) were small, focused tuck |
 | 2 | 3 |  | yes | 5/6 | Over 2023–2024 Zillow made a series of software and transaction-tech acquisitions: Aryeo (July 2023, ~$35M total consideration), Spruce (Sept 2023, ~$19M cash), Follow Up Boss (Dec 2023, $399M cash net plus up to $100M contingent, $484M tot |
 
-**Reviewer note, drafted 2026-11-09, verdict open.** The gold's revenue premise does not match the
+**Reviewer note and verdict, 2026-11-09.** The gold's revenue premise does not match the
 FY2024 10-K. It says revenue "related to Mortgages and Residential (Premier Agent) has declined".
 The filing reports Residential revenue of $1,594 million in 2024 against $1,452 million in
 2023 and $1,522 million in 2022, and Mortgages of $145 million against $96 million and $119
@@ -262,7 +285,7 @@ million: both fell in 2023 and both rose in 2024. 22 of 27 records miss that poi
 marked several answers that state the 2024 increases as contradicting the gold. The acquisitions
 themselves are read correctly by nearly every row (Aryeo and Spruce missed once each, Follow Up
 Boss five times, mostly for giving the $484 million total purchase price in place of $399 million
-cash). Proposed verdict: **gold wrong on the revenue-mix point for this filing**; a Gold
+cash). **Verdict:** **gold wrong on the revenue-mix point for this filing**; a Gold
 correction issue with the three-year segment table. One record read separately: 4c run 3 meets
 6 of 6 and is failed on a contradiction for "Aryeo, about $38M"; the acquisitions note gives "total
 consideration of $35 million, net of cash acquired", so the judge is right on it.
@@ -311,6 +334,16 @@ No question: wherever rung 2 or 4c was 3 of 3, 7a was 3 of 3 too.
 | 2 | 2 |  | yes | 2/4 | FY2022: cannot be determined from this filing (GBV not disclosed; revenue $8,399M). FY2023: 13.54% ($9,917M / $73,252M). FY2024: 13.57% ($11,102M / $81,784M). The take rate was essentially stable, rising about 3 bps in FY2024. |
 | 2 | 3 |  | yes | 2/4 | FY2022: cannot determine from the provided source (revenue $8,399M, but no 2022 GBV disclosed); FY2023: 13.54% ($9,917M revenue / $73,252M GBV); FY2024: 13.57% ($11,102M revenue / $81,784M GBV). Trend: essentially flat to slightly up (about |
 
+**Reviewer note and verdict, 2026-11-09.** The gold needs FY2022 gross booking value, and the FY2024
+10-K reports the metric for 2023 and 2024 only; the gold note's "three years" is wrong. Every row
+held to the one filing computed FY2023 and FY2024 (13.54% and 13.57%) and said FY2022 could not be
+determined, which is the right answer from this filing. The hosted graph's three runs read the
+FY2022 figure from an earlier 10-K and matched the gold; §11's cross-filing rule scores those as
+wrong of the form, as registered, and the README's 7a row already carries that. **Verdict:** gold
+not answerable from the resolved filing for FY2022; judge right on answer against gold; rule applied
+as written. For the next version: resolve the question to the filings that carry all three years,
+or ask for two.
+
 ## Part C — mixed cells (12 cells, 36 records)
 
 | Question | tier | Row | correct of 3 | the three answers (first 120 chars each) |
@@ -328,33 +361,39 @@ No question: wherever rung 2 or 4c was 3 of 3, 7a was 3 of 3 too.
 | vals-37 | T1 | 7c | 1 | [1✓] Approximately USD 4,789 million of cumulative restructuring charges (FY2022 USD 3,757M + FY2023 USD 585M + FY2024 USD 44 ‖ [2✗] About USD 4,789 million in cumulative restructuring and other charges for 2022–2024 (USD 3,757M in 2022, USD 585M in 202 ‖ [3✗] About USD 4,789 million in cumulative restructuring charges from the 2022 Merger through Dec 31, 2024 (USD 3,757M in 202 |
 | vals-40 | T2 | 7c+doc | 1 | [1✓] Airbnb starts from net income and adjusts for seven items: (1) provision for (benefit from) income taxes, (2) other expe ‖ [2✗] Starting from net income (USD 2,648 million in FY2024), Airbnb adjusts for these items to reach Adjusted EBITDA of USD 4 ‖ [3✗] Airbnb adjusts net income for seven items: (1) provision for or benefit from income taxes, (2) other expense, net, (3) i |
 
-**Reviewer notes on the mixed cells, drafted 2026-11-09, verdicts open.**
+**Reviewer notes and verdicts on the mixed cells, 2026-11-09.**
 
 - **vals-08 (gold: $3.25 billion).** The filing's sentence, in Note 1 and again in MD&A: the TKO
   Parties "acquired the Acquired Businesses for total consideration of approximately $3.25 billion
   plus a $50 million purchase price adjustment". The gold takes the first figure. Of the 27 records
-  23 lead with the sum, about $3.3 billion, which is 1.5% from the gold and outside the ±1% rule;
-  the judge marked 16 of those wrong and 7 correct, on answers that differ only in wording. Two
-  findings, kept apart. *The judge:* the 7 passes are inconsistent with its own 16 failures and
-  with §4's tolerance; proposed verdict, judge wrong on those 7 if the gold stands. *The gold:* the
-  sentence supports either reading of "total consideration paid", and a reader who adds the
-  adjustment has not misread the document. Proposed: a Gold correction issue asking that the next
-  version accept $3.25 billion or $3.30 billion. No published score changes either way.
+  21 lead with the sum, about $3.3 billion, which is 1.5% from the gold and outside the ±1% rule;
+  the judge marked 16 of those wrong and 5 correct, on answers that differ only in wording. Four
+  lead with $3.25 billion and are marked correct; two gave no answer. Two findings, kept apart.
+  *The judge:* the 5 passes are inconsistent with its own 16 failures and with §4's tolerance.
+  **Verdict: judge wrong on those 5** against the gold as published (rung 2 runs 1 and 3, 7b+doc
+  run 1, 7c+doc runs 2 and 3). *The gold:* the sentence supports either reading of "total
+  consideration paid", and a reader who adds the adjustment has not misread the document.
+  **Verdict: gold too narrow**; a Gold correction issue asks that the next version accept
+  $3.25 billion or $3.30 billion. No published score changes either way.
 - **vals-37 (gold: $4.7 billion).** The filing states the figure outright in the restructuring
   discussion: "approximately $4.1 - $5.3 billion in pre-tax restructuring charges, of which we have
   incurred $4.7 billion as of December 31, 2024". Eighteen of 27 records give it and three (7b) give
   no answer. Six instead sum the three years of the "restructuring and other charges" line
   (3,757 + 585 + 447 = $4,789 million), a different quantity and 1.9% from the gold; the judge
   marked 4 of those wrong and 2 correct.
-  Proposed verdict: gold right, judge wrong on the 2 passes (5c run 3, 7c run 1).
+  **Verdict:** gold right, judge wrong on the 2 passes (5c run 3, 7c run 1).
 - **vals-14 (gold: FY2022 FCF margin 24.8%).** The one pass on 4c (run 1) leads with "about 224%"
   for FY2022 and gives "about 25% excluding" the inventory liquidation in a parenthesis; the two
-  failures on the same row give the 224% without the parenthesis. Proposed verdict: judge lenient
-  on run 1; the answer's stated margin is 224%.
+  failures on the same row give the 224% without the parenthesis. **Verdict:** judge lenient
+  on run 1; the answer's stated margin is 224%. On rung 2 the one pass (run 2) calls the 224% "not
+  meaningful" and gives "roughly 25% after removing the $3,904M inventory inflow", which is the
+  gold's figure and its reasoning; judge right there. The gold's 24.8% is the adjusted margin
+  ($4,389M less $3,904M, over $1,958M), and the question does not say to adjust, which is why
+  most records lead with 224%; noted for the next version's question wording.
 - **vals-33 (gold: $1.261 billion, 10.7%).** The one pass on 7c+doc (run 2) leads with a pre-tax
   $1.6 billion and 13.7%, and offers about $1.28 billion and 10.8% as a tax-shielded alternative.
-  The alternative is 1.3% from the gold on the first point and is not the answer given. Proposed
-  verdict: judge lenient on run 2.
+  The alternative is 1.3% from the gold on the first point and is not the answer given. **Verdict:**
+   judge lenient on run 2.
 - **vals-40 (gold: the seven reconciling items).** The gold spells out qualifiers on two items
   ("with significant uncertainty on application to platform", "changes in the fair value of
   contingent consideration arrangements"). In the mixed cell, 7c+doc, all three runs name all seven
@@ -365,7 +404,7 @@ No question: wherever rung 2 or 4c was 3 of 3, 7a was 3 of 3 too.
   answered the question asked, and the next version's rubric states the items without the
   qualifiers.
 - **vals-22 on 7a (run 2).** Failed on "FY 2023: $163.50" against the gold's $163.51, a difference
-  of 0.006%. Proposed verdict: judge wrong. The record is one of the six the cross-filing rule
+  of 0.006%. **Verdict:** judge wrong. The record is one of the six the cross-filing rule
   already scores as wrong of the form, so no figure moves.
 - **vals-11 on 7c.** All three runs give the cover page's four counts exactly (432,876,657;
   188,462,942; 0; 9,200,000, as of January 31, 2025) in the answer block. Each also notes, outside
@@ -374,7 +413,7 @@ No question: wherever rung 2 or 4c was 3 of 3, 7a was 3 of 3 too.
   and not on run 3. **Verdict (2026-11-09): judge wrong on runs 1 and 2**; a second
   date's figures, named as a second date, contradict nothing.
 - **vals-27 on 5c.** Run 2 omits the scheduled maturity date (May 15, 2057) that run 1 gives, and
-  scores 4 of 5; run 3 omits it too. The spread is the model's, not the judge's. Proposed verdict:
+  scores 4 of 5; run 3 omits it too. The spread is the model's, not the judge's. **Verdict:** 
   judge right.
 
 ## Appendix D — the 20% random sample (205 records, seed 20261109)
