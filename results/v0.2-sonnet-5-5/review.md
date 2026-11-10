@@ -6,7 +6,8 @@ directory. This file annotates the published run. It changes no score: the numbe
 **Gold correction** issue with the document evidence (see
 [CONTRIBUTING](../../.github/CONTRIBUTING.md) §1) and recorded in the next protocol version; a
 judge found wrong is recorded here, in the verdict column, and summarised in the README when this
-review closes.
+review closes. The reviewer's own gold findings below carry their document evidence in this file
+and are recorded for the next question-set version without a separate issue.
 
 **Who reviews.** The harness author. That is the interest the disclosure names, so every verdict
 cites where in the filing the reviewer read the value, and every transcript is public for a second
@@ -54,8 +55,8 @@ sign of one wrong; vals-46's gold says two revenue lines declined that the filin
 2024. vals-17 needs a year its filing does not report, and vals-08's gold takes one of two figures
 its sentence supports. Three of these six are T2 questions that score zero on every row (vals-16,
 vals-43, vals-46) and one is T1 (vals-25), so they lower every row's ceiling by the same amount
-and separate no two rows. Gold corrections are filed as issues and recorded in the next protocol
-version; no published score changes.
+and separate no two rows. The gold corrections are recorded here, with the document evidence, for
+the next version that changes the question set; no published score changes.
 
 **The judge.** In the cells reviewed (Parts A to C and the 205-record sample, not all 1,026
 records), 14 verdicts are wrong. Nine are passes that should have failed: an answer outside the ±1%
@@ -236,8 +237,8 @@ year-over-year, on a constant currency basis" (and the 25% and 17% beside it are
 figures too). On what the question asks, every row that reads the document is right: take rate
 27.04% in 2023 and 27.02% in 2024, flat, so all of the 18% revenue growth is volume; those rows
 meet 5 or 6 of 9. **Verdict:** **gold wrong on one point and over-specified on three**;
-a Gold correction issue for the freight sign, and the next version's rubric keeps the take rates,
-the flat call, the 18% and the volume conclusion.
+the next question-set version corrects the freight sign, and its rubric keeps the take rates, the
+flat call, the 18% and the volume conclusion.
 
 ### vals-46 — T2 lookup
 
@@ -285,8 +286,8 @@ million: both fell in 2023 and both rose in 2024. 22 of 27 records miss that poi
 marked several answers that state the 2024 increases as contradicting the gold. The acquisitions
 themselves are read correctly by nearly every row (Aryeo and Spruce missed once each, Follow Up
 Boss five times, mostly for giving the $484 million total purchase price in place of $399 million
-cash). **Verdict:** **gold wrong on the revenue-mix point for this filing**; a Gold
-correction issue with the three-year segment table. One record read separately: 4c run 3 meets
+cash). **Verdict:** **gold wrong on the revenue-mix point for this filing**; the next
+question-set version rewords it from the three-year segment figures above. One record read separately: 4c run 3 meets
 6 of 6 and is failed on a contradiction for "Aryeo, about $38M"; the acquisitions note gives "total
 consideration of $35 million, net of cash acquired", so the judge is right on it.
 
@@ -373,8 +374,8 @@ or ask for two.
   **Verdict: judge wrong on those 5** against the gold as published (rung 2 runs 1 and 3, 7b+doc
   run 1, 7c+doc runs 2 and 3). *The gold:* the sentence supports either reading of "total
   consideration paid", and a reader who adds the adjustment has not misread the document.
-  **Verdict: gold too narrow**; a Gold correction issue asks that the next version accept
-  $3.25 billion or $3.30 billion. No published score changes either way.
+  **Verdict: gold too narrow**; the next question-set version accepts $3.25 billion or
+  $3.30 billion. No published score changes either way.
 - **vals-37 (gold: $4.7 billion).** The filing states the figure outright in the restructuring
   discussion: "approximately $4.1 - $5.3 billion in pre-tax restructuring charges, of which we have
   incurred $4.7 billion as of December 31, 2024". Eighteen of 27 records give it and three (7b) give
